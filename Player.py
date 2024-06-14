@@ -84,6 +84,18 @@ class Player:
             self.upgrade_chosen_pawn()
         if a == 'degrade pawn':
             self.degrade_chosen_pawn()
+    
+    def get_animals(self):
+        free = 0
+        animals = {}
+        for field in self.fields:
+            content = field.show_field()
+            if content == 0:
+                free += 1
+            content = Counter(content)
+            animals = Counter(animals)
+            animals = dict(content + animals)
+        return animals
 
 
 

@@ -77,5 +77,5 @@ for key in normal_to_game_coords_dict:
     game_to_normal_coords_dict[normal_to_game_coords_dict[key]] = key
 
 
-print(normal_to_game_coords_dict)
-print(game_to_normal_coords_dict)
+# print(normal_to_game_coords_dict)
+# print(game_to_normal_coords_dict)

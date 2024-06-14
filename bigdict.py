@@ -1,5 +1,5 @@
 a = [(i, j, k) for i in range(4) for j in range(4) for k in range(7 - 2*j)]
-b = [
+t = [
     (0,0),
     (1,0),
     (2,0),
@@ -65,6 +65,9 @@ b = [
     (2,3),
     (3,4),
 ]
+b = []
+for i in range(len(t)):
+    b += [(t[i][1], t[i][0])]
 normal_to_game_coords_dict = dict()
 game_to_normal_coords_dict = dict()
 for i in b:
@@ -77,5 +80,5 @@ for key in normal_to_game_coords_dict:
     game_to_normal_coords_dict[normal_to_game_coords_dict[key]] = key
 
 
-# print(normal_to_game_coords_dict)
-# print(game_to_normal_coords_dict)
+print(normal_to_game_coords_dict)
+print(game_to_normal_coords_dict)

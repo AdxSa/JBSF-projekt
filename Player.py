@@ -1,4 +1,5 @@
 from random import randrange
+from collections import Counter
 from pawn import Pawn
 
 
@@ -10,6 +11,7 @@ class Player:
         self.pawn_spawn_coords = pawn_spawn_coords
         self.current_roll = 0
         self.farm_animals = {}
+        self.fields = []
         self.chosen_pawn = None
         self.rolled = False
         self.name = name

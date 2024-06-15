@@ -5,6 +5,7 @@ class Pawn:
         self.coords = spawn_coords
         self.destination_squares_coords = [(spawn_coords[0], t, 0) for t in range(4)]
         self.is_in_destination_square = False
+        self.tag = f'♟{self.id}'
 
     def move(self, n):  # porusza pionkiem o argument n pól po aktualnym torze
         for _ in range(n):
@@ -13,7 +14,7 @@ class Pawn:
             self.coords = (self.coords[0], self.coords[1], self.coords[2] + 1)
             if self.coords[2] >= 7 - 2 * self.coords[1]:
                 self.coords = (self.coords[0] + 1, self.coords[1], self.coords[2] % (7 - 2 * self.coords[1]))
-                if self.coords[0] > 3:
+                if self.coords[0] == self.destination_squares_coords[0][0] + 1:
                     self.coords = self.destination_squares_coords[self.coords[1]]
                     self.is_in_destination_square = True
 

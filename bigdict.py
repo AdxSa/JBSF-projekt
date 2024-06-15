@@ -70,6 +70,8 @@ for i in range(len(t)):
     b += [(t[i][1], t[i][0])]
 normal_to_game_coords_dict = dict()
 game_to_normal_coords_dict = dict()
+
+
 for i in b:
     for j in a:
         normal_to_game_coords_dict[i] = j
@@ -78,6 +80,7 @@ for i in b:
 
 for key in normal_to_game_coords_dict:
     game_to_normal_coords_dict[normal_to_game_coords_dict[key]] = key
+
 
 
 print(normal_to_game_coords_dict)

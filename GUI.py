@@ -21,11 +21,15 @@ class GUI:
 
     def create_pawn(self, player):
         player.create_pawn()
+        pawns_on_spawn_tile = ''
+        for pawn in player.pawns:
+            if pawn.coords == player.pawn_spawn_coords:
+                pawns_on_spawn_tile += pawn.tag+'\n'
         # zamieniamy współrzędne spawn_coords wybranego gracza na współrzędne kalsyczne szachownicy,
         # aby pobrać dobry index od self.board
         (self.board[game_to_normal_coords_dict[player.pawn_spawn_coords][0]]
          [game_to_normal_coords_dict[player.pawn_spawn_coords][1]]
-         .config(text=f'♟{len(player.pawns) - 1}', fg=player.colour))
+         .config(text=f'{pawns_on_spawn_tile}', fg=player.colour))
         # dodać więcej pionków wyświetlających się na jednej kratce
         self.info.set('Utworzono nowy pionek!')
 
@@ -40,23 +44,30 @@ class GUI:
                 break
         #  if player.current_roll is not None:
 
-    def move_pawn(self, player):
+    def move_pawn(self, player):  # porusza wybranym pionkiem oraz zmienia grafikę na odpowiednich polach
         if player.rolled and player.chosen_pawn is not None:
+            current_coords = player.chosen_pawn.coords
+            player.move_chosen_pawn()
+            pawns_on_current_tile = ''
+            pawns_on_next_tile = ''
+            for pawn in player.pawns:
+                if pawn.coords == current_coords:
+                    pawns_on_current_tile += pawn.tag+'\n'
+                if pawn.coords == player.chosen_pawn.coords:
+                    pawns_on_next_tile += pawn.tag+'\n'
             # zmieniamy wspólrzędne wybranego pionka na klasyczne aby pobrać odpowiedni index od self.board
             # następnie usuwamy wizerunek pionka z danego pola po czym przesówamy pionek i
             # tworzymy wizerunek na miejscu w którym znajduje się pionek w sposób odwrotny
-            (self.board[game_to_normal_coords_dict[player.chosen_pawn.coords][0]]
-             [game_to_normal_coords_dict[player.chosen_pawn.coords][1]]
-             .config(text=''))
+            (self.board[game_to_normal_coords_dict[current_coords][0]]
+             [game_to_normal_coords_dict[current_coords][1]]
+             .config(text=f'{pawns_on_current_tile}', fg=player.colour))
 
-            player.move_chosen_pawn()
             # print(player.chosen_pawn.coords)
             # print(self.board[game_to_normal_coords_dict[player.chosen_pawn.coords][0]]
             # [game_to_normal_coords_dict[player.chosen_pawn.coords][1]])
-
             (self.board[game_to_normal_coords_dict[player.chosen_pawn.coords][0]]
              [game_to_normal_coords_dict[player.chosen_pawn.coords][1]]
-             .config(text=f'♟{len(player.pawns) - 1}', fg=player.colour))
+             .config(text=f'{pawns_on_next_tile}', fg=player.colour))
 
         elif player.chosen_pawn is not None:
             self.err.set('Najpierw rzuć kostką')
@@ -64,6 +75,31 @@ class GUI:
         else:
             self.err.set('Wybierz pionek')
             self.error_code = 2
+
+    def upgrade_pawn(self, player):
+        if player.chosen_pawn is None:
+            self.err.set('Wybierz pionek')
+            self.error_code = 2
+        else:
+            current_coords = player.chosen_pawn.coords
+            player.upgrade_chosen_pawn()
+            pawns_on_current_tile = ''
+            pawns_on_next_tile = ''
+            for pawn in player.pawns:
+                if pawn.coords == current_coords:
+                    pawns_on_current_tile += pawn.tag + '\n'
+                if pawn.coords == player.chosen_pawn.coords:
+                    pawns_on_next_tile += pawn.tag + '\n'
+            # zmieniamy wspólrzędne wybranego pionka na klasyczne aby pobrać odpowiedni index od self.board
+            # następnie usuwamy wizerunek pionka z danego pola po czym przesówamy pionek i
+            # tworzymy wizerunek na miejscu w którym znajduje się pionek w sposób odwrotny
+            (self.board[game_to_normal_coords_dict[current_coords][0]]
+             [game_to_normal_coords_dict[current_coords][1]]
+             .config(text=f'{pawns_on_current_tile}', fg=player.colour))
+
+            (self.board[game_to_normal_coords_dict[player.chosen_pawn.coords][0]]
+             [game_to_normal_coords_dict[player.chosen_pawn.coords][1]]
+             .config(text=f'{pawns_on_next_tile}', fg=player.colour))
 
     def __init__(self):
         self.root = tk.Tk()
@@ -119,7 +155,7 @@ class GUI:
             color = cycle(self.chessboard_colours[::-1] if not col % 2 else self.chessboard_colours)
             for row in range(8):
                 self.board[row][col] = tk.Button(self.chessboard, bg=next(color), image=self.pixel, width=50, height=50,
-                                                 text=f"tile{normal_to_game_coords_dict[(row, col)]}",
+                                                 text=f"",
                                                  compound='center', font=('Arial', 10),
                                                  command=lambda i=col, j=row: self.choose_pawn(TEMP_PLAYER_2, j, i))
                 # text = f"tile{normal_to_game_coords_dict[(col, row)]}" aby sprawdzić czy na pewno dobra numeracja
@@ -132,8 +168,6 @@ class GUI:
         self.buttonframe.columnconfigure(0, weight=1)
         self.buttonframe.columnconfigure(1, weight=1)
 
-        self.upgrade_pawn_bt = tk.Button(self.buttonframe, text="Wejdź poziom wyżej", font=('Arial', 16))
-        self.upgrade_pawn_bt.grid(row=1, column=0, sticky=tk.W + tk.E)
 
         self.degrade_pawn_bt = tk.Button(self.buttonframe, text="Zejdź poziom niżej", font=('Arial', 16))
         self.degrade_pawn_bt.grid(row=1, column=1, sticky=tk.W + tk.E)
@@ -148,10 +182,13 @@ class GUI:
                                         command=lambda: self.create_pawn(TEMP_PLAYER_2))
         self.create_pawn_bt.grid(row=0, column=0, sticky=tk.W + tk.E)
 
+        # Przycisk ulepsz pionek:
+        self.upgrade_pawn_bt = tk.Button(self.buttonframe, text="Wejdź poziom wyżej", font=('Arial', 16),
+                                         command=lambda: self.upgrade_pawn(TEMP_PLAYER_2))
+        self.upgrade_pawn_bt.grid(row=1, column=0, sticky=tk.W + tk.E)
+
         self.buttonframe.place(x=0, y=470)
 
-        # self.chessboardimglabel = tk.Label(self.root, image=self.chessboardimg)
-        # self.chessboardimglabel.place(x=0,y=0)
 
         self.root.mainloop()
 

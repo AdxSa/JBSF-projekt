@@ -6,6 +6,7 @@ class Pawn:
         self.destination_squares_coords = [(spawn_coords[0], t, 0) for t in range(4)]
         self.is_in_destination_square = False
         self.tag = f'♟{self.id}'
+        self.spawn_coords = spawn_coords
 
     def move(self, n):  # porusza pionkiem o argument n pól po aktualnym torze
         for _ in range(n):
@@ -14,7 +15,7 @@ class Pawn:
             self.coords = (self.coords[0], self.coords[1], self.coords[2] + 1)
             if self.coords[2] >= 7 - 2 * self.coords[1]:
                 self.coords = (self.coords[0] + 1, self.coords[1], self.coords[2] % (7 - 2 * self.coords[1]))
-                if self.coords[0] == self.destination_squares_coords[0][0] + 1:
+                if self.coords[0] == self.spawn_coords[0] + 4:
                     self.coords = self.destination_squares_coords[self.coords[1]]
                     self.is_in_destination_square = True
 
@@ -23,10 +24,11 @@ class Pawn:
             return print("Max level of pawn has been reached")
         elif self.is_in_destination_square:
             self.coords = (self.coords[0], self.coords[1] + 1, self.coords[2])
-        elif self.coords[2] - 1 >= 0:
+        elif self.coords[2] - 1 > 0:
             self.coords = (self.coords[0], self.coords[1] + 1, self.coords[2] - 2)
         else:
-            self.coords = (self.coords[0], self.coords[1] + 1, self.coords[2] - 1)
+            self.coords = (self.coords[0], self.coords[1] + 1, 0)
+
 
     def degrade(self):  # przesówa pionek na niższy tor (tylko w destination squares - przesówa po diagonali)
         if self.coords[1] == 0:
@@ -37,9 +39,9 @@ class Pawn:
             return print("Can't degrade pawn while not on destination square")
 
 
-
-
-
 if __name__ == "__main__":
-    A1 = Pawn('red', 0, (0,0,0))
+    A1 = Pawn('red', 0, (0, 0, 0))
     print(A1.destination_squares_coords)
+    a = [A1]
+    del A1
+    print(a[0].destination_squares_coords)

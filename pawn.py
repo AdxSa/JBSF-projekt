@@ -42,6 +42,3 @@ class Pawn:
 if __name__ == "__main__":
     A1 = Pawn('red', 0, (0, 0, 0))
     print(A1.destination_squares_coords)
-    a = [A1]
-    del A1
-    print(a[0].destination_squares_coords)

@@ -2,6 +2,7 @@ from collections import Counter
 import random
 
 players = []
+animals_clipboard = {"Rabbit" : 0, "Sheep" : 0, "Pig" : 0, "Cow" : 0, "Horse" : 0}
 
 class Player:
     def __init__(self, id) -> None:
@@ -66,22 +67,23 @@ class Player:
                     animals[animal_type] += 1
         return animals
     
-    def upgrade_chosen_field(self):
-        chosen_field = self.choose_field()
-        if chosen_field not in self.fields:
-            print("Nie Twoje to nie tykaj!")
-        else:
-            # ROBOCZO   
-            value = 1
-            field = Field(value)
-            if field.value == 5: 
-                print("Nie da się podnieść wyżej!") # To się musi gdzies wyświetlać, na razie jest print
-                pass
-            elif field.value == 1:
-                # Płacenie
-                # A co jeśli nas nie stać?
-                field.upgrade()
-            # Powtórzyć elif dla wartości 2 i 4
+    # MARKETPLACE
+    # def upgrade_chosen_field(self):
+    #     chosen_field = self.choose_field()
+    #     if chosen_field not in self.fields:
+    #         print("Nie Twoje to nie tykaj!")
+    #     else:
+    #         # ROBOCZO   
+    #         value = 1
+    #         field = Field(value)
+    #         if field.value == 5: 
+    #             print("Nie da się podnieść wyżej!") # To się musi gdzies wyświetlać, na razie jest print
+    #             pass
+    #         elif field.value == 1:
+    #             # Płacenie
+    #             # A co jeśli nas nie stać?
+    #             field.upgrade()
+    #         # Powtórzyć elif dla wartości 2 i 4
 
     def remove_animal(self, animal_type):
         # klikanie
@@ -101,38 +103,73 @@ class Player:
     def place_animal(self, animal_type):
         # klikanie
         animal = Animal(animal_type)
-        iter = 0
-        for field in self.fields:
-            if field.capacity >= animal.space_needed:
-                break
-            iter += 1
-        if iter == len(self.fields):
-            print("There is no space for another animal!")
-            return 0
-        
-        chosen_field = self.choose_field()    
-        while chosen_field.capacity < animal.space_needed:
-            while chosen_field not in self.fields:
+
+        if animal.space_needed < 12:
+            bad_fields = []
+            for field in self.fields:
+                if field.capacity >= animal.space_needed:
+                    break
+                bad_fields.append(field)
+            if len(bad_fields) == len(self.fields):
+                print("There is no space for another animal!")
+                return 0
+            
+            chosen_field = self.choose_field()    
+            while (chosen_field.capacity < animal.space_needed) or (chosen_field not in self.fields):
                 chosen_field = self.choose_field()
             chosen_field.animals.append(animal)
             animal.place(chosen_field)
             chosen_field.check_capacity()
+            return 1
 
-        if animal.space_needed == 2:
-            second_chosen_field = self.choose_field()
-            while chosen_field.capacity < animal.space_needed:
-                while second_chosen_field not in chosen_field.neighbours:
-                    second_chosen_field = self.choose_field()
-                second_chosen_field.animals.append(animal)
-                animal.place(second_chosen_field)
-                second_chosen_field.check_capacity()
+        else:
+            good_fields = []
+            potential_pairs = 0
 
-    def replace_animal(self):
-        pass
+            for field in self.fields:
+                if field.capacity == 6:
+                    good_fields.append(field)
+
+            for field in good_fields:
+                for neighbour in field.neighbours:
+                    if neighbour.capacity == 6:
+                        potential_pairs += 1
+            
+            if potential_pairs != 0:
+                chosen_field = self.choose_field()    
+            while (chosen_field.capacity < animal.space_needed) or (chosen_field not in self.fields):
+                chosen_field = self.choose_field()
+
+            second_field = self.choose_field()
+            while (second_field.capacity < animal.space_needed) or (second_field not in self.fields) or (second_field not in chosen_field.neighbours):
+                second_field = self.choose_field()
+            
+            animal.place(chosen_field)
+            animal.place(second_field)
+            chosen_field.animals.append(animal)
+            chosen_field.check_capacity()
+            second_field.animals.append(animal)
+            second_field.check_capacity()
+            return 1
 
     def choose_field(self):
         pass
-    
+
+    def relocate_to_clipboard(self):
+        chosen_field = self.choose_field()    
+        while chosen_field not in self.fields:
+            chosen_field = self.choose_field()
+        animal = chosen_field.animals[0]
+        for field in animal.fields:
+            field.animals.pop()
+            field.check_capacity()
+        animals_clipboard[animal.type] += 1
+        del animal
+
+    def relocate_to_board(self):
+        chosen_animal = choose_animal() # Wybranie ikony zwierzaka ze schowka, wymaga przycisków. Do GUI
+        if not self.place_animal(chosen_animal):
+            print(f"There is no space for another {chosen_animal.type}")
 
 class Animal:
     def __init__(self, animal_type) -> None:
@@ -270,5 +307,8 @@ def check_neighbours(x, y):
     if y > 1:
         neighbours.append((x, y - 1))
     return neighbours
+
+def choose_animal():    # Do GUI, wybiera zwierzę ze schowka
+    pass    # switch... case...
 
 player = Player(0)

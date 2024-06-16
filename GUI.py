@@ -1,6 +1,6 @@
 import tkinter as tk
 from Player import Player
-from farmer import Field, Marketplace
+from farmer import Field, Animal, Marketplace
 from PIL import Image, ImageTk
 from bigdict import game_to_normal_coords_dict, normal_to_game_coords_dict
 
@@ -138,23 +138,23 @@ class GUI:
         self.clipboard.columnconfigure(0, weight=1)
 
         self.rabbit_bt = tk.Button(self.clipboard, image=self.pixel, width=80, height=80, compound='center',
-                                   font=('Arial', 16))
+                                   font=('Arial', 16), command=lambda: self.relocate_to_board("Rabbit"))
         self.rabbit_bt.grid(row=0, column=1)
 
         self.sheep_bt = tk.Button(self.clipboard, image=self.pixel, width=80, height=80, compound='center',
-                                   font=('Arial', 16))
+                                   font=('Arial', 16), command=lambda: self.relocate_to_board("Sheep"))
         self.sheep_bt.grid(row=1, column=1)
 
         self.pig_bt = tk.Button(self.clipboard, image=self.pixel, width=80, height=80, compound='center',
-                                   font=('Arial', 16))
+                                   font=('Arial', 16), command=lambda: self.relocate_to_board("Pig"))
         self.pig_bt.grid(row=2, column=1)
 
         self.cow_bt = tk.Button(self.clipboard, image=self.pixel, width=80, height=80, compound='center',
-                                   font=('Arial', 16))
+                                   font=('Arial', 16), command=lambda: self.relocate_to_board("Cow"))
         self.cow_bt.grid(row=3, column=1)
 
         self.horse_bt = tk.Button(self.clipboard, image=self.pixel, width=80, height=80, compound='center',
-                                   font=('Arial', 16))
+                                   font=('Arial', 16), command=lambda: self.relocate_to_board("Horse"))
         self.horse_bt.grid(row=4, column=1)
 
         self.clipboard_mode_bt = tk.Button(self.clipboard, image=self.pixel, width=80, height=80, compound='center',
@@ -461,9 +461,72 @@ class GUI:
                 self.current_player.clipboard[animal.animal_type] += 1
             else:
                 print("Nie ma zwierzat na tym polu")
-            
         else:
             return self.fields[x][y]
+        
+    def relocate_to_board(self, animal_type):
+        self.current_player.to_clipboard = False
+
+        chosen_animal = Animal(animal_type) # Wybranie ikony zwierzaka ze schowka
+        if self.current_player.clipboard[animal_type] == 0:
+            print("Nie masz takiego zwierzaka")
+
+        elif not self.current_player.place_animal(chosen_animal.type):
+            print(f"There is no space for another {chosen_animal.type}")
+
+    def place_animal(self, animal_type):
+        self.current_player.to_clipboard = False
+        animal = Animal(animal_type)
+
+        if animal.space_needed < 12:
+            bad_fields = []
+            for field in self.current_player.fields:
+                if field.capacity >= animal.space_needed:
+                    break
+                bad_fields.append(field)
+            if len(bad_fields) == len(self.current_player.fields):
+                print("There is no space for another animal!")
+                return 0
+            
+            chosen_field = self.choose_field()    
+            while (chosen_field.capacity < animal.space_needed) or (chosen_field not in self.current_player.fields):
+                chosen_field = self.choose_field()
+            chosen_field.animals.append(animal)
+            animal.place(chosen_field)
+            chosen_field.check_capacity()
+            return 1
+
+        else:
+            good_fields = []
+            potential_pairs = 0
+
+            for field in self.current_player.fields:
+                if field.capacity == 6:
+                    good_fields.append(field)
+
+            for field in good_fields:
+                for neighbour in field.neighbours:
+                    if neighbour.capacity == 6:
+                        potential_pairs += 1
+            
+            if potential_pairs != 0:
+                chosen_field = self.choose_field()    
+            while (chosen_field.capacity < animal.space_needed) or (chosen_field not in self.current_player.fields):
+                chosen_field = self.choose_field()
+
+            second_field = self.choose_field()
+            while (second_field.capacity < animal.space_needed) or (second_field not in self.current_player.fields) or (second_field not in chosen_field.neighbours):
+                second_field = self.choose_field()
+            
+            animal.place(chosen_field)
+            animal.place(second_field)
+            chosen_field.animals.append(animal)
+            chosen_field.check_capacity()
+            second_field.animals.append(animal)
+            second_field.check_capacity()
+            return 1
+
+
 
 
 if __name__ == "__main__":

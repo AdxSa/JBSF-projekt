@@ -15,6 +15,7 @@ class GUI:
         self.players = players
         self.current_player = players[0]
         self.current_player_number = 0
+        self.all_pawns = set()
         self.root = tk.Tk()
 
         self.player_info = tk.StringVar()
@@ -68,7 +69,7 @@ class GUI:
             for row in range(8):
                 self.board[row][col] = tk.Button(self.chessboard, bg=next(color), image=self.pixel, width=50, height=50,
                                                  text=f"",
-                                                 compound='center', font=('Arial', 10),
+                                                 compound='center', font=('Arial', 12),
                                                  command=lambda i=col, j=row:
                                                  self.choose_pawn(j, i))
                 # text = f"tile{normal_to_game_coords_dict[(col, row)]}" aby sprawdzić czy na pewno dobra numeracja
@@ -107,6 +108,7 @@ class GUI:
 
     def next_player(self):
         self.current_player.rolled = False
+        self.current_player.chosen_pawn = None
         self.current_player_number = self.current_player_number + 1
         self.current_player = self.players[self.current_player_number % len(self.players)]
         self.player_info.set(f"Tura gracza: {self.current_player.name}")
@@ -125,19 +127,36 @@ class GUI:
             self.err.set('')
 
     def create_pawn(self):
-        # dodać zbijanie jak na polu startowym stoi pionek innego gracza
-        self.current_player.create_pawn()
-        pawns_on_spawn_tile = ''
-        for pawn in self.current_player.pawns:
-            if pawn.coords == self.current_player.pawn_spawn_coords:
-                pawns_on_spawn_tile += pawn.tag+'\n'
-        # zamieniamy współrzędne spawn_coords wybranego gracza na współrzędne kalsyczne szachownicy,
-        # aby pobrać dobry index od self.board
-        (self.board[game_to_normal_coords_dict[self.current_player.pawn_spawn_coords][0]]
-         [game_to_normal_coords_dict[self.current_player.pawn_spawn_coords][1]]
-         .config(text=f'{pawns_on_spawn_tile}', fg=self.current_player.colour))
-        # dodać więcej pionków wyświetlających się na jednej kratce
-        self.info.set('Utworzono nowy pionek!')
+        try:
+            self.current_player.create_pawn()
+            pawns_on_spawn_tile = ''
+            i = 0
+            for pawn in self.current_player.pawns:
+                if pawn.coords == self.current_player.pawn_spawn_coords:
+                    i += 1
+                    pawns_on_spawn_tile += pawn.tag
+                    if i == 2:
+                        pawns_on_spawn_tile += '\n'
+            # zamieniamy współrzędne spawn_coords wybranego gracza na współrzędne kalsyczne szachownicy,
+            # aby pobrać dobry index od self.board
+            (self.board[game_to_normal_coords_dict[self.current_player.pawn_spawn_coords][0]]
+             [game_to_normal_coords_dict[self.current_player.pawn_spawn_coords][1]]
+             .config(text=f'{pawns_on_spawn_tile}', fg=self.current_player.colour))
+
+            # zbijanie jak na polu startowym stoi pionek innego gracza
+            for player in self.players:
+                if player != self.current_player:
+                    for pawn in player.pawns:
+                        if (game_to_normal_coords_dict[pawn.coords] ==
+                                game_to_normal_coords_dict[self.current_player.pawn_spawn_coords]):
+                            player.pawns_id.remove(int(pawn.id))
+                            player.pawns.remove(pawn)
+                            del pawn
+
+            self.info.set('Utworzono nowy pionek!')
+        except:
+            self.err.set('Nie możesz stworzyć kolejnego pionka')
+
 
     def choose_pawn(self, row, col):
         tile_coords = normal_to_game_coords_dict[(row, col)]
@@ -165,11 +184,19 @@ class GUI:
             self.current_player.move_chosen_pawn()
             pawns_on_current_tile = ''
             pawns_on_next_tile = ''
+            i = 0
+            k = 0
             for pawn in self.current_player.pawns:
                 if pawn.coords == current_coords:
-                    pawns_on_current_tile += pawn.tag+'\n'
+                    i += 1
+                    pawns_on_current_tile += pawn.tag
+                    if i == 2:
+                        pawns_on_current_tile += '\n'
                 if pawn.coords == self.current_player.chosen_pawn.coords:
-                    pawns_on_next_tile += pawn.tag+'\n'
+                    k += 1
+                    pawns_on_next_tile += pawn.tag
+                    if k == 2:
+                        pawns_on_next_tile += '\n'
             # zmieniamy wspólrzędne wybranego pionka na klasyczne aby pobrać odpowiedni index od self.board
             # następnie usuwamy wizerunek pionka z danego pola po czym przesówamy pionek i
             # tworzymy wizerunek na miejscu w którym znajduje się pionek w sposób odwrotny
@@ -183,6 +210,23 @@ class GUI:
             (self.board[game_to_normal_coords_dict[self.current_player.chosen_pawn.coords][0]]
              [game_to_normal_coords_dict[self.current_player.chosen_pawn.coords][1]]
              .config(text=f'{pawns_on_next_tile}', fg=self.current_player.colour))
+
+            # potencjalnie kolorowanie pól na które ostatecznie dotarły już pionki
+            # if self.current_player.chosen_pawn.is_in_destination_square:
+            #    (self.board[game_to_normal_coords_dict[self.current_player.chosen_pawn.coords][0]]
+            #     [game_to_normal_coords_dict[self.current_player.chosen_pawn.coords][1]]
+            #     .config(bg=self.current_player.colour))
+
+            # zbijanie
+            for player in self.players:
+                if player != self.current_player:
+                    for pawn in player.pawns:
+                        if (game_to_normal_coords_dict[pawn.coords] ==
+                                game_to_normal_coords_dict[self.current_player.chosen_pawn.coords]):
+                            player.pawns_id.remove(int(pawn.id))
+                            player.pawns.remove(pawn)
+                            print(player.pawns)
+                            del pawn
 
         elif self.current_player.chosen_pawn is not None:
             self.err.set('Najpierw rzuć kostką')
@@ -215,6 +259,17 @@ class GUI:
             (self.board[game_to_normal_coords_dict[self.current_player.chosen_pawn.coords][0]]
              [game_to_normal_coords_dict[self.current_player.chosen_pawn.coords][1]]
              .config(text=f'{pawns_on_next_tile}', fg=self.current_player.colour))
+
+            # zbijanie
+            for player in self.players:
+                if player != self.current_player:
+                    for pawn in player.pawns:
+                        if (game_to_normal_coords_dict[pawn.coords] ==
+                                game_to_normal_coords_dict[self.current_player.chosen_pawn.coords]):
+                            player.pawns_id.remove(int(pawn.id))
+                            player.pawns.remove(pawn)
+                            print(player.pawns)
+                            del pawn
 
     def degrade_pawn(self):
         if self.current_player.chosen_pawn is None:

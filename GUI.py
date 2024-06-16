@@ -430,7 +430,7 @@ class GUI:
              .config(text=f'{pawns_on_next_tile}', fg=self.current_player.colour))
 
     # Farmer
-    def setup_fields_neighbours(self):
+    def setup_neighbours(self):
         for y in range(8):
             for x in range(8):
                 neighbours = []

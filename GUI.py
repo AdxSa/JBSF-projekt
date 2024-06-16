@@ -1,5 +1,6 @@
 import tkinter as tk
 from Player import Player
+from farmer import Field
 from PIL import Image, ImageTk
 from bigdict import game_to_normal_coords_dict, normal_to_game_coords_dict
 
@@ -103,6 +104,20 @@ class GUI:
         self.degrade_pawn_bt.grid(row=1, column=1, sticky=tk.W + tk.E)
 
         self.buttonframe.place(x=100, y=670)
+
+        # FARMER (nie tylko przyciski)
+        self.fields = []
+        for y in range(8):
+            row = []
+            for x in range(8):
+                if 1 < x < 6 and 1 < y < 6:
+                    row.append(Field(1, x, y))
+                elif x in [0, 7] or y in [0, 7]:
+                    row.append(Field(4, x, y))
+                else:
+                    row.append(Field(2, x, y))
+            self.fields.append(row)
+        self.setup_neighbours()
 
         #  przyciski do farmera
         # plansza farmera
@@ -413,6 +428,24 @@ class GUI:
             (self.board[game_to_normal_coords_dict[self.current_player.chosen_pawn.coords][0]]
              [game_to_normal_coords_dict[self.current_player.chosen_pawn.coords][1]]
              .config(text=f'{pawns_on_next_tile}', fg=self.current_player.colour))
+
+    # Farmer
+    def setup_fields_neighbours(self):
+        for y in range(8):
+            for x in range(8):
+                neighbours = []
+                if y > 0:
+                    neighbours.append(self.fields[y - 1][x])
+                if y < 7:
+                    neighbours.append(self.fields[y + 1][x])
+                if x > 0:
+                    neighbours.append(self.fields[y][x - 1])
+                if x < 7:
+                    neighbours.append(self.fields[y][x + 1])
+                self.fields[y][x].neighbours = neighbours
+
+    def choose_field(self, x, y):
+        return 
 
 
 if __name__ == "__main__":

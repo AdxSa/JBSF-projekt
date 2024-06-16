@@ -19,46 +19,7 @@ class Player:
             pass
         self.animal_rolled = False
     
-    def roll_animal_dice(self):
-        first = ["Wolf", "Fox", "Sheep", "Sheep", "Cow", "Horse"] + ["Rabbit"] * 6
-        second = ["Wolf", "Fox", "Cow"] + ["Sheep"] * 3 + ["Rabbit"] * 6
-        predator = [1, 1, 1, 2, 2, 4]
-        return [random.choice(first), random.choice(second)]
 
-        roll = [random.choice(first), random.choice(second)]
-        animals = self.get_animals()
-        new_animals = {}
-        if roll[0] == roll[1]:
-            only_roll = roll[0]
-            if only_roll in ["Fox", "Wolf"]:
-                victim = random.choice(predator)
-                # Zjadanie
-                victim = random.choice(predator)
-                # Zjadanie
-            else:
-                animals[only_roll] += (animals[only_roll] + 2) // 2
-        else:
-            if "Fox" in roll:
-                random.choice(predator)
-                # Zjada wszystkich u wszystkich graczy, uwzględnić!!!
-            if "Wolf" in roll:
-                random.choice(predator)
-                # Zjadanie
-            for animal in roll:
-                if animals.get(animal) > 0:
-                    new_animals[animal] = (animals[animal] + 1) // 2
-        # Rozmieszczanie zwierzątek
-        # animals_to_place = []
-        for animal_type in new_animals.keys():
-            for animal in new_animals[animal_type]:
-                self.place_animal(animal_type)
-
-        #         animals_to_place.append(Animal(animal))
-        #         new_animals[animal] -= 1
-        # # Yyy, tutaj jest pod górkę...
-        # for animal in animals_to_place:
-        #     self.place_animal(animal)
-  
     def get_animals(self):
         animals = {"Rabbit" : 0, "Sheep" : 0, "Pig" : 0, "Cow" : 0, "Horse" : 0}
         for animal_type in animals.keys():

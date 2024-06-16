@@ -9,7 +9,6 @@ class Player:
         self.pawns = []
         self.pawn_spawn_coords = pawn_spawn_coords
         self.current_roll = 0
-        self.farm_animals = {}
         self.chosen_pawn = None
         self.rolled = False
         self.name = name

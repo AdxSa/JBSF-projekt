@@ -74,7 +74,7 @@ class GUI:
                                                  self.choose_pawn(j, i))
                 # text = f"tile{normal_to_game_coords_dict[(col, row)]}" aby sprawdzić czy na pewno dobra numeracja
                 self.board[row][col].grid(row=7-row, column=col)
-        self.chessboard.place(x=0, y=0)
+        self.chessboard.place(x=100, y=200)
 
         # inne:
 
@@ -102,7 +102,22 @@ class GUI:
                                          command=lambda: self.degrade_pawn())
         self.degrade_pawn_bt.grid(row=1, column=1, sticky=tk.W + tk.E)
 
-        self.buttonframe.place(x=0, y=470)
+        self.buttonframe.place(x=100, y=670)
+        
+        #  przyciski do farmera
+        # plansza farmera
+        self.farmerboard = tk.Frame(width=400, height=400, highlightthickness=1, highlightbackground='black')
+        self.farboard = [['' for row in range(8)] for col in range(8)]
+        for col in range(8):
+            for row in range(8):
+                self.farboard[row][col] = tk.Button(self.farmerboard, image=self.pixel, width=50, height=50,
+                                                    text=f"",
+                                                    compound='center', font=('Arial', 12),
+                                                    command=lambda i=col, j=row:
+                                                    print(j, i))
+                # zmienić print(j,i) na funkcję
+                self.farboard[row][col].grid(row=7 - row, column=col)
+        self.farmerboard.place(x=700, y=200)
 
     def play(self):
         self.root.mainloop()

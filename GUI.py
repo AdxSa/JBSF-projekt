@@ -15,7 +15,6 @@ class GUI:
         self.players = players
         self.current_player = players[0]
         self.current_player_number = 0
-        self.all_pawns = set()
         self.root = tk.Tk()
 
         self.player_info = tk.StringVar()

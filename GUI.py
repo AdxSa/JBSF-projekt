@@ -104,6 +104,7 @@ class GUI:
 
         self.buttonframe.place(x=0, y=470)
 
+    def play(self):
         self.root.mainloop()
 
     def next_player(self):
@@ -298,3 +299,4 @@ class GUI:
 
 if __name__ == "__main__":
     a = GUI(TEMP_PLAYERS)
+    a.play()

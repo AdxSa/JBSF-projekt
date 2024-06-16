@@ -1,5 +1,4 @@
 from random import randrange
-from collections import Counter
 from pawn import Pawn
 
 
@@ -8,18 +7,17 @@ class Player:
 
         self.colour = colour
         self.pawns = []
-        self.pawns_id = set()
         self.pawn_spawn_coords = pawn_spawn_coords
         self.current_roll = 0
         self.farm_animals = {}
-        self.fields = []
         self.chosen_pawn = None
         self.rolled = False
         self.name = name
+        self.pawns_id = set()
 
     def roll_dice(self):
-        if self.rolled:
-            return print("Can't roll twice in one turn")
+        # if self.rolled:
+        #     return print("Can't roll twice in one turn")
         self.current_roll = randrange(1, 5)
         self.rolled = True
         print(self.current_roll)
@@ -50,6 +48,7 @@ class Player:
         for i in self.pawns:
             if i.id == id:
                 self.chosen_pawn = i
+                print(f'wybrano pionek o id {i.id}')  # temp w celu informacji
                 break
 
     def move_chosen_pawn(self):  # porusza wybranym przez gracza pionkiem o current_roll, następnie zeruje current_roll
@@ -72,13 +71,13 @@ class Player:
 
     def degrade_chosen_pawn(self):
         if self.chosen_pawn.coords[1] == 0:  # powininno wyskoczyć "Min level of pawn has been reached"
-            self.chosen_pawn.degrade_pawn()
+            self.chosen_pawn.degrade()
         elif self.chosen_pawn.coords[1] == 1:
-            self.chosen_pawn.degrade_pawn()
+            self.chosen_pawn.degrade()
         elif self.chosen_pawn.coords[1] == 2:
-            self.chosen_pawn.degrade_pawn()
+            self.chosen_pawn.degrade()
         elif self.chosen_pawn.coords[1] == 3:
-            self.chosen_pawn.degrade_pawn()
+            self.chosen_pawn.degrade()
         else:
             return print("Can't afford to upgrade a pawn")
 
@@ -95,19 +94,6 @@ class Player:
             self.upgrade_chosen_pawn()
         if a == 'degrade pawn':
             self.degrade_chosen_pawn()
-    
-    def get_animals(self):
-        free = 0
-        animals = {}
-        for field in self.fields:
-            content = field.show_field()
-            if content == 0:
-                free += 1
-            content = Counter(content)
-            animals = Counter(animals)
-            animals = dict(content + animals)
-        return animals
-
 
 
 if __name__ == "__main__":

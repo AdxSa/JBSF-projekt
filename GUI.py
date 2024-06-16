@@ -129,8 +129,7 @@ class GUI:
                                                     text=f"",
                                                     compound='center', font=('Arial', 12),
                                                     command=lambda i=col, j=row:
-                                                    print(j, i))
-                # zmienić print(j,i) na funkcję
+                                                    self.choose_field(j, i))
                 self.farboard[row][col].grid(row=7 - row, column=col)
         self.farmerboard.place(x=700, y=200)
 
@@ -445,7 +444,7 @@ class GUI:
                 self.fields[y][x].neighbours = neighbours
 
     def choose_field(self, x, y):
-        return 
+        return self.fields[x][y]
 
 
 if __name__ == "__main__":

@@ -156,7 +156,6 @@ class GUI:
         except:
             self.err.set('Nie możesz stworzyć kolejnego pionka')
 
-
     def choose_pawn(self, row, col):
         tile_coords = normal_to_game_coords_dict[(row, col)]
         t_pawn = None

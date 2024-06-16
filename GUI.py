@@ -7,6 +7,7 @@ TEMP_PLAYER_1 = Player('purple', (0, 0, 0), 'TEMP_PLAYER_1')
 TEMP_PLAYER_2 = Player('green', (2, 0, 0), 'TEMP_PLAYER_2')
 TEMP_PLAYERS = [TEMP_PLAYER_1, TEMP_PLAYER_2]
 
+
 class GUI:
     chessboard_colours = ['black', 'white']
     error_code = 0
@@ -295,4 +296,5 @@ class GUI:
              .config(text=f'{pawns_on_next_tile}', fg=self.current_player.colour))
 
 
-a = GUI(TEMP_PLAYERS)
+if __name__ == "__main__":
+    a = GUI(TEMP_PLAYERS)

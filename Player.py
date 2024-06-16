@@ -8,6 +8,7 @@ class Player:
 
         self.colour = colour
         self.pawns = []
+        self.pawns_id = set()
         self.pawn_spawn_coords = pawn_spawn_coords
         self.current_roll = 0
         self.farm_animals = {}
@@ -25,17 +26,25 @@ class Player:
 
     def create_pawn(self):
         if len(self.pawns) == 0:
-            self.pawns += [Pawn(self.colour, len(self.pawns), self.pawn_spawn_coords)]
+            m = min({0, 1, 2, 3} - self.pawns_id)
+            self.pawns += [Pawn(self.colour, m, self.pawn_spawn_coords)]
+            self.pawns_id.add(m)
         elif len(self.pawns) == 1:  # and self.farm_animals['sheep'] != 0 :
-            self.pawns += [Pawn(self.colour, len(self.pawns), self.pawn_spawn_coords)]
+            m = min({0, 1, 2, 3} - self.pawns_id)
+            self.pawns += [Pawn(self.colour, m, self.pawn_spawn_coords)]
+            self.pawns_id.add(m)
         elif len(self.pawns) == 2:  # and self.farm_animals['pig'] != 0 :
-            self.pawns += [Pawn(self.colour, len(self.pawns), self.pawn_spawn_coords)]
+            m = min({0, 1, 2, 3} - self.pawns_id)
+            self.pawns += [Pawn(self.colour, m, self.pawn_spawn_coords)]
+            self.pawns_id.add(m)
         elif len(self.pawns) == 3:  # and self.farm_animals['cow'] != 0 :
-            self.pawns += [Pawn(self.colour, len(self.pawns), self.pawn_spawn_coords)]
+            m = min({0, 1, 2, 3} - self.pawns_id)
+            self.pawns += [Pawn(self.colour, m, self.pawn_spawn_coords)]
+            self.pawns_id.add(m)
         elif len(self.pawns) == 4:
-            return print("Max number of pawns has been reached")
+            raise Exception("Osiągnięto maksymalną ilość pionków")
         else:
-            return print("Can't afford to create a pawn")
+            raise Exception("Nie stać Cię na stworzenie nowego pionka")
 
     def choose_pawn(self, id):  # wybiera pionek gracza wyszukując go po id
         for i in self.pawns:

@@ -1,6 +1,6 @@
 import tkinter as tk
 from Player import Player
-from farmer import Field
+from farmer import Field, Marketplace
 from PIL import Image, ImageTk
 from bigdict import game_to_normal_coords_dict, normal_to_game_coords_dict
 
@@ -156,6 +156,10 @@ class GUI:
         self.horse_bt = tk.Button(self.clipboard, image=self.pixel, width=80, height=80, compound='center',
                                    font=('Arial', 16))
         self.horse_bt.grid(row=4, column=1)
+
+        self.clipboard_mode_bt = tk.Button(self.clipboard, image=self.pixel, width=80, height=80, compound='center',
+                                   font=('Arial', 16), command=lambda: self.unlock_clipboard_mode())
+        self.clipboard_mode_bt.grid(row=5, column=1)
 
         self.clipboard.place(x=1200, y= 200)
 
@@ -443,8 +447,23 @@ class GUI:
                     neighbours.append(self.fields[y][x + 1])
                 self.fields[y][x].neighbours = neighbours
 
+    def unlock_clipboard_mode(self):
+        if self.current_player.to_clipboard == True:
+            self.current_player.to_clipboard = False
+        else:
+            self.current_player.to_clipboard = True
+        print(self.current_player.to_clipboard) 
+
     def choose_field(self, x, y):
-        return self.fields[x][y]
+        if self.current_player.to_clipboard == True:
+            if self.fields[x][y].animals != []:
+                animal = self.fields[x][y].animals.pop()
+                self.current_player.clipboard[animal.animal_type] += 1
+            else:
+                print("Nie ma zwierzat na tym polu")
+            
+        else:
+            return self.fields[x][y]
 
 
 if __name__ == "__main__":

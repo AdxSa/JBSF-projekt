@@ -18,6 +18,7 @@ class Player:
         elif self.id == 3:
             pass
         self.animal_rolled = False
+        self.clipboard = {"Rabbit" : 0, "Sheep" : 0, "Pig" : 0, "Cow" : 0, "Horse" : 0}
     
 
     def get_animals(self):
@@ -183,9 +184,8 @@ class Field:
         self.capacity = 6 - actual_capacity
     
 class Marketplace:  # Pamięta aktywnego gracza i listę graczy
-    def __init__(self, active) -> None:
+    def __init__(self) -> None:
         self.buy_prices = {"Rabbit" : 1, "Sheep" : 6, "Pig" : 12, "Cow" : 24, "Horse" : 48}    
-        self.player = active
 
     # Przyciski muszą być
     def exchange(self, first_type, second_type):

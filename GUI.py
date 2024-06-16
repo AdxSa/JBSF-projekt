@@ -107,7 +107,7 @@ class GUI:
         #  przyciski do farmera
         # plansza farmera
         self.farmerboard = tk.Frame(width=400, height=400, highlightthickness=1, highlightbackground='black')
-        self.farboard = [['' for row in range(8)] for col in range(8)]
+        self.farboard = [['' for row in range(8)] for col in range(8)] # macierz guzików
         for col in range(8):
             for row in range(8):
                 self.farboard[row][col] = tk.Button(self.farmerboard, image=self.pixel, width=50, height=50,
@@ -221,9 +221,6 @@ class GUI:
         self.pola_bt_frame.grid(row=0, column=9,  padx=50)
 
         self.marketplace.place(x=100, y=800)
-
-
-
 
     def play(self):
         self.root.mainloop()

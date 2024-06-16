@@ -100,7 +100,8 @@ class ConfigGui:
         if a > 3:
             players.append(Player('magenta', (3, 0, 0), self.name4_entry.get()))
 
-        GUI(players)
+        self.root.destroy()
+        GUI(players).play()
 
 
 
@@ -114,7 +115,7 @@ class ConfigGui:
         self.root = tk.Tk()
         self.root.geometry("500x400")
         self.root.title("Ustawienia")
-        self.root.resizable(False, False)
+        # self.root.resizable(False, False)
 
         self.frame = tk.Frame(self.root)
         self.frame.columnconfigure(0, weight=1)
@@ -163,7 +164,8 @@ class ConfigGui:
 
         self.frame.pack()
 
+    def open_game(self):
         self.root.mainloop()
 
 
-play = ConfigGui()
+ConfigGui().open_game()

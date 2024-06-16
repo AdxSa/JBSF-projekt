@@ -103,7 +103,7 @@ class GUI:
         self.degrade_pawn_bt.grid(row=1, column=1, sticky=tk.W + tk.E)
 
         self.buttonframe.place(x=100, y=670)
-        
+
         #  przyciski do farmera
         # plansza farmera
         self.farmerboard = tk.Frame(width=400, height=400, highlightthickness=1, highlightbackground='black')
@@ -118,6 +118,112 @@ class GUI:
                 # zmienić print(j,i) na funkcję
                 self.farboard[row][col].grid(row=7 - row, column=col)
         self.farmerboard.place(x=700, y=200)
+
+        # clipboard
+        self.clipboard = tk.Frame(self.root, highlightthickness=1, highlightbackground='black')
+        self.clipboard.columnconfigure(0, weight=1)
+
+        self.rabbit_bt = tk.Button(self.clipboard, image=self.pixel, width=80, height=80, compound='center',
+                                   font=('Arial', 16))
+        self.rabbit_bt.grid(row=0, column=1)
+
+        self.sheep_bt = tk.Button(self.clipboard, image=self.pixel, width=80, height=80, compound='center',
+                                   font=('Arial', 16))
+        self.sheep_bt.grid(row=1, column=1)
+
+        self.pig_bt = tk.Button(self.clipboard, image=self.pixel, width=80, height=80, compound='center',
+                                   font=('Arial', 16))
+        self.pig_bt.grid(row=2, column=1)
+
+        self.cow_bt = tk.Button(self.clipboard, image=self.pixel, width=80, height=80, compound='center',
+                                   font=('Arial', 16))
+        self.cow_bt.grid(row=3, column=1)
+
+        self.horse_bt = tk.Button(self.clipboard, image=self.pixel, width=80, height=80, compound='center',
+                                   font=('Arial', 16))
+        self.horse_bt.grid(row=4, column=1)
+
+        self.clipboard.place(x=1200, y= 200)
+
+        # marketplace
+        # self.sheep = tk.PhotoImage(file='360.png')
+        self.marketplace = tk.Frame(self.root)
+        self.rabbit_label = tk.Label(self.marketplace, text='🐰', fg='grey', font=('Arial', 80))
+        self.rabbit_label.grid(row=0, column=0)
+
+        self.sheep_label = tk.Label(self.marketplace, text='🐑', fg='black', font=('Arial', 80))
+        self.sheep_label.grid(row=0, column=2)
+
+        self.pig_label = tk.Label(self.marketplace, text='🐷', fg='pink', font=('Arial', 80))
+        self.pig_label.grid(row=0, column=4)
+
+        self.cow_label = tk.Label(self.marketplace, text='🐮', fg='#df546c', font=('Arial', 80))
+        self.cow_label.grid(row=0, column=6)
+
+        self.horse_label = tk.Label(self.marketplace, text='🐴', fg='brown', font=('Arial', 80))
+        self.horse_label.grid(row=0, column=8)
+        # rabbit-sheep buttons
+        self.rabbit_sheep_bt_frame = tk.Frame(self.marketplace)
+        self.rabbit_to_sheep_bt = tk.Button(self.rabbit_sheep_bt_frame, text='🡆', image=self.pixel, width=40,
+                                            height=40, compound='center',
+                                            font=('Arial', 24))
+        self.rabbit_to_sheep_bt.grid(row=0, column=0)
+        tk.Label(self.rabbit_sheep_bt_frame, text='6 : 1', font=('Arial', 16)).grid(row=1, column=0)
+        self.sheep_to_rabbit_bt = tk.Button(self.rabbit_sheep_bt_frame, text='🡄', image=self.pixel, width=40,
+                                            height=40, compound='center',
+                                            font=('Arial', 24))
+        self.sheep_to_rabbit_bt.grid(row=2, column=0)
+        self.rabbit_sheep_bt_frame.grid(row=0, column=1)
+        # sheep-pig buttons
+        self.sheep_pig_bt_frame = tk.Frame(self.marketplace)
+        self.sheep_to_pig_bt = tk.Button(self.sheep_pig_bt_frame, text='🡆', image=self.pixel, width=40, height=40,
+                                            compound='center',
+                                            font=('Arial', 24))
+        tk.Label(self.sheep_pig_bt_frame, text='2 : 1', font=('Arial', 16)).grid(row=1, column=0)
+        self.sheep_to_pig_bt.grid(row=0, column=0)
+        self.pig_to_sheep_bt = tk.Button(self.sheep_pig_bt_frame, text='🡄', image=self.pixel, width=40,
+                                            height=40, compound='center',
+                                            font=('Arial', 24))
+        self.pig_to_sheep_bt.grid(row=2, column=0)
+        self.sheep_pig_bt_frame.grid(row=0, column=3)
+        # pig-cow buttons
+        self.pig_cow_bt_frame = tk.Frame(self.marketplace)
+        self.pig_to_cow_bt = tk.Button(self.pig_cow_bt_frame, text='🡆', image=self.pixel, width=40, height=40,
+                                            compound='center',
+                                            font=('Arial', 24))
+        self.pig_to_cow_bt.grid(row=0, column=0)
+        tk.Label(self.pig_cow_bt_frame, text='2 : 1', font=('Arial', 16)).grid(row=1, column=0)
+        self.cow_to_pig_bt = tk.Button(self.pig_cow_bt_frame, text='🡄', image=self.pixel, width=40,
+                                            height=40, compound='center',
+                                            font=('Arial', 24))
+        self.cow_to_pig_bt.grid(row=2, column=0)
+        self.pig_cow_bt_frame.grid(row=0, column=5)
+        # cow-horse buttons
+        self.cow_horse_bt_frame = tk.Frame(self.marketplace)
+        self.cow_to_horse_bt = tk.Button(self.cow_horse_bt_frame, text='🡆', image=self.pixel, width=40, height=40,
+                                            compound='center',
+                                            font=('Arial', 24))
+        self.cow_to_horse_bt.grid(row=0, column=0)
+        tk.Label(self.cow_horse_bt_frame, text='2 : 1', font=('Arial', 16)).grid(row=1, column=0)
+        self.horse_to_cow_bt = tk.Button(self.cow_horse_bt_frame, text='🡄', image=self.pixel, width=40,
+                                            height=40, compound='center',
+                                            font=('Arial', 24))
+        self.horse_to_cow_bt.grid(row=2, column=0)
+        self.cow_horse_bt_frame.grid(row=0, column=7)
+
+        # pole pole łyse pole
+        #self.polepole = tk.PhotoImage(file='polepole.png')
+        self.pola_bt_frame = tk.Frame(self.marketplace)
+        self.buy_field_bt = tk.Button(self.pola_bt_frame, text='Kup pole', font=('Arial, 20'))
+        self.buy_field_bt.grid(row=0, column=0, sticky=tk.E+tk.W+tk.N+tk.S)
+        self.upgrade_field_bt = tk.Button(self.pola_bt_frame, text='Ulepsz pole', font=('Arial, 20'))
+        self.upgrade_field_bt.grid(row=1, column=0, sticky=tk.E+tk.W+tk.N+tk.S)
+        self.pola_bt_frame.grid(row=0, column=9,  padx=50)
+
+        self.marketplace.place(x=100, y=800)
+
+
+
 
     def play(self):
         self.root.mainloop()

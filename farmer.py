@@ -62,7 +62,7 @@ class Player:
                 field.check_capacity
         del removed_animal
 
-    def place_animal(self, animal_type):
+    def place_animal(self, animal_type):    # Jest w GUI, jeśli działa to można zlikwidować
         # klikanie
         animal = Animal(animal_type)
 
@@ -114,10 +114,10 @@ class Player:
             second_field.check_capacity()
             return 1
 
-    def choose_field(self):
+    def choose_field(self): # Jest w GUI, jeśli działa to można zlikwidować
         pass
 
-    def relocate_to_clipboard(self):
+    def relocate_to_clipboard(self):    # Jest w GUI, jeśli działa to można zlikwidować
         chosen_field = self.choose_field()    
         while chosen_field not in self.fields:
             chosen_field = self.choose_field()
@@ -128,7 +128,7 @@ class Player:
         animals_clipboard[animal.type] += 1
         del animal
 
-    def relocate_to_board(self):
+    def relocate_to_board(self):    # Jest w GUI, jeśli działa to można zlikwidować
         chosen_animal = choose_animal() # Wybranie ikony zwierzaka ze schowka, wymaga przycisków. Do GUI
         if not self.place_animal(chosen_animal):
             print(f"There is no space for another {chosen_animal.type}")
@@ -188,53 +188,56 @@ class Marketplace:  # Pamięta aktywnego gracza i listę graczy
         self.buy_prices = {"Rabbit" : 1, "Sheep" : 6, "Pig" : 12, "Cow" : 24, "Horse" : 48}    
 
     # Przyciski muszą być
-    def exchange(self, first_type, second_type):
-        player_animals = self.player.get_animals()
-        if first_type not in player_animals.keys():
-            print(f"You don't have {first_type}!")
-            return 0
+    def exchange(self, first_type, second_type, player):
+        # Chyba niepotrzebne:
+        # if player.clipboard[first_type] == 0:
+        #     print(f"You don't have {first_type}!")
+        #     return 0
 
         price = self.buy_prices.get(second_type)
         first_val = self.buy_prices.get(first_type)
         
         if price > first_val:
-            if player_animals.get(first_type) * first_val < price:
-                print(f"Za biedny jesteś")
+            if player.clipboard[first_type] * first_val < price:
+                print("Masz za mało zwierzat tego typu")
+                return 0
             else:
-                for i in range(price / first_val):
-                    self.player.remove_animal(first_type)
-            self.player.place_animal(second_type)
+                player.clipboard[first_type] -= price / first_val
+            player.clipboard[second_type]
 
         if price < first_val:
-            if first_type not in player_animals.keys():
+            if player.clipboard[first_type] == 0:
                 print(f"You don't have {first_type}")
                 return 0
             else:
-                self.player.remove_animal(first_type)
-                for i in range(first_val / price):
-                    self.player.place_animal(second_type)
+                player.clipboard[first_type] -= 1
+                player.clipboard[second_type] += first_val / price
 
-    def buy_field(self):
-        chosen_field = self.player.choose_field() 
+    def buy_field(self, chosen_field, player):
+        # DO IMPLEMENTACJI W GUI!!! 
 
-        while any(chosen_field in player.fields for player in players):    # Sprawdza czy pole już do kogoś należy
-            print("Field is already owned")
-            chosen_field = self.player.choose_field()
+        # chosen_field = self.player.choose_field() 
+
+        # while any(chosen_field in player.fields for player in players):    # Sprawdza czy pole już do kogoś należy
+        #     print("Field is already owned")
+        #     chosen_field = self.player.choose_field()
         
         price = chosen_field.value
-        if self.player.check_animals["Rabbit"] < price: # Sprawdza czy gracz dysponuje odpowiednią liczbą królików do zakupu
-            print("You have too little rabbits")
+        if player.clipboard["Rabbit"] < price: # Sprawdza czy gracz dysponuje odpowiednią liczbą królików do zakupu
+            print("Masz za malo krolikow w schowku")
             return 0
         else:
-            for i in range(price):
-                self.player.remove_animal("Rabbit")
-            self.player.fields.append(chosen_field)
+            player.clipboard["Rabbit"] -= price
+            player.fields.append(chosen_field)
+        #   ZMIANA KOLORU DO IMPLEMENTACJI W GUI!!!
 
-    def upgrade_field(self):
-        chosen_field = self.player.choose_field()
-        while chosen_field not in self.player.fields:
-            print("It's not your field")
-            chosen_field = self.player.choose_field()
+    def upgrade_field(self, chosen_field, player):
+        # DO IMPLEMENTACJI W GUI!!!
+        #
+        # chosen_field = self.player.choose_field()
+        # while chosen_field not in self.player.fields:
+        #     print("It's not your field")
+        #     chosen_field = self.player.choose_field()
         if chosen_field.value == 1:
             price = 4
         elif chosen_field.value == 2:
@@ -242,13 +245,12 @@ class Marketplace:  # Pamięta aktywnego gracza i listę graczy
         elif chosen_field.value == 4:
             price = 18
         else:
-            print("You can't upgrade further!")
-        if self.player.check_animals["Rabbit"] < price:
-            print("You have too little rabbits")
+            print("Osiagnales maksymalny poziom pola")
+        if player.clipboard["Rabbit"] < price:
+            print("Masz za malo krolikow")
             return 0
         else:
-            for i in range(price):
-                    self.player.remove_animal("Rabbit")
+            player.clipboard["Rabbit"] -= price
             chosen_field.upgrade()
 
 

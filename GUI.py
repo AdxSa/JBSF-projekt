@@ -442,6 +442,10 @@ class GUI:
              [game_to_normal_coords_dict[self.current_player.chosen_pawn.coords][1]]
              .config(text=f'{pawns_on_next_tile}', fg=self.current_player.colour))
 
+    def end_game(self, player):
+        # wyskakuje komunikat że gracz o imieniu bla bla bla wygrał
+        'a'
+
     # Farmer
     def setup_neighbours(self):
         for y in range(8):

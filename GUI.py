@@ -582,6 +582,7 @@ class GUI:
         self.market.exchange(first_type, second_type, self.current_player)
 
     def buy_field(self):
+        self.current_player.to_clipboard = False
         self.selected_field = None  
         chosen_field = self.choose_field()
 
@@ -594,6 +595,7 @@ class GUI:
             print(f"Pole {chosen_field} zakupione")
 
     def upgrade_field(self):
+        self.current_player.to_clipboard = False
         self.selected_field = None  
         chosen_field = self.choose_field()
 
@@ -608,9 +610,19 @@ class GUI:
 
 # Tu psuję dalej
     def set_selected_field(self, x, y):
-        self.selected_field = (x, y)
-        self.selected_field_var.set(f"{x},{y}")
-        print(f"Selected field: ({x},{y})")
+        if self.current_player.to_clipboard:
+            if self.fields[x][y] in self.current_player.fields:
+                if self.fields[x][y].animals != []:
+                    animal = self.fields[x][y].animals.pop()
+                    self.current_player.clipboard[animal.animal_type] += 1
+                else:
+                    print("Nie ma zwierzat na tym polu")
+            else:
+                print("To nie Twoje pole")
+        else:
+            self.selected_field = (x, y)
+            self.selected_field_var.set(f"{x},{y}")
+            print(f"Selected field: ({x},{y})")
 
     def choose_field(self):
         self.selected_field_var.set("")  # Reset the variable

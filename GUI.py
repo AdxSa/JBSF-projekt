@@ -324,6 +324,8 @@ class GUI:
             if self.current_player.chosen_pawn.is_in_destination_square:
                 if current_coords != self.current_player.chosen_pawn.coords:
                     self.current_player.score += 1
+                    if self.current_player.score == 4:
+                        self.the_end(self.current_player)
             i = 0
             k = 0
             for pawn in self.current_player.pawns:

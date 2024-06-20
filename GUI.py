@@ -118,6 +118,7 @@ class GUI:
                     row.append(Field(2, x, y))
             self.fields.append(row)
         self.setup_neighbours()
+        self.market = Marketplace()
 
         #  przyciski do farmera
         # plansza farmera
@@ -184,48 +185,48 @@ class GUI:
         self.rabbit_sheep_bt_frame = tk.Frame(self.marketplace)
         self.rabbit_to_sheep_bt = tk.Button(self.rabbit_sheep_bt_frame, text='🡆', image=self.pixel, width=40,
                                             height=40, compound='center',
-                                            font=('Arial', 24))
+                                            font=('Arial', 24), command=lambda: self.exchange_animals("Rabbit", "Sheep"))
         self.rabbit_to_sheep_bt.grid(row=0, column=0)
         tk.Label(self.rabbit_sheep_bt_frame, text='6 : 1', font=('Arial', 16)).grid(row=1, column=0)
         self.sheep_to_rabbit_bt = tk.Button(self.rabbit_sheep_bt_frame, text='🡄', image=self.pixel, width=40,
                                             height=40, compound='center',
-                                            font=('Arial', 24))
+                                            font=('Arial', 24), command=lambda: self.exchange_animals("Sheep", "Rabbit"))
         self.sheep_to_rabbit_bt.grid(row=2, column=0)
         self.rabbit_sheep_bt_frame.grid(row=0, column=1)
         # sheep-pig buttons
         self.sheep_pig_bt_frame = tk.Frame(self.marketplace)
         self.sheep_to_pig_bt = tk.Button(self.sheep_pig_bt_frame, text='🡆', image=self.pixel, width=40, height=40,
                                             compound='center',
-                                            font=('Arial', 24))
+                                            font=('Arial', 24), command=lambda: self.exchange_animals("Sheep", "Pig"))
         tk.Label(self.sheep_pig_bt_frame, text='2 : 1', font=('Arial', 16)).grid(row=1, column=0)
         self.sheep_to_pig_bt.grid(row=0, column=0)
         self.pig_to_sheep_bt = tk.Button(self.sheep_pig_bt_frame, text='🡄', image=self.pixel, width=40,
                                             height=40, compound='center',
-                                            font=('Arial', 24))
+                                            font=('Arial', 24), command=lambda: self.exchange_animals("Pig", "Sheep"))
         self.pig_to_sheep_bt.grid(row=2, column=0)
         self.sheep_pig_bt_frame.grid(row=0, column=3)
         # pig-cow buttons
         self.pig_cow_bt_frame = tk.Frame(self.marketplace)
         self.pig_to_cow_bt = tk.Button(self.pig_cow_bt_frame, text='🡆', image=self.pixel, width=40, height=40,
                                             compound='center',
-                                            font=('Arial', 24))
+                                            font=('Arial', 24), command=lambda: self.exchange_animals("Pig", "Cow"))
         self.pig_to_cow_bt.grid(row=0, column=0)
         tk.Label(self.pig_cow_bt_frame, text='2 : 1', font=('Arial', 16)).grid(row=1, column=0)
         self.cow_to_pig_bt = tk.Button(self.pig_cow_bt_frame, text='🡄', image=self.pixel, width=40,
                                             height=40, compound='center',
-                                            font=('Arial', 24))
+                                            font=('Arial', 24), command=lambda: self.exchange_animals("Cow", "Pig"))
         self.cow_to_pig_bt.grid(row=2, column=0)
         self.pig_cow_bt_frame.grid(row=0, column=5)
         # cow-horse buttons
         self.cow_horse_bt_frame = tk.Frame(self.marketplace)
         self.cow_to_horse_bt = tk.Button(self.cow_horse_bt_frame, text='🡆', image=self.pixel, width=40, height=40,
                                             compound='center',
-                                            font=('Arial', 24))
+                                            font=('Arial', 24), command=lambda: self.exchange_animals("Cow", "Horse"))
         self.cow_to_horse_bt.grid(row=0, column=0)
         tk.Label(self.cow_horse_bt_frame, text='2 : 1', font=('Arial', 16)).grid(row=1, column=0)
         self.horse_to_cow_bt = tk.Button(self.cow_horse_bt_frame, text='🡄', image=self.pixel, width=40,
                                             height=40, compound='center',
-                                            font=('Arial', 24))
+                                            font=('Arial', 24), command=lambda: self.exchange_animals("Horse", "Cow"))
         self.horse_to_cow_bt.grid(row=2, column=0)
         self.cow_horse_bt_frame.grid(row=0, column=7)
 
@@ -471,12 +472,13 @@ class GUI:
         if self.current_player.clipboard[animal_type] == 0:
             print("Nie masz takiego zwierzaka")
 
-        elif not self.current_player.place_animal(chosen_animal.type):
+        elif not self.place_animal(chosen_animal.type):
             print(f"There is no space for another {chosen_animal.type}")
 
-    def place_animal(self, animal_type):
+    def place_animal(self, animal_type):    
         self.current_player.to_clipboard = False
         animal = Animal(animal_type)
+        selected = False
 
         if animal.space_needed < 12:
             bad_fields = []
@@ -488,6 +490,9 @@ class GUI:
                 print("There is no space for another animal!")
                 return 0
             
+            # ŹLE !!!   choose_field() wymaga argumentów x i y
+            while selected == False:
+                pass
             chosen_field = self.choose_field()    
             while (chosen_field.capacity < animal.space_needed) or (chosen_field not in self.current_player.fields):
                 chosen_field = self.choose_field()
@@ -526,7 +531,18 @@ class GUI:
             second_field.check_capacity()
             return 1
 
+    def exchange_animals(self, first_type, second_type):
+        self.market.exchange(first_type, second_type, self.current_player)
 
+    def buy_field(self):
+        self.current_player.to_clipboard = False
+        chosen_field = self.choose_field() 
+
+        while any(chosen_field in player.fields for player in self.players):    # Sprawdza czy pole już do kogoś należy
+            print("To pole ma już właściciela")
+            chosen_field = self.choose_field()
+        
+        self.market.buy_field(chosen_field, self.current_player)
 
 
 if __name__ == "__main__":

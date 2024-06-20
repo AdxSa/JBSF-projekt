@@ -164,6 +164,9 @@ class Field:
         self.coords = x, y
         self.neighbours = check_neighbours(x, y)
         self.owner = None
+    
+    def __repr__(self):
+        return f"Field({self.x},{self.y})"
 
     def upgrade(self):
         field_values = [1, 2, 4, 5]
@@ -189,10 +192,6 @@ class Marketplace:  # Pamięta aktywnego gracza i listę graczy
 
     # Przyciski muszą być
     def exchange(self, first_type, second_type, player):
-        # Chyba niepotrzebne:
-        # if player.clipboard[first_type] == 0:
-        #     print(f"You don't have {first_type}!")
-        #     return 0
 
         price = self.buy_prices.get(second_type)
         first_val = self.buy_prices.get(first_type)
@@ -207,7 +206,7 @@ class Marketplace:  # Pamięta aktywnego gracza i listę graczy
 
         if price < first_val:
             if player.clipboard[first_type] == 0:
-                print(f"You don't have {first_type}")
+                print("Masz za mało zwierzat tego typu")
                 return 0
             else:
                 player.clipboard[first_type] -= 1

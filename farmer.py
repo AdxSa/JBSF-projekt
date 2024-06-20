@@ -250,7 +250,7 @@ class Marketplace:  # Pamięta aktywnego gracza i listę graczy
             print("Osiagnales maksymalny poziom pola")
             return 0
         if player.clipboard["Rabbit"] < price:
-            print("Masz za malo krolikow")
+            print("Masz za malo krolikow w schowku")
             return 0
         else:
             player.clipboard["Rabbit"] -= price

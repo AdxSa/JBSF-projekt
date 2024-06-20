@@ -498,7 +498,7 @@ class GUI:
     #             print("Nie ma zwierzat na tym polu")
     #     else:
     #         return self.fields[x][y]
-    
+
     # def select_field(self, x, y):
     #     if self.current_player.to_clipboard == True:
     #         if self.fields[x][y].animals != []:
@@ -585,24 +585,24 @@ class GUI:
         self.selected_field = None  
         chosen_field = self.choose_field()
 
-        while any(chosen_field in player.fields for player in self.players):  
+        # while any(chosen_field in player.fields for player in self.players):  
+        if any(chosen_field in player.fields for player in self.players):
             print("To pole ma już właściciela")
             self.selected_field = None 
-            chosen_field = self.choose_field()
-
-        if self.market.buy_field(chosen_field, self.current_player):
+            # chosen_field = self.choose_field()      
+        elif self.market.buy_field(chosen_field, self.current_player):
             print(f"Pole {chosen_field} zakupione")
 
     def upgrade_field(self):
         self.selected_field = None  
         chosen_field = self.choose_field()
 
-        while chosen_field not in self.current_player.fields :  
+        # while chosen_field not in self.current_player.fields:  
+        if chosen_field not in self.current_player.fields:
             print("To pole nie należy do Ciebie")
             self.selected_field = None  
-            chosen_field = self.choose_field()  
-
-        if self.market.upgrade_field(chosen_field, self.current_player):
+            # chosen_field = self.choose_field()  
+        elif self.market.upgrade_field(chosen_field, self.current_player):
             print(f"Ulepszenie pola {chosen_field} udane")
 
 

@@ -1,5 +1,6 @@
 from random import randrange
 from pawn import Pawn
+from farmer import Animal
 
 
 class Player:
@@ -14,6 +15,8 @@ class Player:
         self.name = name
         self.pawns_id = set()
         # Farmer
+        self.fields = []
+        self.animals = []
         self.clipboard = {"Rabbit" : 0, "Sheep" : 0, "Pig" : 0, "Cow" : 0, "Horse" : 0}
         self.to_clipboard = False
 
@@ -97,6 +100,14 @@ class Player:
         if a == 'degrade pawn':
             self.degrade_chosen_pawn()
 
+    # Farmer
+    def get_animals(self):
+        animals = {"Rabbit" : 0, "Sheep" : 0, "Pig" : 0, "Cow" : 0, "Horse" : 0}
+        for animal_type in animals.keys():
+            for animal in self.animals:
+                if animal.type == animal_type:
+                    animals[animal_type] += 1
+        return animals  
 
 if __name__ == "__main__":
     Adam = Player('purple', (1, 0, 0), 'Adam')

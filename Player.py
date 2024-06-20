@@ -16,7 +16,6 @@ class Player:
         # Farmer
         self.clipboard = {"Rabbit" : 0, "Sheep" : 0, "Pig" : 0, "Cow" : 0, "Horse" : 0}
         self.to_clipboard = False
-        self.score = 0
 
     def roll_dice(self):
         # if self.rolled:

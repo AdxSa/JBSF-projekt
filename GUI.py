@@ -74,7 +74,7 @@ class GUI:
                                                  command=lambda i=col, j=row:
                                                  self.choose_pawn(j, i))
                 # text = f"tile{normal_to_game_coords_dict[(col, row)]}" aby sprawdzić czy na pewno dobra numeracja
-                self.board[row][col].grid(row=7-row, column=col)
+                self.board[row][col].grid(row=7 - row, column=col)
         self.chessboard.place(x=100, y=200)
 
         # inne:
@@ -123,7 +123,7 @@ class GUI:
         #  przyciski do farmera
         # plansza farmera
         self.farmerboard = tk.Frame(width=400, height=400, highlightthickness=1, highlightbackground='black')
-        self.farboard = [['' for row in range(8)] for col in range(8)] # macierz guzików
+        self.farboard = [['' for row in range(8)] for col in range(8)]  # macierz guzików
         for col in range(8):
             for row in range(8):
                 self.farboard[row][col] = tk.Button(self.farmerboard, image=self.pixel, width=50, height=50,
@@ -143,26 +143,26 @@ class GUI:
         self.rabbit_bt.grid(row=0, column=1)
 
         self.sheep_bt = tk.Button(self.clipboard, image=self.pixel, width=80, height=80, compound='center',
-                                   font=('Arial', 16), command=lambda: self.relocate_to_board("Sheep"))
+                                  font=('Arial', 16), command=lambda: self.relocate_to_board("Sheep"))
         self.sheep_bt.grid(row=1, column=1)
 
         self.pig_bt = tk.Button(self.clipboard, image=self.pixel, width=80, height=80, compound='center',
-                                   font=('Arial', 16), command=lambda: self.relocate_to_board("Pig"))
+                                font=('Arial', 16), command=lambda: self.relocate_to_board("Pig"))
         self.pig_bt.grid(row=2, column=1)
 
         self.cow_bt = tk.Button(self.clipboard, image=self.pixel, width=80, height=80, compound='center',
-                                   font=('Arial', 16), command=lambda: self.relocate_to_board("Cow"))
+                                font=('Arial', 16), command=lambda: self.relocate_to_board("Cow"))
         self.cow_bt.grid(row=3, column=1)
 
         self.horse_bt = tk.Button(self.clipboard, image=self.pixel, width=80, height=80, compound='center',
-                                   font=('Arial', 16), command=lambda: self.relocate_to_board("Horse"))
+                                  font=('Arial', 16), command=lambda: self.relocate_to_board("Horse"))
         self.horse_bt.grid(row=4, column=1)
 
         self.clipboard_mode_bt = tk.Button(self.clipboard, image=self.pixel, width=80, height=80, compound='center',
-                                   font=('Arial', 16), command=lambda: self.unlock_clipboard_mode())
+                                           font=('Arial', 16), command=lambda: self.unlock_clipboard_mode())
         self.clipboard_mode_bt.grid(row=5, column=1)
 
-        self.clipboard.place(x=1200, y= 200)
+        self.clipboard.place(x=1200, y=200)
 
         # marketplace
         # self.sheep = tk.PhotoImage(file='360.png')
@@ -197,47 +197,47 @@ class GUI:
         self.sheep_pig_bt_frame = tk.Frame(self.marketplace)
         self.sheep_to_pig_bt = tk.Button(self.sheep_pig_bt_frame, text='🡆', image=self.pixel, width=40, height=40,
                                             compound='center',
-                                            font=('Arial', 24), command=lambda: self.exchange_animals("Sheep", "Pig"))
+                                            font=('Arial', 24))
         tk.Label(self.sheep_pig_bt_frame, text='2 : 1', font=('Arial', 16)).grid(row=1, column=0)
         self.sheep_to_pig_bt.grid(row=0, column=0)
         self.pig_to_sheep_bt = tk.Button(self.sheep_pig_bt_frame, text='🡄', image=self.pixel, width=40,
                                             height=40, compound='center',
-                                            font=('Arial', 24), command=lambda: self.exchange_animals("Pig", "Sheep"))
+                                            font=('Arial', 24))
         self.pig_to_sheep_bt.grid(row=2, column=0)
         self.sheep_pig_bt_frame.grid(row=0, column=3)
         # pig-cow buttons
         self.pig_cow_bt_frame = tk.Frame(self.marketplace)
         self.pig_to_cow_bt = tk.Button(self.pig_cow_bt_frame, text='🡆', image=self.pixel, width=40, height=40,
                                             compound='center',
-                                            font=('Arial', 24), command=lambda: self.exchange_animals("Pig", "Cow"))
+                                            font=('Arial', 24))
         self.pig_to_cow_bt.grid(row=0, column=0)
         tk.Label(self.pig_cow_bt_frame, text='2 : 1', font=('Arial', 16)).grid(row=1, column=0)
         self.cow_to_pig_bt = tk.Button(self.pig_cow_bt_frame, text='🡄', image=self.pixel, width=40,
                                             height=40, compound='center',
-                                            font=('Arial', 24), command=lambda: self.exchange_animals("Cow", "Pig"))
+                                            font=('Arial', 24))
         self.cow_to_pig_bt.grid(row=2, column=0)
         self.pig_cow_bt_frame.grid(row=0, column=5)
         # cow-horse buttons
         self.cow_horse_bt_frame = tk.Frame(self.marketplace)
         self.cow_to_horse_bt = tk.Button(self.cow_horse_bt_frame, text='🡆', image=self.pixel, width=40, height=40,
                                             compound='center',
-                                            font=('Arial', 24), command=lambda: self.exchange_animals("Cow", "Horse"))
+                                            font=('Arial', 24))
         self.cow_to_horse_bt.grid(row=0, column=0)
         tk.Label(self.cow_horse_bt_frame, text='2 : 1', font=('Arial', 16)).grid(row=1, column=0)
         self.horse_to_cow_bt = tk.Button(self.cow_horse_bt_frame, text='🡄', image=self.pixel, width=40,
                                             height=40, compound='center',
-                                            font=('Arial', 24), command=lambda: self.exchange_animals("Horse", "Cow"))
+                                            font=('Arial', 24))
         self.horse_to_cow_bt.grid(row=2, column=0)
         self.cow_horse_bt_frame.grid(row=0, column=7)
 
         # pole pole łyse pole
-        #self.polepole = tk.PhotoImage(file='polepole.png')
+        # self.polepole = tk.PhotoImage(file='polepole.png')
         self.pola_bt_frame = tk.Frame(self.marketplace)
         self.buy_field_bt = tk.Button(self.pola_bt_frame, text='Kup pole', font=('Arial, 20'))
-        self.buy_field_bt.grid(row=0, column=0, sticky=tk.E+tk.W+tk.N+tk.S)
+        self.buy_field_bt.grid(row=0, column=0, sticky=tk.E + tk.W + tk.N + tk.S)
         self.upgrade_field_bt = tk.Button(self.pola_bt_frame, text='Ulepsz pole', font=('Arial, 20'))
-        self.upgrade_field_bt.grid(row=1, column=0, sticky=tk.E+tk.W+tk.N+tk.S)
-        self.pola_bt_frame.grid(row=0, column=9,  padx=50)
+        self.upgrade_field_bt.grid(row=1, column=0, sticky=tk.E + tk.W + tk.N + tk.S)
+        self.pola_bt_frame.grid(row=0, column=9, padx=50)
 
         self.marketplace.place(x=100, y=800)
 
@@ -348,22 +348,30 @@ class GUI:
              [game_to_normal_coords_dict[self.current_player.chosen_pawn.coords][1]]
              .config(text=f'{pawns_on_next_tile}', fg=self.current_player.colour))
 
+
             # potencjalnie kolorowanie pól na które ostatecznie dotarły już pionki
-            # if self.current_player.chosen_pawn.is_in_destination_square:
-            #    (self.board[game_to_normal_coords_dict[self.current_player.chosen_pawn.coords][0]]
-            #     [game_to_normal_coords_dict[self.current_player.chosen_pawn.coords][1]]
-            #     .config(bg=self.current_player.colour))
+            #if self.current_player.chosen_pawn.is_in_destination_square:
+                #(self.board[game_to_normal_coords_dict[self.current_player.chosen_pawn.coords][0]]
+                #[game_to_normal_coords_dict[self.current_player.chosen_pawn.coords][1]]
+                #.config(bg=self.current_player.colour))
+
 
             # zbijanie
             for player in self.players:
                 if player != self.current_player:
                     for pawn in player.pawns:
-                        if (game_to_normal_coords_dict[pawn.coords] ==
-                                game_to_normal_coords_dict[self.current_player.chosen_pawn.coords]):
+                        if ((game_to_normal_coords_dict[pawn.coords] ==
+                                game_to_normal_coords_dict[self.current_player.chosen_pawn.coords])
+                                and not pawn.is_in_destination_square):
                             player.pawns_id.remove(int(pawn.id))
                             player.pawns.remove(pawn)
                             print(player.pawns)
                             del pawn
+
+            # sprawdzanie win condition
+            if self.current_player.chosen_pawn.is_in_destination_square:
+                if len({pawn.coords for pawn in self.current_player.pawns if pawn.is_in_destination_square}) == 4:
+                    self.end_game()
 
         elif self.current_player.chosen_pawn is not None:
             self.err.set('Najpierw rzuć kostką')
@@ -408,6 +416,11 @@ class GUI:
                             print(player.pawns)
                             del pawn
 
+            # sprawdzanie win condition
+            if self.current_player.chosen_pawn.is_in_destination_square:
+                if len({pawn.coords for pawn in self.current_player.pawns if pawn.is_in_destination_square}) == 4:
+                    self.end_game()
+
     def degrade_pawn(self):
         if self.current_player.chosen_pawn is None:
             self.err.set('Wybierz pionek')
@@ -433,6 +446,18 @@ class GUI:
              [game_to_normal_coords_dict[self.current_player.chosen_pawn.coords][1]]
              .config(text=f'{pawns_on_next_tile}', fg=self.current_player.colour))
 
+            # sprawdzanie win condition
+            if self.current_player.chosen_pawn.is_in_destination_square:
+                if len({pawn.coords for pawn in self.current_player.pawns if pawn.is_in_destination_square}) == 4:
+                    self.end_game()
+
+    def end_game(self):
+        end_com = tk.Tk()
+        end_com.title('Koniec gry')
+        tk.Label(end_com, text=f"\n{self.current_player.name} wygrał\n", fg=self.current_player.colour,
+                 font=('Comic sans MS', 20)).pack()
+        end_com.mainloop()
+
     # Farmer
     def setup_neighbours(self):
         for y in range(8):
@@ -453,7 +478,7 @@ class GUI:
             self.current_player.to_clipboard = False
         else:
             self.current_player.to_clipboard = True
-        print(self.current_player.to_clipboard) 
+        print(self.current_player.to_clipboard)
 
     def choose_field(self, x, y):
         if self.current_player.to_clipboard == True:
@@ -464,11 +489,11 @@ class GUI:
                 print("Nie ma zwierzat na tym polu")
         else:
             return self.fields[x][y]
-        
+
     def relocate_to_board(self, animal_type):
         self.current_player.to_clipboard = False
 
-        chosen_animal = Animal(animal_type) # Wybranie ikony zwierzaka ze schowka
+        chosen_animal = Animal(animal_type)  # Wybranie ikony zwierzaka ze schowka
         if self.current_player.clipboard[animal_type] == 0:
             print("Nie masz takiego zwierzaka")
 
@@ -490,9 +515,6 @@ class GUI:
                 print("There is no space for another animal!")
                 return 0
             
-            # ŹLE !!!   choose_field() wymaga argumentów x i y
-            while selected == False:
-                pass
             chosen_field = self.choose_field()    
             while (chosen_field.capacity < animal.space_needed) or (chosen_field not in self.current_player.fields):
                 chosen_field = self.choose_field()
@@ -513,16 +535,17 @@ class GUI:
                 for neighbour in field.neighbours:
                     if neighbour.capacity == 6:
                         potential_pairs += 1
-            
+
             if potential_pairs != 0:
-                chosen_field = self.choose_field()    
+                chosen_field = self.choose_field()
             while (chosen_field.capacity < animal.space_needed) or (chosen_field not in self.current_player.fields):
                 chosen_field = self.choose_field()
 
             second_field = self.choose_field()
-            while (second_field.capacity < animal.space_needed) or (second_field not in self.current_player.fields) or (second_field not in chosen_field.neighbours):
+            while (second_field.capacity < animal.space_needed) or (second_field not in self.current_player.fields) or (
+                    second_field not in chosen_field.neighbours):
                 second_field = self.choose_field()
-            
+
             animal.place(chosen_field)
             animal.place(second_field)
             chosen_field.animals.append(animal)
@@ -531,18 +554,7 @@ class GUI:
             second_field.check_capacity()
             return 1
 
-    def exchange_animals(self, first_type, second_type):
-        self.market.exchange(first_type, second_type, self.current_player)
 
-    def buy_field(self):
-        self.current_player.to_clipboard = False
-        chosen_field = self.choose_field() 
-
-        while any(chosen_field in player.fields for player in self.players):    # Sprawdza czy pole już do kogoś należy
-            print("To pole ma już właściciela")
-            chosen_field = self.choose_field()
-        
-        self.market.buy_field(chosen_field, self.current_player)
 
 
 if __name__ == "__main__":

@@ -447,8 +447,11 @@ class GUI:
              .config(text=f'{pawns_on_next_tile}', fg=self.current_player.colour))
 
     def end_game(self):
-        # wyskakuje komunikat że gracz o imieniu bla bla bla wygrał
-        print(f'Wygrał gracz {self.current_player.name}')
+        end_com = tk.Tk()
+        end_com.title('Koniec gry')
+        tk.Label(end_com, text=f"\n{self.current_player.name} wygrał\n", fg=self.current_player.colour,
+                 font=('Comic sans MS', 20)).pack()
+        end_com.mainloop()
 
     # Farmer
     def setup_neighbours(self):

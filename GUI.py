@@ -322,10 +322,8 @@ class GUI:
             pawns_on_next_tile = ''
             # dodajemy punkt zwycięstwa jeśli dojdzie na destination_square:
             if self.current_player.chosen_pawn.is_in_destination_square:
-                if current_coords != self.current_player.chosen_pawn.coords:
-                    self.current_player.score += 1
-                    if self.current_player.score == 4:
-                        self.end_game(self.current_player)
+                if len({pawn.coords for pawn in self.current_player.pawns if pawn.is_in_destination_square}) == 4:
+                    self.end_game()
             i = 0
             k = 0
             for pawn in self.current_player.pawns:
@@ -442,9 +440,9 @@ class GUI:
              [game_to_normal_coords_dict[self.current_player.chosen_pawn.coords][1]]
              .config(text=f'{pawns_on_next_tile}', fg=self.current_player.colour))
 
-    def end_game(self, player):
+    def end_game(self):
         # wyskakuje komunikat że gracz o imieniu bla bla bla wygrał
-        'a'
+        print(f'Wygrał gracz {self.current_player.name}')
 
     # Farmer
     def setup_neighbours(self):

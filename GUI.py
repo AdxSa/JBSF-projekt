@@ -386,6 +386,9 @@ class GUI:
         else:
             current_coords = self.current_player.chosen_pawn.coords
             self.current_player.upgrade_chosen_pawn()
+            if self.current_player.chosen_pawn.is_in_destination_square:
+                if len({pawn.coords for pawn in self.current_player.pawns if pawn.is_in_destination_square}) == 4:
+                    self.end_game()
             pawns_on_current_tile = ''
             pawns_on_next_tile = ''
             for pawn in self.current_player.pawns:
@@ -422,6 +425,9 @@ class GUI:
         else:
             current_coords = self.current_player.chosen_pawn.coords
             self.current_player.degrade_chosen_pawn()
+            if self.current_player.chosen_pawn.is_in_destination_square:
+                if len({pawn.coords for pawn in self.current_player.pawns if pawn.is_in_destination_square}) == 4:
+                    self.end_game()            
             pawns_on_current_tile = ''
             pawns_on_next_tile = ''
             for pawn in self.current_player.pawns:

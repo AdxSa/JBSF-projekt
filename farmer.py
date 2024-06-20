@@ -161,6 +161,8 @@ class Field:
         self.value = value
         self.capacity = 6
         self.animals = []
+        self.x = x
+        self.y = y
         self.coords = x, y
         self.neighbours = check_neighbours(x, y)
         self.owner = None

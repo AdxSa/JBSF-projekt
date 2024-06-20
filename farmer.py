@@ -230,6 +230,7 @@ class Marketplace:  # Pamięta aktywnego gracza i listę graczy
         else:
             player.clipboard["Rabbit"] -= price
             player.fields.append(chosen_field)
+            return 1
         #   ZMIANA KOLORU DO IMPLEMENTACJI W GUI!!!
 
     def upgrade_field(self, chosen_field, player):
@@ -247,12 +248,14 @@ class Marketplace:  # Pamięta aktywnego gracza i listę graczy
             price = 18
         else:
             print("Osiagnales maksymalny poziom pola")
+            return 0
         if player.clipboard["Rabbit"] < price:
             print("Masz za malo krolikow")
             return 0
         else:
             player.clipboard["Rabbit"] -= price
             chosen_field.upgrade()
+            return 1
 
 
 

@@ -244,7 +244,7 @@ class GUI:
         self.pola_bt_frame = tk.Frame(self.marketplace)
         self.buy_field_bt = tk.Button(self.pola_bt_frame, text='Kup pole', font=('Arial, 20'), command=self.buy_field)
         self.buy_field_bt.grid(row=0, column=0, sticky=tk.E + tk.W + tk.N + tk.S)
-        self.upgrade_field_bt = tk.Button(self.pola_bt_frame, text='Ulepsz pole', font=('Arial, 20'))
+        self.upgrade_field_bt = tk.Button(self.pola_bt_frame, text='Ulepsz pole', font=('Arial, 20'), command=self.upgrade_field)
         self.upgrade_field_bt.grid(row=1, column=0, sticky=tk.E + tk.W + tk.N + tk.S)
         self.pola_bt_frame.grid(row=0, column=9, padx=50)
 
@@ -498,15 +498,16 @@ class GUI:
     #             print("Nie ma zwierzat na tym polu")
     #     else:
     #         return self.fields[x][y]
-    def select_field(self, x, y):
-        if self.current_player.to_clipboard == True:
-            if self.fields[x][y].animals != []:
-                animal = self.fields[x][y].animals.pop()
-                self.current_player.clipboard[animal.animal_type] += 1
-            else:
-                print("Nie ma zwierzat na tym polu")
-        else:
-            return self.fields[x][y]       
+    
+    # def select_field(self, x, y):
+    #     if self.current_player.to_clipboard == True:
+    #         if self.fields[x][y].animals != []:
+    #             animal = self.fields[x][y].animals.pop()
+    #             self.current_player.clipboard[animal.animal_type] += 1
+    #         else:
+    #             print("Nie ma zwierzat na tym polu")
+    #     else:
+    #         return self.fields[x][y]       
 
     def relocate_to_board(self, animal_type):
         self.current_player.to_clipboard = False
@@ -516,12 +517,11 @@ class GUI:
             print("Nie masz takiego zwierzaka")
 
         elif not self.place_animal(chosen_animal.type):
-            print(f"There is no space for another {chosen_animal.type}")
+            print(f"Nie ma miejsca na kolejnego zwierzaka typu {chosen_animal.type}")
 
     def place_animal(self, animal_type):    
         self.current_player.to_clipboard = False
         animal = Animal(animal_type)
-        selected = False
 
         if animal.space_needed < 12:
             bad_fields = []
@@ -530,7 +530,7 @@ class GUI:
                     break
                 bad_fields.append(field)
             if len(bad_fields) == len(self.current_player.fields):
-                print("There is no space for another animal!")
+                print(f"Nie ma miejsca na kolejnego zwierzaka na polu {chosen_field}")
                 return 0
             
             chosen_field = self.choose_field()    
@@ -553,12 +553,18 @@ class GUI:
                 for neighbour in field.neighbours:
                     if neighbour.capacity == 6:
                         potential_pairs += 1
-
+           
             if potential_pairs != 0:
+                print("To duży zwierzak, wybierz pierwsze pole")
                 chosen_field = self.choose_field()
+            else:
+                print("Nie masz dwoch wolnych pol obok siebie")
+                return 0
+            
             while (chosen_field.capacity < animal.space_needed) or (chosen_field not in self.current_player.fields):
                 chosen_field = self.choose_field()
 
+            print("Wybierz drugie pole")
             second_field = self.choose_field()
             while (second_field.capacity < animal.space_needed) or (second_field not in self.current_player.fields) or (
                     second_field not in chosen_field.neighbours):
@@ -576,16 +582,29 @@ class GUI:
         self.market.exchange(first_type, second_type, self.current_player)
 
     def buy_field(self):
-        self.selected_field = None  # Reset selected field
+        self.selected_field = None  
         chosen_field = self.choose_field()
 
-        while any(chosen_field in player.fields for player in self.players):  # Check if the field is already owned
-            print("This field already has an owner")
-            self.selected_field = None  # Reset selected field
+        while any(chosen_field in player.fields for player in self.players):  
+            print("To pole ma już właściciela")
+            self.selected_field = None 
             chosen_field = self.choose_field()
 
-        self.market.buy_field(chosen_field, self.current_player)
-        print(f"Field {chosen_field} bought successfully!")
+        if self.market.buy_field(chosen_field, self.current_player):
+            print(f"Pole {chosen_field} zakupione")
+
+    def upgrade_field(self):
+        self.selected_field = None  
+        chosen_field = self.choose_field()
+
+        while chosen_field not in self.current_player.fields :  
+            print("To pole nie należy do Ciebie")
+            self.selected_field = None  
+            chosen_field = self.choose_field()  
+
+        if self.market.upgrade_field(chosen_field, self.current_player):
+            print(f"Ulepszenie pola {chosen_field} udane")
+
 
 # Tu psuję dalej
     def set_selected_field(self, x, y):

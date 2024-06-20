@@ -372,6 +372,11 @@ class GUI:
                             print(player.pawns)
                             del pawn
 
+            # sprawdzanie win condition
+            if self.current_player.chosen_pawn.is_in_destination_square:
+                if len({pawn.coords for pawn in self.current_player.pawns if pawn.is_in_destination_square}) == 4:
+                    self.end_game()
+
         elif self.current_player.chosen_pawn is not None:
             self.err.set('Najpierw rzuć kostką')
             self.error_code = 1
@@ -386,9 +391,6 @@ class GUI:
         else:
             current_coords = self.current_player.chosen_pawn.coords
             self.current_player.upgrade_chosen_pawn()
-            if self.current_player.chosen_pawn.is_in_destination_square:
-                if len({pawn.coords for pawn in self.current_player.pawns if pawn.is_in_destination_square}) == 4:
-                    self.end_game()
             pawns_on_current_tile = ''
             pawns_on_next_tile = ''
             for pawn in self.current_player.pawns:
@@ -417,6 +419,11 @@ class GUI:
                             player.pawns.remove(pawn)
                             print(player.pawns)
                             del pawn
+                                    
+            # sprawdzanie win condition
+            if self.current_player.chosen_pawn.is_in_destination_square:
+                if len({pawn.coords for pawn in self.current_player.pawns if pawn.is_in_destination_square}) == 4:
+                    self.end_game()
 
     def degrade_pawn(self):
         if self.current_player.chosen_pawn is None:
@@ -424,10 +431,7 @@ class GUI:
             self.error_code = 2
         else:
             current_coords = self.current_player.chosen_pawn.coords
-            self.current_player.degrade_chosen_pawn()
-            if self.current_player.chosen_pawn.is_in_destination_square:
-                if len({pawn.coords for pawn in self.current_player.pawns if pawn.is_in_destination_square}) == 4:
-                    self.end_game()            
+            self.current_player.degrade_chosen_pawn()        
             pawns_on_current_tile = ''
             pawns_on_next_tile = ''
             for pawn in self.current_player.pawns:
@@ -445,6 +449,11 @@ class GUI:
             (self.board[game_to_normal_coords_dict[self.current_player.chosen_pawn.coords][0]]
              [game_to_normal_coords_dict[self.current_player.chosen_pawn.coords][1]]
              .config(text=f'{pawns_on_next_tile}', fg=self.current_player.colour))
+            
+# sprawdzanie win condition
+            if self.current_player.chosen_pawn.is_in_destination_square:
+                if len({pawn.coords for pawn in self.current_player.pawns if pawn.is_in_destination_square}) == 4:
+                    self.end_game()
 
     def end_game(self):
         end_com = tk.Tk()

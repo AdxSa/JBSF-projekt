@@ -273,7 +273,9 @@ class GUI:
 
     def next_player(self):
         self.current_player.rolled = False
+        self.current_player.rolled_animal = False   # Farmer
         self.current_player.chosen_pawn = None
+        self.current_player.to_clipboard = False    # Farmer
         self.current_player_number = self.current_player_number + 1
         self.current_player = self.players[self.current_player_number % len(self.players)]
         self.player_info.set(f"Tura gracza: {self.current_player.name}")

@@ -1,4 +1,5 @@
-from random import randrange
+from random import randrange, choice
+from collections import Counter
 from pawn import Pawn
 from farmer import Animal
 
@@ -19,6 +20,7 @@ class Player:
         self.animals = []
         self.clipboard = {"Rabbit" : 0, "Sheep" : 0, "Pig" : 0, "Cow" : 0, "Horse" : 0}
         self.to_clipboard = False
+        self.rolled_animal = False
 
     def roll_dice(self):
         # if self.rolled:
@@ -108,6 +110,59 @@ class Player:
                 if animal.type == animal_type:
                     animals[animal_type] += 1
         return animals  
+    
+    def roll_animal_dice(self):
+        first_dice = ["Wolf", "Fox", "Sheep", "Sheep", "Cow", "Horse"] + ["Rabbit"] * 6 
+        second_dice = ["Wolf", "Fox", "Sheep", "Sheep", "Sheep", "Cow"] + ["Rabbit"] * 6 
+        self.rolled_animal = True
+        return [choice(first_dice), choice(second_dice)]
+        # animals = self.get_animals()
+        # predator = [1, 1, 1, 2, 2, 4]
+        # new_animals = {}
+        # if roll[0] == roll[1]:
+        #     only_roll = roll[0]
+
+        #     if only_roll == "Fox":
+        #         self.predator_attack(choice(predator), "Fox")
+        #         self.predator_attack(choice(predator), "Fox")
+
+        #     elif only_roll == "Wolf":
+        #         self.predator_attack(choice(predator), "Wolf")
+        #         self.predator_attack(choice(predator), "Wolf")
+
+        #     else:
+        #         animals[only_roll] += (animals[only_roll] + 2) // 2
+        # else:
+        #     if "Fox" in roll:
+        #         self.predator_attack(choice(predator), "Fox")
+
+        #     if "Wolf" in roll:
+        #         self.predator_attack(choice(predator), "Wolf")
+
+        #     for animal in roll:
+        #         if animal in ["Fox", "Wolf"]:
+        #             continue
+
+        #         else:
+        #             if animals.get(animal) > 0:
+        #                 new_animals[animal] = (animals[animal] + 1) // 2    
+
+        #     self.clipboard = dict(Counter(self.clipboard) + Counter(new_animals))
+
+    # def predator_attack(self, val, predator):
+    #     for field in self.fields:
+    #         if field.value == val:
+    #             while field.capacity != 6:
+    #                 if predator == "Wolf":
+    #                     if field.animals[0].space_needed != 1:
+    #                         animal = field.animals.pop()
+    #                         del animal
+    #                         field.check_capacity()
+    #                 else:
+    #                     if field.animals[0].space_needed == 1:
+    #                         animal = field.animals.pop()
+    #                         del animal
+    #                         field.check_capacity()
 
 if __name__ == "__main__":
     Adam = Player('purple', (1, 0, 0), 'Adam')

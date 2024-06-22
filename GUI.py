@@ -1,4 +1,6 @@
 import tkinter as tk
+from random import choice
+from collections import Counter
 from Player import Player
 from farmer import Field, Animal, Marketplace
 from PIL import Image, ImageTk
@@ -504,6 +506,60 @@ class GUI:
         else:
             self.current_player.to_clipboard = True
         print(self.current_player.to_clipboard)
+
+    def roll_animal_dice(self):
+        if self.current_player.rolled_animal:
+            # self.dice_roll_done_inform.set("You have already rolled the dice!")
+            print("Juz rzuciles w tej turze")
+        else:
+            roll = self.current_player.roll_animal_dice()
+            animals = self.current_player.get_animals()
+            predator = [1, 1, 1, 2, 2, 4]
+            new_animals = {}
+            if roll[0] == roll[1]:
+                only_roll = roll[0]
+
+                if only_roll == "Fox":
+                    self.predator_attack(choice(predator), "Fox")
+                    self.predator_attack(choice(predator), "Fox")
+
+                elif only_roll == "Wolf":
+                    self.predator_attack(choice(predator), "Wolf")
+                    self.predator_attack(choice(predator), "Wolf")
+
+                else:
+                    animals[only_roll] += (animals[only_roll] + 2) // 2
+            else:
+                if "Fox" in roll:
+                    self.predator_attack(choice(predator), "Fox")
+
+                if "Wolf" in roll:
+                    self.predator_attack(choice(predator), "Wolf")
+
+                for animal in roll:
+                    if animal in ["Fox", "Wolf"]:
+                        continue
+
+                    else:
+                        if animals.get(animal) > 0:
+                            new_animals[animal] = (animals[animal] + 1) // 2    
+
+                self.clipboard = dict(Counter(self.clipboard) + Counter(new_animals))
+
+    def predator_attack(self, val, predator):
+        for field in self.fields:
+            if field.value == val:
+                while field.capacity != 6:
+                    if predator == "Wolf":
+                        if field.animals[0].space_needed != 1:
+                            animal = field.animals.pop()
+                            del animal
+                            field.check_capacity()
+                    else:
+                        if field.animals[0].space_needed == 1:
+                            animal = field.animals.pop()
+                            del animal
+                            field.check_capacity()
 
     # def choose_field(self, x, y):
     #     if self.current_player.to_clipboard == True:

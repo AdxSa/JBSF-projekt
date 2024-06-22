@@ -664,9 +664,20 @@ class GUI:
         if any(chosen_field in player.fields for player in self.players):
             print("To pole ma już właściciela")
             self.selected_field = None 
-            # chosen_field = self.choose_field()      
+            # chosen_field = self.choose_field()  
+            
+        elif any(chosen_field not in field.neighbours for field in self.current_player.fields):
+            print("Mozesz kupowac tylko pola sasiadujace z Twoimi")  
+
         elif self.market.buy_field(chosen_field, self.current_player):
+            x = chosen_field.x
+            y = chosen_field.y
+            self.farboard[y][x] = tk.Button(self.farmerboard, image=self.pixel, width=50, height=50,text=f"",
+                                            compound='center', font=('Arial', 12),
+                                            command=lambda x=x, y=y: self.set_selected_field(x, y), bg=self.current_player.colour)
+            self.farboard[y][x].grid(row=7 - y, column=x)
             print(f"Pole {chosen_field} zakupione")
+            
 
     def upgrade_field(self):
         self.current_player.to_clipboard = False

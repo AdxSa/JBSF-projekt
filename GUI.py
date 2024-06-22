@@ -150,6 +150,15 @@ class GUI:
                 self.farboard[row][col].grid(row=7 - row, column=col)
         self.farmerboard.place(x=700, y=200)
 
+        for player in self.players:
+            field = player.fields[0]
+            x = field.x
+            y = field.y
+            self.farboard[y][x] = tk.Button(self.farmerboard, image=self.pixel, width=50, height=50,text=f"",
+                                            compound='center', font=('Arial', 12),
+                                            command=lambda x=x, y=y: self.set_selected_field(x, y), bg=player.colour)
+            self.farboard[y][x].grid(row=7 - y, column=x)
+
         # clipboard
         self.clipboard = tk.Frame(self.root, highlightthickness=1, highlightbackground='black')
         self.clipboard.columnconfigure(0, weight=1)

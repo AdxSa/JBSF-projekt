@@ -32,18 +32,21 @@ class Player:
             m = min({0, 1, 2, 3} - self.pawns_id)
             self.pawns += [Pawn(self.colour, m, self.pawn_spawn_coords)]
             self.pawns_id.add(m)
-        elif len(self.pawns) == 1:  # and self.farm_animals['sheep'] != 0 :
+        elif len(self.pawns) == 1 and self.clipboard['Sheep'] != 0:
             m = min({0, 1, 2, 3} - self.pawns_id)
             self.pawns += [Pawn(self.colour, m, self.pawn_spawn_coords)]
             self.pawns_id.add(m)
-        elif len(self.pawns) == 2:  # and self.farm_animals['pig'] != 0 :
+            self.clipboard['Sheep'] -= 1
+        elif len(self.pawns) == 2 and self.clipboard['Pig'] != 0:
             m = min({0, 1, 2, 3} - self.pawns_id)
             self.pawns += [Pawn(self.colour, m, self.pawn_spawn_coords)]
             self.pawns_id.add(m)
-        elif len(self.pawns) == 3:  # and self.farm_animals['cow'] != 0 :
+            self.clipboard['Pig'] -= 1
+        elif len(self.pawns) == 3 and self.clipboard['Cow'] != 0:
             m = min({0, 1, 2, 3} - self.pawns_id)
             self.pawns += [Pawn(self.colour, m, self.pawn_spawn_coords)]
             self.pawns_id.add(m)
+            self.clipboard['Cow'] -= 1
         elif len(self.pawns) == 4:
             raise Exception("Osiągnięto maksymalną ilość pionków")
         else:
@@ -63,12 +66,15 @@ class Player:
         self.current_roll = 0
 
     def upgrade_chosen_pawn(self):
-        if self.chosen_pawn.coords[1] == 0:  # and self.farm_animals['sheep'] != 0 :
+        if self.chosen_pawn.coords[1] == 0 and self.clipboard['Sheep'] != 0:
             self.chosen_pawn.upgrade()
-        elif self.chosen_pawn.coords[1] == 1:  # and self.farm_animals['pig'] != 0 :
+            self.clipboard['Sheep'] -= 1
+        elif self.chosen_pawn.coords[1] == 1 and self.clipboard['Pig'] != 0:
             self.chosen_pawn.upgrade()
-        elif self.chosen_pawn.coords[1] == 2:  # and self.farm_animals['cow'] != 0 :
+            self.clipboard['Pig'] -= 1
+        elif self.chosen_pawn.coords[1] == 2 and self.clipboard['Cow'] != 0:
             self.chosen_pawn.upgrade()
+            self.clipboard['Cow'] -= 1
         elif self.chosen_pawn.coords[1] == 3:
             self.chosen_pawn.upgrade()  # powininno wyskoczyć "Max level of pawn has been reached"
         else:
@@ -86,19 +92,19 @@ class Player:
         else:
             return print("Can't afford to upgrade a pawn")
 
-    def action(self, a):
-        if a == 'roll dice':
-            self.roll_dice()
-        if a == 'choose pawn':
-            self.choose_pawn(input('Enter pawn id:   '))
-        if a == 'move pawn':
-            self.move_chosen_pawn()
-        if a == 'create pawn':
-            self.create_pawn()
-        if a == 'upgrade pawn':
-            self.upgrade_chosen_pawn()
-        if a == 'degrade pawn':
-            self.degrade_chosen_pawn()
+    # def action(self, a):
+    #     if a == 'roll dice':
+    #         self.roll_dice()
+    #     if a == 'choose pawn':
+    #         self.choose_pawn(input('Enter pawn id:   '))
+    #     if a == 'move pawn':
+    #         self.move_chosen_pawn()
+    #     if a == 'create pawn':
+    #         self.create_pawn()
+    #     if a == 'upgrade pawn':
+    #         self.upgrade_chosen_pawn()
+    #     if a == 'degrade pawn':
+    #         self.degrade_chosen_pawn()
 
     # Farmer
     def get_animals(self):

@@ -110,6 +110,10 @@ class GUI:
 
         self.buttonframe.place(x=100, y=670)
 
+        # Grzyb
+        from gif import AnimatedGif
+        walking_shroom = AnimatedGif(self.root, "fungi.gif", x=1380, y=350)
+
         # FARMER (nie tylko przyciski)
         self.fields = []
         for y in range(8):

@@ -120,11 +120,12 @@ class GUI:
                     row.append(Field(2, x, y))
             self.fields.append(row)
 
-        # starting_fields = [self.fields[0][0], self.fields[7][7]]
+        starting_fields = [self.fields[0][0], self.fields[7][7], self.fields[0][7], self.fields[7][0]]
+        num_of_field = 0
 
-        # for player in self.players:
-        self.players[0].fields.append(self.fields[0][0])
-        self.players[1].fields.append(self.fields[7][7])
+        for player in self.players:
+            player.fields.append(starting_fields[num_of_field])
+            num_of_field += 1
 
         # Tu zaczynam psuć
         self.selected_field_var = tk.StringVar()

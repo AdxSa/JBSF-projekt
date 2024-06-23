@@ -629,8 +629,9 @@ class GUI:
 
             for field in good_fields:
                 for neighbour in field.neighbours:
-                    if neighbour.capacity == 6:
+                    if neighbour in good_fields: 
                         potential_pairs += 1
+                        break
 
             if potential_pairs != 0:
                 print("To duży zwierzak, wybierz pierwsze pole")
@@ -639,13 +640,14 @@ class GUI:
                 print("Nie masz dwoch wolnych pol obok siebie")
                 return 0
 
-            while (chosen_field.capacity < animal.space_needed) or (chosen_field not in self.current_player.fields):
-                chosen_field = self.choose_field()
+            while chosen_field not in good_fields:
+                chosen_field = self.choose_field()               
 
             print("Wybierz drugie pole")
             second_field = self.choose_field()
-            while (second_field.capacity < animal.space_needed) or (second_field not in self.current_player.fields) or (
-                    second_field not in chosen_field.neighbours):
+            # while (second_field.capacity < animal.space_needed) or (second_field not in self.current_player.fields) or (
+            #         second_field not in chosen_field.neighbours):
+            while second_field not in good_fields or second_field not in chosen_field.neighbours:
                 second_field = self.choose_field()
 
             animal.place(chosen_field)

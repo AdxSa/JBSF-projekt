@@ -34,10 +34,6 @@ class GUI:
         self.info_label.pack()
         self.err_label.pack()
 
-        self.green_border = tk.PhotoImage(file='green.png')
-        self.blue_border = tk.PhotoImage(file='blue.png')
-        self.red_border = tk.PhotoImage(file='red.png')
-        self.magenta_border = tk.PhotoImage(file='magenta.png')
         self.border_list = dict()
 
         self.root.geometry("1920x1080")

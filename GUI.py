@@ -6,7 +6,7 @@ from farmer import Field, Animal, Marketplace
 from PIL import Image, ImageTk
 from bigdict import game_to_normal_coords_dict, normal_to_game_coords_dict
 
-TEMP_PLAYER_1 = Player('purple', (0, 0, 0), 'TEMP_PLAYER_1')
+TEMP_PLAYER_1 = Player('red', (0, 0, 0), 'TEMP_PLAYER_1')
 TEMP_PLAYER_2 = Player('green', (2, 0, 0), 'TEMP_PLAYER_2')
 TEMP_PLAYERS = [TEMP_PLAYER_1, TEMP_PLAYER_2]
 
@@ -33,6 +33,12 @@ class GUI:
         self.player_info_label.pack()
         self.info_label.pack()
         self.err_label.pack()
+
+        self.green_border = tk.PhotoImage(file='green.png')
+        self.blue_border = tk.PhotoImage(file='blue.png')
+        self.red_border = tk.PhotoImage(file='red.png')
+        self.magenta_border = tk.PhotoImage(file='magenta.png')
+        self.border_list = dict()
 
         self.root.geometry("1920x1080")
         self.root.resizable(False, False)
@@ -388,6 +394,8 @@ class GUI:
             pawns_on_next_tile = ''
             i = 0
             k = 0
+            if self.current_player.chosen_pawn.is_in_destination_square:
+                self.current_player.chosen_pawn.tag = ''
             for pawn in self.current_player.pawns:
                 if pawn.coords == current_coords:
                     i += 1
@@ -414,10 +422,14 @@ class GUI:
              .config(text=f'{pawns_on_next_tile}', fg=self.current_player.colour))
 
             # potencjalnie kolorowanie pól na które ostatecznie dotarły już pionki
-            # if self.current_player.chosen_pawn.is_in_destination_square:
-            # (self.board[game_to_normal_coords_dict[self.current_player.chosen_pawn.coords][0]]
-            # [game_to_normal_coords_dict[self.current_player.chosen_pawn.coords][1]]
-            # .config(bg=self.current_player.colour))
+
+            if self.current_player.chosen_pawn.is_in_destination_square:
+                border = Image.open(f'{self.current_player.colour}.png')
+                border = border.resize((50, 50))
+                self.border_list[(self.current_player.colour, self.current_player.chosen_pawn.id)] = ImageTk.PhotoImage(border)
+                (self.board[game_to_normal_coords_dict[self.current_player.chosen_pawn.coords][0]]
+                [game_to_normal_coords_dict[self.current_player.chosen_pawn.coords][1]]
+                 .config(image=self.border_list[(self.current_player.colour, self.current_player.chosen_pawn.id)]))
 
             # zbijanie
             for player in self.players:
@@ -452,11 +464,19 @@ class GUI:
             self.current_player.upgrade_chosen_pawn()
             pawns_on_current_tile = ''
             pawns_on_next_tile = ''
+            i = 0
+            k = 0
             for pawn in self.current_player.pawns:
                 if pawn.coords == current_coords:
-                    pawns_on_current_tile += pawn.tag + '\n'
+                    i += 1
+                    pawns_on_current_tile += pawn.tag
+                    if i == 2:
+                        pawns_on_current_tile += '\n'
                 if pawn.coords == self.current_player.chosen_pawn.coords:
-                    pawns_on_next_tile += pawn.tag + '\n'
+                    k += 1
+                    pawns_on_next_tile += pawn.tag
+                    if k == 2:
+                        pawns_on_next_tile += '\n'
             # zmieniamy wspólrzędne wybranego pionka na klasyczne aby pobrać odpowiedni index od self.board
             # następnie usuwamy wizerunek pionka z danego pola po czym przesówamy pionek i
             # tworzymy wizerunek na miejscu w którym znajduje się pionek w sposób odwrotny
@@ -467,6 +487,15 @@ class GUI:
             (self.board[game_to_normal_coords_dict[self.current_player.chosen_pawn.coords][0]]
              [game_to_normal_coords_dict[self.current_player.chosen_pawn.coords][1]]
              .config(text=f'{pawns_on_next_tile}', fg=self.current_player.colour))
+
+            if self.current_player.chosen_pawn.is_in_destination_square:
+                if all(not pawn.is_in_destination_square or pawn.coords != current_coords for pawn in self.current_player.pawns):
+                        (self.board[game_to_normal_coords_dict[current_coords][0]]
+                        [game_to_normal_coords_dict[current_coords][1]]
+                        .config(image=self.pixel))
+                (self.board[game_to_normal_coords_dict[self.current_player.chosen_pawn.coords][0]]
+                [game_to_normal_coords_dict[self.current_player.chosen_pawn.coords][1]]
+                 .config(image=self.border_list[(self.current_player.colour, self.current_player.chosen_pawn.id)]))
 
             # zbijanie
             for player in self.players:
@@ -493,11 +522,21 @@ class GUI:
             self.current_player.degrade_chosen_pawn()
             pawns_on_current_tile = ''
             pawns_on_next_tile = ''
+            pawns_on_current_tile = ''
+            pawns_on_next_tile = ''
+            i = 0
+            k = 0
             for pawn in self.current_player.pawns:
                 if pawn.coords == current_coords:
-                    pawns_on_current_tile += pawn.tag + '\n'
+                    i += 1
+                    pawns_on_current_tile += pawn.tag
+                    if i == 2:
+                        pawns_on_current_tile += '\n'
                 if pawn.coords == self.current_player.chosen_pawn.coords:
-                    pawns_on_next_tile += pawn.tag + '\n'
+                    k += 1
+                    pawns_on_next_tile += pawn.tag
+                    if k == 2:
+                        pawns_on_next_tile += '\n'
             # zmieniamy wspólrzędne wybranego pionka na klasyczne aby pobrać odpowiedni index od self.board
             # następnie usuwamy wizerunek pionka z danego pola po czym przesówamy pionek i
             # tworzymy wizerunek na miejscu w którym znajduje się pionek w sposób odwrotny
@@ -508,6 +547,16 @@ class GUI:
             (self.board[game_to_normal_coords_dict[self.current_player.chosen_pawn.coords][0]]
              [game_to_normal_coords_dict[self.current_player.chosen_pawn.coords][1]]
              .config(text=f'{pawns_on_next_tile}', fg=self.current_player.colour))
+
+            if self.current_player.chosen_pawn.is_in_destination_square:
+                if all(not pawn.is_in_destination_square or pawn.coords != current_coords for pawn in
+                       self.current_player.pawns):
+                    (self.board[game_to_normal_coords_dict[current_coords][0]]
+                     [game_to_normal_coords_dict[current_coords][1]]
+                     .config(image=self.pixel))
+                (self.board[game_to_normal_coords_dict[self.current_player.chosen_pawn.coords][0]]
+                 [game_to_normal_coords_dict[self.current_player.chosen_pawn.coords][1]]
+                 .config(image=self.border_list[(self.current_player.colour, self.current_player.chosen_pawn.id)]))
 
             # sprawdzanie win condition
             if self.current_player.chosen_pawn.is_in_destination_square:

@@ -35,6 +35,7 @@ class GUI:
         self.err_label.pack()
 
         self.border_list = dict()
+        self.on_off = False
 
         self.root.geometry("1920x1080")
         self.root.resizable(False, False)
@@ -164,9 +165,9 @@ class GUI:
         self.clipboard = tk.Frame(self.root, highlightthickness=1, highlightbackground='black')
         self.clipboard.columnconfigure(0, weight=1)
 
-        self.animal_type_to_animal_tag = {'Rabbit' : '🐰', 'Sheep' : '🐑', 'Pig' : '🐷', 'Cow' : '🐮', 'Horse' : '🐴'}
+        self.animal_type_to_animal_tag = {'Rabbit' : '🐰', 'Sheep' : '🐑', 'Pig' : '🐷', 'Cow' : '🐮', 'Horse' : '🐴', 'Fox' : '🦊', 'Wolf' : '🐺'}
 
-        self.rabbit_bt = tk.Button(self.clipboard, text=f'🐰 {self.current_player.clipboard['Rabbit']}', fg='grey', image=self.pixel, width=140, height=80, compound='center',
+        self.rabbit_bt = tk.Button(self.clipboard, text=f'🐰 {self.current_player.clipboard['Rabbit']}', fg='black', image=self.pixel, width=140, height=80, compound='center',
                                    font=('Comic sans MS', 40), command=lambda: self.relocate_to_board("Rabbit"))
         self.rabbit_bt.grid(row=0, column=1)
 
@@ -280,6 +281,7 @@ class GUI:
         self.current_player.rolled_animal = False  # Farmer
         self.current_player.chosen_pawn = None
         self.current_player.to_clipboard = False  # Farmer
+        self.clipboard_mode_bt.configure(bg='red')
         self.current_player_number = self.current_player_number + 1
         self.current_player = self.players[self.current_player_number % len(self.players)]
         self.player_info.set(f"Tura gracza: {self.current_player.name}")
@@ -298,41 +300,49 @@ class GUI:
         if self.current_player.rolled:
             self.dice_roll_done_inform.set("Już rzuciłeś kostką w tej turze")
         else:
-            # roll = self.current_player.roll_animal_dice()
-            # animals = self.current_player.get_animals()
-            # predator = [1, 1, 1, 2, 2, 4]
-            # new_animals = {}
-            # if roll[0] == roll[1]:
-            #     only_roll = roll[0]
-            #
-            #     if only_roll == "Fox":
-            #         self.predator_attack(choice(predator), "Fox")
-            #         self.predator_attack(choice(predator), "Fox")
-            #
-            #     elif only_roll == "Wolf":
-            #         self.predator_attack(choice(predator), "Wolf")
-            #         self.predator_attack(choice(predator), "Wolf")
-            #
-            #     else:
-            #         animals[only_roll] += (animals[only_roll] + 2) // 2
-            # else:
-            #     if "Fox" in roll:
-            #         self.predator_attack(choice(predator), "Fox")
-            #
-            #     if "Wolf" in roll:
-            #         self.predator_attack(choice(predator), "Wolf")
-            #
-            #     for animal in roll:
-            #         if animal in ["Fox", "Wolf"]:
-            #             continue
-            #
-            #         else:
-            #             if animals.get(animal) > 0:
-            #                 new_animals[animal] = (animals[animal] + 1) // 2
-            #
-            #     self.clipboard = dict(Counter(self.clipboard) + Counter(new_animals))
+            roll = self.current_player.roll_animal_dice()
+            animals = self.current_player.get_animals()
+            predator = [1, 1, 1, 2, 2, 4]
+            new_animals = dict()
+            if roll[0] == roll[1]:
+                only_roll = roll[0]
+
+                if only_roll == "Fox":
+                    self.predator_attack(choice(predator), "Fox")
+                    self.predator_attack(choice(predator), "Fox")
+
+                elif only_roll == "Wolf":
+                    self.predator_attack(choice(predator), "Wolf")
+                    self.predator_attack(choice(predator), "Wolf")
+
+                else:
+                    new_animals[only_roll] = (animals[only_roll] + 2) // 2
+            else:
+                if "Fox" in roll:
+                    self.predator_attack(choice(predator), "Fox")
+
+                if "Wolf" in roll:
+                    self.predator_attack(choice(predator), "Wolf")
+
+                for animal in roll:
+                    if animal in ["Fox", "Wolf"]:
+                        continue
+
+                    else:
+                        print(animals)
+                        if animals[animal] > 0:
+                            new_animals[animal] = (animals[animal] + 1) // 2
+                print(new_animals)
+            self.current_player.clipboard = dict(Counter(self.current_player.clipboard) + Counter(new_animals))
             self.current_player.roll_dice()
-            self.dice_roll_result.set(self.current_player.current_roll)
+            self.dice_roll_result.set(f'Wynik rzutu kostką:\n'
+                                      f'Chińczyk: {self.current_player.current_roll}\n'
+                                      f'Farmer: {self.animal_type_to_animal_tag[roll[0]]} {self.animal_type_to_animal_tag[roll[1]]}')
+            self.rabbit_bt.configure(text=f'🐰 {int(self.current_player.clipboard['Rabbit'])}')
+            self.sheep_bt.configure(text=f'🐑 {int(self.current_player.clipboard['Sheep'])}')
+            self.pig_bt.configure(text=f'🐷 {int(self.current_player.clipboard['Pig'])}')
+            self.cow_bt.configure(text=f'🐮 {int(self.current_player.clipboard['Cow'])}')
+            self.horse_bt.configure(text=f'🐴 {int(self.current_player.clipboard['Horse'])}')
             if self.error_code == 1:
                 self.err.set('')
 
@@ -456,6 +466,7 @@ class GUI:
             self.err.set('Wybierz pionek')
             self.error_code = 2
 
+
     def upgrade_pawn(self):
         if self.current_player.chosen_pawn is None:
             self.err.set('Wybierz pionek')
@@ -523,8 +534,6 @@ class GUI:
             self.current_player.degrade_chosen_pawn()
             pawns_on_current_tile = ''
             pawns_on_next_tile = ''
-            pawns_on_current_tile = ''
-            pawns_on_next_tile = ''
             i = 0
             k = 0
             for pawn in self.current_player.pawns:
@@ -588,99 +597,58 @@ class GUI:
 
     def unlock_clipboard_mode(self):
         if self.current_player.to_clipboard == True:
-            self.clipboard_mode_bt.configure(bg='red', text='grzyb')
+            self.clipboard_mode_bt.configure(bg='red')
             self.current_player.to_clipboard = False
         else:
             self.current_player.to_clipboard = True
             self.clipboard_mode_bt.configure(bg='green')
         print(self.current_player.to_clipboard)
 
-    def roll_animal_dice(self):
-        if self.current_player.rolled_animal:
-            # self.dice_roll_done_inform.set("You have already rolled the dice!")
-            print("Juz rzuciles w tej turze")
-        else:
-            roll = self.current_player.roll_animal_dice()
-            animals = self.current_player.get_animals()
-            predator = [1, 1, 1, 2, 2, 4]
-            new_animals = {}
-            if roll[0] == roll[1]:
-                only_roll = roll[0]
-
-                if only_roll == "Fox":
-                    self.predator_attack(choice(predator), "Fox")
-                    self.predator_attack(choice(predator), "Fox")
-
-                elif only_roll == "Wolf":
-                    self.predator_attack(choice(predator), "Wolf")
-                    self.predator_attack(choice(predator), "Wolf")
-
-                else:
-                    animals[only_roll] += (animals[only_roll] + 2) // 2
-            else:
-                if "Fox" in roll:
-                    self.predator_attack(choice(predator), "Fox")
-
-                if "Wolf" in roll:
-                    self.predator_attack(choice(predator), "Wolf")
-
-                for animal in roll:
-                    if animal in ["Fox", "Wolf"]:
-                        continue
-
-                    else:
-                        if animals.get(animal) > 0:
-                            new_animals[animal] = (animals[animal] + 1) // 2
-
-                self.clipboard = dict(Counter(self.clipboard) + Counter(new_animals))
-
     def predator_attack(self, val, predator):
-        for field in self.fields:
-            if field.value == val:
-                while field.capacity != 6:
-                    if predator == "Wolf":
-                        if field.animals[0].space_needed != 1:
-                            animal = field.animals.pop()
-                            del animal
-                            field.check_capacity()
-                    else:
-                        if field.animals[0].space_needed == 1:
-                            animal = field.animals.pop()
-                            del animal
-                            field.check_capacity()
-
-    # def choose_field(self, x, y):
-    #     if self.current_player.to_clipboard == True:
-    #         if self.fields[x][y].animals != []:
-    #             animal = self.fields[x][y].animals.pop()
-    #             self.current_player.clipboard[animal.animal_type] += 1
-    #         else:
-    #             print("Nie ma zwierzat na tym polu")
-    #     else:
-    #         return self.fields[x][y]
-
-    # def select_field(self, x, y):
-    #     if self.current_player.to_clipboard == True:
-    #         if self.fields[x][y].animals != []:
-    #             animal = self.fields[x][y].animals.pop()
-    #             self.current_player.clipboard[animal.animal_type] += 1
-    #         else:
-    #             print("Nie ma zwierzat na tym polu")
-    #     else:
-    #         return self.fields[x][y]
+        for field_row in self.fields:
+            for field in field_row:
+                if field.value == val:
+                    while field.capacity != 6:
+                        if predator == "Wolf":
+                            if field.animals[0].space_needed != 1 or field.animals[0].type != 'Horse':
+                                animal = field.animals[0]
+                                for f in animal.fields:
+                                    self.farboard[f.y][f.x].config(
+                                        text=f'{self.fields[f.y][f.x].value}')
+                                    f.animals.pop()
+                                    f.check_capacity()
+                                del animal
+                            else:
+                                break
+                        else:
+                            if field.animals[0].space_needed == 1:
+                                self.farboard[field.y][field.x].config(text=f'{self.fields[field.y][field.x].value}')
+                                animal = field.animals.pop()
+                                del animal
+                                field.check_capacity()
+                            else:
+                                break
 
     def relocate_to_board(self, animal_type):
         self.current_player.to_clipboard = False
+        self.clipboard_mode_bt.configure(bg='red')
 
         chosen_animal = Animal(animal_type)  # Wybranie ikony zwierzaka ze schowka
         if self.current_player.clipboard[animal_type] == 0:
             self.err.set("Nie masz takiego zwierzaka")
+            return
 
-        elif not self.place_animal(chosen_animal.type):
+
+        a = self.place_animal(chosen_animal.type)
+        if a == 0:
             self.err.set(f"Nie ma miejsca na kolejnego zwierzaka typu {chosen_animal.type}")
+        elif a == 'grzyb':
+            return
+
 
     def place_animal(self, animal_type):
         self.current_player.to_clipboard = False
+        self.clipboard_mode_bt.configure(bg='red')
         animal = Animal(animal_type)
 
         if animal.space_needed < 12:
@@ -694,8 +662,12 @@ class GUI:
                 return 0
 
             chosen_field = self.choose_field()
+            if chosen_field == 'grzyb':
+                return 'grzyb'
             while (chosen_field.capacity < animal.space_needed) or (chosen_field not in self.current_player.fields):
                 chosen_field = self.choose_field()
+                if chosen_field == 'grzyb':
+                    return 'grzyb'
             chosen_field.animals.append(animal)
             animal.place(chosen_field)
             chosen_field.check_capacity()
@@ -724,19 +696,27 @@ class GUI:
             if potential_pairs != 0:
                 self.info.set("To duży zwierzak, wybierz pierwsze pole")
                 chosen_field = self.choose_field()
+                if chosen_field == 'grzyb':
+                    return 'grzyb'
             else:
                 self.err.set("Nie masz dwoch wolnych pol obok siebie")
                 return 0
 
             while chosen_field not in good_fields:
                 chosen_field = self.choose_field()
+                if chosen_field == 'grzyb':
+                    return 'grzyb'
 
             self.info.set("Wybierz drugie pole")
             second_field = self.choose_field()
+            if second_field == 'grzyb':
+                return 'grzyb'
             # while (second_field.capacity < animal.space_needed) or (second_field not in self.current_player.fields) or (
             #         second_field not in chosen_field.neighbours):
             while second_field not in good_fields or second_field not in chosen_field.neighbours:
                 second_field = self.choose_field()
+                if second_field == 'grzyb':
+                    return 'grzyb'
 
             animal.place(chosen_field)
             animal.place(second_field)
@@ -748,12 +728,43 @@ class GUI:
             self.cow_bt.configure(text=f'🐮 {int(self.current_player.clipboard['Cow'])}')
             self.horse_bt.configure(text=f'🐴 {int(self.current_player.clipboard['Horse'])}')
             # do naprawy!!!
-            self.farboard[chosen_field.y][chosen_field.x].config(text=f'{chosen_field.value}\n'
-                                                                      f'{self.animal_type_to_animal_tag[animal_type]}\n'
-                                                                      f'||')
-            self.farboard[second_field.y][second_field.x].config(text=f'||'
-                                                                      f'{chosen_field.value}\n'
-                                                                      f'{len(chosen_field.animals)}\n')
+            if chosen_field.x < second_field.x:
+                self.farboard[chosen_field.y][chosen_field.x].config(text=f'{chosen_field.value}  '
+                                                                          f'{self.animal_type_to_animal_tag[animal_type]}\n'
+                                                                          f'====>')
+                self.farboard[second_field.y][second_field.x].config(text=f'{self.animal_type_to_animal_tag[animal_type]}  '
+                                                                          f'{second_field.value}\n'
+                                                                          f'<====')
+            if chosen_field.x > second_field.x:
+                temp_field = second_field
+                second_field = chosen_field
+                chosen_field = temp_field
+                self.farboard[chosen_field.y][chosen_field.x].config(text=f'{chosen_field.value}  '
+                                                                          f'{self.animal_type_to_animal_tag[animal_type]}\n'
+                                                                          f'====>')
+                self.farboard[second_field.y][second_field.x].config(text=f'{self.animal_type_to_animal_tag[animal_type]}  '
+                                                                          f'{second_field.value}\n'
+                                                                          f'<====')
+
+            if chosen_field.y > second_field.y:
+                self.farboard[chosen_field.y][chosen_field.x].config(text=f'{chosen_field.value}  '
+                                                                          f'{self.animal_type_to_animal_tag[animal_type]}\n'
+                                                                          f'||')
+                self.farboard[second_field.y][second_field.x].config(text=f'||\n'
+                                                                          f'{second_field.value}  '
+                                                                          f'{self.animal_type_to_animal_tag[animal_type]}')
+            if chosen_field.y < second_field.y:
+                temp_field = second_field
+                second_field = chosen_field
+                chosen_field = temp_field
+                self.farboard[chosen_field.y][chosen_field.x].config(text=f'{chosen_field.value}  '
+                                                                          f'{self.animal_type_to_animal_tag[animal_type]}\n'
+                                                                          f'||')
+                self.farboard[second_field.y][second_field.x].config(text=f'||\n'
+                                                                          f'{second_field.value}  '
+                                                                          f'{self.animal_type_to_animal_tag[animal_type]}')
+
+
             return 1
 
     def exchange_animals(self, first_type, second_type):
@@ -768,8 +779,11 @@ class GUI:
 
     def buy_field(self):
         self.current_player.to_clipboard = False
+        self.clipboard_mode_bt.configure(bg='red')
         self.selected_field = None
         chosen_field = self.choose_field()
+        if chosen_field == 'grzyb':
+            return
         set_of_neighbours = set()
         for field in self.current_player.fields:
             for neighbour in field.neighbours:
@@ -779,7 +793,6 @@ class GUI:
         if any(chosen_field in player.fields for player in self.players):
             self.err.set("To pole ma już właściciela")
             self.selected_field = None
-            # chosen_field = self.choose_field()
 
         elif chosen_field not in set_of_neighbours:
             self.err.set("Mozesz kupowac tylko pola sasiadujace z Twoimi")
@@ -789,20 +802,74 @@ class GUI:
             self.info.set(f"Pole ({chosen_field.x},{chosen_field.y}) zakupione")
             self.rabbit_bt.configure(text=f'🐰 {int(self.current_player.clipboard['Rabbit'])}')
 
+
+
+
+
     def upgrade_field(self):
         self.current_player.to_clipboard = False
+        self.clipboard_mode_bt.configure(bg='red')
         self.selected_field = None
         chosen_field = self.choose_field()
+        if chosen_field == 'grzyb':
+            return 'grzyb'
 
         # while chosen_field not in self.current_player.fields:
         if chosen_field not in self.current_player.fields:
             self.err.set("To pole nie należy do Ciebie")
             self.selected_field = None
-            # chosen_field = self.choose_field()
         elif self.market.upgrade_field(chosen_field, self.current_player):
             self.info.set(f"Ulepszenie pola ({chosen_field.x},{chosen_field.y}) udane")
             self.rabbit_bt.configure(text=f'🐰 {int(self.current_player.clipboard['Rabbit'])}')
-            self.farboard[chosen_field.y][chosen_field.x].configure(text=f'{chosen_field.value}')
+            if len(chosen_field.animals) == 0:
+                self.farboard[chosen_field.y][chosen_field.x].config(text=f'{chosen_field.value}')
+            elif chosen_field.animals[0].space_needed < 12:
+                self.farboard[chosen_field.y][chosen_field.x].config(text=f'{chosen_field.value}\n'
+                                                                      f'{self.animal_type_to_animal_tag[chosen_field.animals[0].type]} '
+                                                                      f': {len(chosen_field.animals)}')
+            else:
+                animal = chosen_field.animals[0]
+                first_field = animal.fields[0]
+                second_field = animal.fields[1]
+                if first_field.x < second_field.x:
+                    self.farboard[first_field.y][first_field.x].config(text=f'{first_field.value}  '
+                                                                            f'{self.animal_type_to_animal_tag[animal.type]}\n'
+                                                                            f'====>')
+                    self.farboard[second_field.y][second_field.x].config(
+                        text=f'{self.animal_type_to_animal_tag[animal.type]}  '
+                             f'{second_field.value}\n'
+                             f'<====')
+                if first_field.x > second_field.x:
+                    temp_field = second_field
+                    second_field = first_field
+                    first_field = temp_field
+                    self.farboard[first_field.y][first_field.x].config(text=f'{first_field.value}  '
+                                                                            f'{self.animal_type_to_animal_tag[animal.type]}\n'
+                                                                            f'====>')
+                    self.farboard[second_field.y][second_field.x].config(
+                        text=f'{self.animal_type_to_animal_tag[animal.type]}  '
+                             f'{second_field.value}\n'
+                             f'<====')
+
+                if first_field.y > second_field.y:
+                    self.farboard[first_field.y][first_field.x].config(text=f'{first_field.value}  '
+                                                                            f'{self.animal_type_to_animal_tag[animal.type]}\n'
+                                                                            f'||')
+                    self.farboard[second_field.y][second_field.x].config(text=f'||\n'
+                                                                              f'{second_field.value}  '
+                                                                              f'{self.animal_type_to_animal_tag[animal.type]}')
+                if first_field.y < second_field.y:
+                    temp_field = second_field
+                    second_field = first_field
+                    first_field = temp_field
+                    self.farboard[first_field.y][first_field.x].config(text=f'{first_field.value}  '
+                                                                            f'{self.animal_type_to_animal_tag[animal.type]}\n'
+                                                                            f'||')
+                    self.farboard[second_field.y][second_field.x].config(text=f'||\n'
+                                                                              f'{second_field.value}  '
+                                                                              f'{self.animal_type_to_animal_tag[animal.type]}')
+
+
 
     # Tu psuję dalej
     def set_selected_field(self, x, y):
@@ -819,6 +886,22 @@ class GUI:
                     self.pig_bt.configure(text=f'🐷 {int(self.current_player.clipboard['Pig'])}')
                     self.cow_bt.configure(text=f'🐮 {int(self.current_player.clipboard['Cow'])}')
                     self.horse_bt.configure(text=f'🐴 {int(self.current_player.clipboard['Horse'])}')
+                    if len(self.fields[y][x].animals) != 0:
+                        if animal.space_needed <= 6:
+                            self.farboard[y][x].config(text=f'{self.fields[y][x].value}\n'
+                                                        f'{self.animal_type_to_animal_tag[animal.type]} '
+                                                        f': {len(self.fields[y][x].animals)}')
+                        else:
+                            for field in animal.fields:
+                                self.farboard[field.y][field.x].config(text=f'{self.fields[field.y][field.x].value}\n'
+                                                        f'{self.animal_type_to_animal_tag[animal.type]} '
+                                                        f': {len(self.fields[field.y][field.x].animals)}')
+                    else:
+                        if animal.space_needed <= 6:
+                            self.farboard[y][x].config(text=f'{self.fields[y][x].value}')
+                        else:
+                            for field in animal.fields:
+                                self.farboard[field.y][field.x].config(text=f'{self.fields[field.y][field.x].value}')
                 else:
                     self.err.set("Nie ma zwierzat na tym polu")
             else:
@@ -829,10 +912,15 @@ class GUI:
             print(f"Selected field: ({x},{y})")
 
     def choose_field(self):
-        self.selected_field_var.set("")  # Reset the variable
-        self.root.wait_variable(self.selected_field_var)  # Wait for the variable to be set
-        x, y = self.selected_field
-        return self.fields[y][x]
+        if self.on_off == False:
+            self.on_off = True
+            self.selected_field_var.set("")  # Reset the variable
+            self.root.wait_variable(self.selected_field_var)  # Wait for the variable to be set
+            x, y = self.selected_field
+            self.on_off = False
+            return self.fields[y][x]
+        else:
+            return 'grzyb'
 
 
 if __name__ == "__main__":

@@ -45,7 +45,7 @@ class GUI:
         self.end_turn_bt.place(x=1700, y=980)
 
         # Przycisk Rzuć kostką:
-        self.frame = tk.Frame(self.root, width=310, height=100)
+        self.frame = tk.Frame(self.root, width=310, height=200)
         self.frame.pack_propagate(False)
         self.frame.place(x=1600, y=20)
 
@@ -288,6 +288,11 @@ class GUI:
         error_code = 0
         self.dice_roll_done_inform.set('')
         self.dice_roll_result.set('Nie rzucono kostką')
+        self.rabbit_bt.configure(text=f'🐰 {int(self.current_player.clipboard['Rabbit'])}')
+        self.sheep_bt.configure(text=f'🐑 {int(self.current_player.clipboard['Sheep'])}')
+        self.pig_bt.configure(text=f'🐷 {int(self.current_player.clipboard['Pig'])}')
+        self.cow_bt.configure(text=f'🐮 {int(self.current_player.clipboard['Cow'])}')
+        self.horse_bt.configure(text=f'🐴 {int(self.current_player.clipboard['Horse'])}')
 
     def roll_dice(self):
         if self.current_player.rolled:

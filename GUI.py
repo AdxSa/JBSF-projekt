@@ -604,7 +604,7 @@ class GUI:
                     break
                 bad_fields.append(field)
             if len(bad_fields) == len(self.current_player.fields):
-                print(f"Nie ma miejsca na kolejnego zwierzaka na polu {chosen_field}")
+                print("Nie ma miejsca na kolejnego zwierzaka")
                 return 0
             
             chosen_field = self.choose_field()    

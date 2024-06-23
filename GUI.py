@@ -162,6 +162,8 @@ class GUI:
         self.clipboard = tk.Frame(self.root, highlightthickness=1, highlightbackground='black')
         self.clipboard.columnconfigure(0, weight=1)
 
+        self.animal_type_to_animal_tag = {'Rabbit' : '🐰', 'Sheep' : '🐑', 'Pig' : '🐷', 'Cow' : '🐮', 'Horse' : '🐴'}
+
         self.rabbit_bt = tk.Button(self.clipboard, text=f'🐰 {self.current_player.clipboard['Rabbit']}', fg='grey', image=self.pixel, width=140, height=80, compound='center',
                                    font=('Arial', 40), command=lambda: self.relocate_to_board("Rabbit"))
         self.rabbit_bt.grid(row=0, column=1)
@@ -617,6 +619,9 @@ class GUI:
             self.rabbit_bt.configure(text=f'🐰 {int(self.current_player.clipboard['Rabbit'])}')
             self.sheep_bt.configure(text=f'🐑 {int(self.current_player.clipboard['Sheep'])}')
             self.pig_bt.configure(text=f'🐷 {int(self.current_player.clipboard['Pig'])}')
+            self.farboard[chosen_field.y][chosen_field.x].config(text=f'{chosen_field.value}\n'
+                                                                      f'{self.animal_type_to_animal_tag[animal_type]} '
+                                                                      f': {len(chosen_field.animals)}')
             return 1
 
         else:
@@ -629,7 +634,7 @@ class GUI:
 
             for field in good_fields:
                 for neighbour in field.neighbours:
-                    if neighbour in good_fields: 
+                    if neighbour in good_fields:
                         potential_pairs += 1
 
             if potential_pairs != 0:
@@ -640,7 +645,7 @@ class GUI:
                 return 0
 
             while chosen_field not in good_fields:
-                chosen_field = self.choose_field()               
+                chosen_field = self.choose_field()
 
             print("Wybierz drugie pole")
             second_field = self.choose_field()
@@ -658,6 +663,13 @@ class GUI:
             self.current_player.clipboard[animal.type] -= 1
             self.cow_bt.configure(text=f'🐮 {int(self.current_player.clipboard['Cow'])}')
             self.horse_bt.configure(text=f'🐴 {int(self.current_player.clipboard['Horse'])}')
+            # do naprawy!!!
+            self.farboard[chosen_field.y][chosen_field.x].config(text=f'{chosen_field.value}\n'
+                                                                      f'{self.animal_type_to_animal_tag[animal_type]}\n'
+                                                                      f'||')
+            self.farboard[second_field.y][second_field.x].config(text=f'||'
+                                                                      f'{chosen_field.value}\n'
+                                                                      f'{len(chosen_field.animals)}\n')
             return 1
 
     def exchange_animals(self, first_type, second_type):
@@ -713,10 +725,10 @@ class GUI:
         if self.current_player.to_clipboard:
             if self.fields[y][x] in self.current_player.fields:
                 if self.fields[y][x].animals != []:
-                    animal = self.fields[y][x].animals.pop()
+                    animal = self.fields[y][x].animals[0]
                     for field in animal.fields:
-                        self.fields[y][x].animals.pop()
-                        self.fields[y][x].check_capacity()
+                        field.animals.pop()
+                        field.check_capacity()
                     self.current_player.clipboard[animal.type] += 1
                     self.rabbit_bt.configure(text=f'🐰 {int(self.current_player.clipboard['Rabbit'])}')
                     self.sheep_bt.configure(text=f'🐑 {int(self.current_player.clipboard['Sheep'])}')

@@ -144,8 +144,8 @@ class GUI:
         for col in range(8):
             for row in range(8):
                 self.farboard[row][col] = tk.Button(self.farmerboard, image=self.pixel, width=50, height=50,
-                                                    text=f"",
-                                                    compound='center', font=('Arial', 12),
+                                                    text=f"{self.fields[row][col].value}",
+                                                    compound='center', font=('Comic sans MS', 12),
                                                     # command=lambda i=col, j=row:
                                                     # self.select_field(j, i))
                                                     command=lambda x=col, y=row: self.set_selected_field(x, y))
@@ -156,36 +156,33 @@ class GUI:
             field = player.fields[0]
             x = field.x
             y = field.y
-            self.farboard[y][x] = tk.Button(self.farmerboard, image=self.pixel, width=50, height=50, text=f"",
-                                            compound='center', font=('Arial', 12),
-                                            command=lambda i=x, j=y: self.set_selected_field(i, j), bg=player.colour)
-            self.farboard[y][x].grid(row=7 - y, column=x)
+            self.farboard[y][x].configure(bg=player.colour)
 
         # clipboard
         self.clipboard = tk.Frame(self.root, highlightthickness=1, highlightbackground='black')
         self.clipboard.columnconfigure(0, weight=1)
 
-        self.rabbit_bt = tk.Button(self.clipboard, image=self.pixel, width=80, height=80, compound='center',
-                                   font=('Arial', 16), command=lambda: self.relocate_to_board("Rabbit"))
+        self.rabbit_bt = tk.Button(self.clipboard, text=f'🐰 {self.current_player.clipboard['Rabbit']}', fg='grey', image=self.pixel, width=140, height=80, compound='center',
+                                   font=('Arial', 40), command=lambda: self.relocate_to_board("Rabbit"))
         self.rabbit_bt.grid(row=0, column=1)
 
-        self.sheep_bt = tk.Button(self.clipboard, image=self.pixel, width=80, height=80, compound='center',
-                                  font=('Arial', 16), command=lambda: self.relocate_to_board("Sheep"))
+        self.sheep_bt = tk.Button(self.clipboard, text=f'🐑 {self.current_player.clipboard['Sheep']}', fg='black', image=self.pixel, width=140, height=80, compound='center',
+                                  font=('Arial', 40), command=lambda: self.relocate_to_board("Sheep"))
         self.sheep_bt.grid(row=1, column=1)
 
-        self.pig_bt = tk.Button(self.clipboard, image=self.pixel, width=80, height=80, compound='center',
-                                font=('Arial', 16), command=lambda: self.relocate_to_board("Pig"))
+        self.pig_bt = tk.Button(self.clipboard, text=f'🐷 {self.current_player.clipboard['Pig']}', fg='pink', image=self.pixel, width=140, height=80, compound='center',
+                                font=('Arial', 40), command=lambda: self.relocate_to_board("Pig"))
         self.pig_bt.grid(row=2, column=1)
 
-        self.cow_bt = tk.Button(self.clipboard, image=self.pixel, width=80, height=80, compound='center',
-                                font=('Arial', 16), command=lambda: self.relocate_to_board("Cow"))
+        self.cow_bt = tk.Button(self.clipboard, text=f'🐮 {self.current_player.clipboard['Cow']}', fg='#df546c', image=self.pixel, width=140, height=80, compound='center',
+                                font=('Arial', 40), command=lambda: self.relocate_to_board("Cow"))
         self.cow_bt.grid(row=3, column=1)
 
-        self.horse_bt = tk.Button(self.clipboard, image=self.pixel, width=80, height=80, compound='center',
-                                  font=('Arial', 16), command=lambda: self.relocate_to_board("Horse"))
+        self.horse_bt = tk.Button(self.clipboard, text=f'🐴 {self.current_player.clipboard['Horse']}', fg='brown', image=self.pixel, width=140, height=80, compound='center',
+                                  font=('Arial', 40), command=lambda: self.relocate_to_board("Horse"))
         self.horse_bt.grid(row=4, column=1)
 
-        self.clipboard_mode_bt = tk.Button(self.clipboard, image=self.pixel, width=80, height=80, compound='center',
+        self.clipboard_mode_bt = tk.Button(self.clipboard, image=self.pixel, bg='red', width=140, height=80, compound='center',
                                            font=('Arial', 16), command=lambda: self.unlock_clipboard_mode())
         self.clipboard_mode_bt.grid(row=5, column=1)
 
@@ -505,9 +502,11 @@ class GUI:
 
     def unlock_clipboard_mode(self):
         if self.current_player.to_clipboard == True:
+            self.clipboard_mode_bt.configure(bg='red', text='grzyb')
             self.current_player.to_clipboard = False
         else:
             self.current_player.to_clipboard = True
+            self.clipboard_mode_bt.configure(bg='green')
         print(self.current_player.to_clipboard)
 
     def roll_animal_dice(self):
@@ -614,6 +613,10 @@ class GUI:
             chosen_field.animals.append(animal)
             animal.place(chosen_field)
             chosen_field.check_capacity()
+            self.current_player.clipboard[animal.type] -= 1
+            self.rabbit_bt.configure(text=f'🐰 {int(self.current_player.clipboard['Rabbit'])}')
+            self.sheep_bt.configure(text=f'🐑 {int(self.current_player.clipboard['Sheep'])}')
+            self.pig_bt.configure(text=f'🐷 {int(self.current_player.clipboard['Pig'])}')
             return 1
 
         else:
@@ -651,15 +654,28 @@ class GUI:
             chosen_field.check_capacity()
             second_field.animals.append(animal)
             second_field.check_capacity()
+            self.cow_bt.configure(text=f'🐮 {int(self.current_player.clipboard['Cow'])}')
+            self.horse_bt.configure(text=f'🐴 {int(self.current_player.clipboard['Horse'])}')
             return 1
 
     def exchange_animals(self, first_type, second_type):
         self.market.exchange(first_type, second_type, self.current_player)
+        self.rabbit_bt.configure(text=f'🐰 {int(self.current_player.clipboard['Rabbit'])}')
+        self.sheep_bt.configure(text=f'🐑 {int(self.current_player.clipboard['Sheep'])}')
+        self.pig_bt.configure(text=f'🐷 {int(self.current_player.clipboard['Pig'])}')
+        self.cow_bt.configure(text=f'🐮 {int(self.current_player.clipboard['Cow'])}')
+        self.horse_bt.configure(text=f'🐴 {int(self.current_player.clipboard['Horse'])}')
+
+
 
     def buy_field(self):
         self.current_player.to_clipboard = False
         self.selected_field = None
         chosen_field = self.choose_field()
+        set_of_neighbours = set()
+        for field in self.current_player.fields:
+            for neighbour in field.neighbours:
+                set_of_neighbours.add(neighbour)
 
         # while any(chosen_field in player.fields for player in self.players):
         if any(chosen_field in player.fields for player in self.players):
@@ -667,18 +683,13 @@ class GUI:
             self.selected_field = None
             # chosen_field = self.choose_field()
 
-        elif any(chosen_field not in field.neighbours for field in self.current_player.fields):
+        elif chosen_field not in set_of_neighbours:
             print("Mozesz kupowac tylko pola sasiadujace z Twoimi")
 
         elif self.market.buy_field(chosen_field, self.current_player):
-            x = chosen_field.x
-            y = chosen_field.y
-            self.farboard[y][x] = tk.Button(self.farmerboard, image=self.pixel, width=50, height=50, text=f"",
-                                            compound='center', font=('Arial', 12),
-                                            command=lambda i=x, j=y: self.set_selected_field(i, j),
-                                            bg=self.current_player.colour)
-            self.farboard[y][x].grid(row=7 - y, column=x)
+            self.farboard[chosen_field.y][chosen_field.x].configure(bg=self.current_player.colour)
             print(f"Pole {chosen_field} zakupione")
+            self.rabbit_bt.configure(text=f'🐰 {int(self.current_player.clipboard['Rabbit'])}')
 
     def upgrade_field(self):
         self.current_player.to_clipboard = False
@@ -692,14 +703,21 @@ class GUI:
             # chosen_field = self.choose_field()
         elif self.market.upgrade_field(chosen_field, self.current_player):
             print(f"Ulepszenie pola {chosen_field} udane")
+            self.rabbit_bt.configure(text=f'🐰 {int(self.current_player.clipboard['Rabbit'])}')
+            self.farboard[chosen_field.y][chosen_field.x].configure(text=f'{chosen_field.value}')
 
     # Tu psuję dalej
     def set_selected_field(self, x, y):
         if self.current_player.to_clipboard:
-            if self.fields[x][y] in self.current_player.fields:
-                if self.fields[x][y].animals != []:
-                    animal = self.fields[x][y].animals.pop()
-                    self.current_player.clipboard[animal.animal_type] += 1
+            if self.fields[y][x] in self.current_player.fields:
+                if self.fields[y][x].animals != []:
+                    animal = self.fields[y][x].animals.pop()
+                    self.current_player.clipboard[animal.type] += 1
+                    self.rabbit_bt.configure(text=f'🐰 {int(self.current_player.clipboard['Rabbit'])}')
+                    self.sheep_bt.configure(text=f'🐑 {int(self.current_player.clipboard['Sheep'])}')
+                    self.pig_bt.configure(text=f'🐷 {int(self.current_player.clipboard['Pig'])}')
+                    self.cow_bt.configure(text=f'🐮 {int(self.current_player.clipboard['Cow'])}')
+                    self.horse_bt.configure(text=f'🐴 {int(self.current_player.clipboard['Horse'])}')
                 else:
                     print("Nie ma zwierzat na tym polu")
             else:

@@ -167,7 +167,7 @@ class GUI:
 
         self.animal_type_to_animal_tag = {'Rabbit' : '🐰', 'Sheep' : '🐑', 'Pig' : '🐷', 'Cow' : '🐮', 'Horse' : '🐴', 'Fox' : '🦊', 'Wolf' : '🐺'}
 
-        self.rabbit_bt = tk.Button(self.clipboard, text=f'🐰 {self.current_player.clipboard['Rabbit']}', fg='black', image=self.pixel, width=140, height=80, compound='center',
+        self.rabbit_bt = tk.Button(self.clipboard, text=f'🐰 {self.current_player.clipboard['Rabbit']}', fg='grey', image=self.pixel, width=140, height=80, compound='center',
                                    font=('Comic sans MS', 40), command=lambda: self.relocate_to_board("Rabbit"))
         self.rabbit_bt.grid(row=0, column=1)
 
@@ -374,6 +374,11 @@ class GUI:
                             del pawn
 
             self.info.set('Utworzono nowy pionek!')
+            self.rabbit_bt.configure(text=f'🐰 {int(self.current_player.clipboard['Rabbit'])}')
+            self.sheep_bt.configure(text=f'🐑 {int(self.current_player.clipboard['Sheep'])}')
+            self.pig_bt.configure(text=f'🐷 {int(self.current_player.clipboard['Pig'])}')
+            self.cow_bt.configure(text=f'🐮 {int(self.current_player.clipboard['Cow'])}')
+            self.horse_bt.configure(text=f'🐴 {int(self.current_player.clipboard['Horse'])}')
         except:
             self.err.set('Nie możesz stworzyć kolejnego pionka')
 
@@ -474,6 +479,11 @@ class GUI:
         else:
             current_coords = self.current_player.chosen_pawn.coords
             self.current_player.upgrade_chosen_pawn()
+            self.rabbit_bt.configure(text=f'🐰 {int(self.current_player.clipboard['Rabbit'])}')
+            self.sheep_bt.configure(text=f'🐑 {int(self.current_player.clipboard['Sheep'])}')
+            self.pig_bt.configure(text=f'🐷 {int(self.current_player.clipboard['Pig'])}')
+            self.cow_bt.configure(text=f'🐮 {int(self.current_player.clipboard['Cow'])}')
+            self.horse_bt.configure(text=f'🐴 {int(self.current_player.clipboard['Horse'])}')
             pawns_on_current_tile = ''
             pawns_on_next_tile = ''
             i = 0

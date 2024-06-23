@@ -17,10 +17,8 @@ class Player:
         self.pawns_id = set()
         # Farmer
         self.fields = []
-        self.animals = []
-        self.clipboard = {"Rabbit" : 0, "Sheep" : 0, "Pig" : 0, "Cow" : 0, "Horse" : 0}
+        self.clipboard = {"Rabbit": 8, "Sheep": 12, "Pig": 4, "Cow": 10, "Horse": 2}
         self.to_clipboard = False
-        self.rolled_animal = False
 
     def roll_dice(self):
         # if self.rolled:
@@ -104,18 +102,23 @@ class Player:
 
     # Farmer
     def get_animals(self):
-        animals = {"Rabbit" : 0, "Sheep" : 0, "Pig" : 0, "Cow" : 0, "Horse" : 0}
-        for animal_type in animals.keys():
-            for animal in self.animals:
-                if animal.type == animal_type:
-                    animals[animal_type] += 1
-        return animals  
-    
+        animals = Counter({"Rabbit": 0, "Sheep": 0, "Pig": 0, "Cow": 0, "Horse": 0})
+        for field in self.fields:
+            if len(field.animals) != 0:
+                animals_on_field = Counter(dict())
+                animals_on_field[field.animals[0].type] = len(field.animals)
+                animals += animals_on_field
+                animals["Cow"] //= 2
+                animals["Horse"] //= 2
+        return dict(animals)
+
     def roll_animal_dice(self):
-        first_dice = ["Wolf", "Fox", "Sheep", "Sheep", "Cow", "Horse"] + ["Rabbit"] * 6 
-        second_dice = ["Wolf", "Fox", "Sheep", "Sheep", "Sheep", "Cow"] + ["Rabbit"] * 6 
-        self.rolled_animal = True
-        return [choice(first_dice), choice(second_dice)]
+        first_dice = ["Wolf", "Fox", "Sheep", "Sheep", "Cow", "Horse"] + ["Rabbit"] * 6
+        second_dice = ["Wolf", "Fox", "Sheep", "Sheep", "Sheep", "Cow"] + ["Rabbit"] * 6
+        a = choice(first_dice)
+        b = choice(second_dice)
+        print([a, b])
+        return [a, b]
         # animals = self.get_animals()
         # predator = [1, 1, 1, 2, 2, 4]
         # new_animals = {}
@@ -145,7 +148,7 @@ class Player:
 
         #         else:
         #             if animals.get(animal) > 0:
-        #                 new_animals[animal] = (animals[animal] + 1) // 2    
+        #                 new_animals[animal] = (animals[animal] + 1) // 2
 
         #     self.clipboard = dict(Counter(self.clipboard) + Counter(new_animals))
 
@@ -163,6 +166,7 @@ class Player:
     #                         animal = field.animals.pop()
     #                         del animal
     #                         field.check_capacity()
+
 
 if __name__ == "__main__":
     Adam = Player('purple', (1, 0, 0), 'Adam')

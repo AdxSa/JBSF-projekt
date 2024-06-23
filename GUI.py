@@ -329,15 +329,20 @@ class GUI:
                         continue
 
                     else:
-                        print(animals)
+                        # print(animals)
                         if animals[animal] > 0:
                             new_animals[animal] = (animals[animal] + 1) // 2
-                print(new_animals)
+                # print(new_animals)
+
+            tlist = [animal for animal in self.current_player.clipboard.keys() if self.current_player.clipboard[animal] == 0]
             self.current_player.clipboard = dict(Counter(self.current_player.clipboard) + Counter(new_animals))
             self.current_player.roll_dice()
             self.dice_roll_result.set(f'Wynik rzutu kostką:\n'
                                       f'Chińczyk: {self.current_player.current_roll}\n'
                                       f'Farmer: {self.animal_type_to_animal_tag[roll[0]]} {self.animal_type_to_animal_tag[roll[1]]}')
+            for animal in tlist:
+                self.current_player.clipboard[animal] = 0
+            print(self.current_player.clipboard)
             self.rabbit_bt.configure(text=f'🐰 {int(self.current_player.clipboard['Rabbit'])}')
             self.sheep_bt.configure(text=f'🐑 {int(self.current_player.clipboard['Sheep'])}')
             self.pig_bt.configure(text=f'🐷 {int(self.current_player.clipboard['Pig'])}')

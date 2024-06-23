@@ -631,7 +631,6 @@ class GUI:
                 for neighbour in field.neighbours:
                     if neighbour in good_fields: 
                         potential_pairs += 1
-                        break
 
             if potential_pairs != 0:
                 print("To duży zwierzak, wybierz pierwsze pole")

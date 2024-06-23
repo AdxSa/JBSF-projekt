@@ -714,8 +714,10 @@ class GUI:
             if self.fields[y][x] in self.current_player.fields:
                 if self.fields[y][x].animals != []:
                     animal = self.fields[y][x].animals.pop()
+                    for field in animal.fields:
+                        self.fields[y][x].animals.pop()
+                        self.fields[y][x].check_capacity()
                     self.current_player.clipboard[animal.type] += 1
-                    self.fields[y][x].check_capacity()
                     self.rabbit_bt.configure(text=f'🐰 {int(self.current_player.clipboard['Rabbit'])}')
                     self.sheep_bt.configure(text=f'🐑 {int(self.current_player.clipboard['Sheep'])}')
                     self.pig_bt.configure(text=f'🐷 {int(self.current_player.clipboard['Pig'])}')

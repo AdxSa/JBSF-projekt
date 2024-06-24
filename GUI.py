@@ -112,7 +112,7 @@ class GUI:
 
         # Grzyb
         from gif import AnimatedGif
-        walking_shroom = AnimatedGif(self.root, "fungi.gif", x=1380, y=350)
+        AnimatedGif(self.root, "fungi.gif", x=1380, y=350)
 
         # FARMER (nie tylko przyciski)
         self.fields = []
@@ -286,6 +286,7 @@ class GUI:
         error_code = 0
         self.dice_roll_done_inform.set('')
         self.dice_roll_result.set('Nie rzucono kostką')
+        self.current_player.clipboard = {"Rabbit": 0, "Sheep": 0, "Pig": 0, "Cow": 0, "Horse": 0}
         self.rabbit_bt.configure(text=f'🐰 {int(self.current_player.clipboard['Rabbit'])}')
         self.sheep_bt.configure(text=f'🐑 {int(self.current_player.clipboard['Sheep'])}')
         self.pig_bt.configure(text=f'🐷 {int(self.current_player.clipboard['Pig'])}')
@@ -337,7 +338,7 @@ class GUI:
                                       f'Farmer: {self.animal_type_to_animal_tag[roll[0]]} {self.animal_type_to_animal_tag[roll[1]]}')
             for animal in tlist:
                 self.current_player.clipboard[animal] = 0
-            print(self.current_player.clipboard)
+            # print(self.current_player.clipboard)
             self.rabbit_bt.configure(text=f'🐰 {int(self.current_player.clipboard['Rabbit'])}')
             self.sheep_bt.configure(text=f'🐑 {int(self.current_player.clipboard['Sheep'])}')
             self.pig_bt.configure(text=f'🐷 {int(self.current_player.clipboard['Pig'])}')
@@ -455,7 +456,7 @@ class GUI:
                                 and not pawn.is_in_destination_square):
                             player.pawns_id.remove(int(pawn.id))
                             player.pawns.remove(pawn)
-                            print(player.pawns)
+                            # print(player.pawns)
                             del pawn
 
             # sprawdzanie win condition
@@ -526,7 +527,7 @@ class GUI:
                                 game_to_normal_coords_dict[self.current_player.chosen_pawn.coords]):
                             player.pawns_id.remove(int(pawn.id))
                             player.pawns.remove(pawn)
-                            print(player.pawns)
+                            # print(player.pawns)
                             del pawn
 
             # sprawdzanie win condition
@@ -590,9 +591,7 @@ class GUI:
         end_com.mainloop()
 
     # Farmer
-    def setup_neighbours(self): 
-        """Funkcja przy inicjalizacji gry przyporządkowuje polom sąsiadów
-        """
+    def setup_neighbours(self):
         for y in range(8):
             for x in range(8):
                 neighbours = []
@@ -613,7 +612,7 @@ class GUI:
         else:
             self.current_player.to_clipboard = True
             self.clipboard_mode_bt.configure(bg='green')
-        print(self.current_player.to_clipboard)
+        # print(self.current_player.to_clipboard)
 
     def predator_attack(self, val, predator):
         for field_row in self.fields:
@@ -914,13 +913,13 @@ class GUI:
         else:
             self.selected_field = (x, y)
             self.selected_field_var.set(f"{x},{y}")
-            print(f"Selected field: ({x},{y})")
+            # print(f"Selected field: ({x},{y})")
 
     def choose_field(self):
         if self.on_off == False:
             self.on_off = True
-            self.selected_field_var.set("")  
-            self.root.wait_variable(self.selected_field_var)  
+            self.selected_field_var.set("")
+            self.root.wait_variable(self.selected_field_var)
             x, y = self.selected_field
             self.on_off = False
             return self.fields[y][x]

@@ -9,19 +9,17 @@ class AnimatedGif:
         self.label = tk.Label(root)
         self.label.place(x=x, y=y)
         
-        # Open the image and convert it to RGBA
         image = Image.open(gif_path)
         self.frames = []
 
-        # Extract frames from the GIF
         try:
             for i in count(0):
                 self.frames.append(ImageTk.PhotoImage(image.copy()))
                 image.seek(i + 1)
         except EOFError:
-            pass  # End of sequence
+            pass  
 
-        self.delay = image.info.get('duration', 100)  # Set delay between frames
+        self.delay = image.info.get('duration', 100)  
 
         self.frame_index = 0
         self.update_frame()

@@ -29,9 +29,7 @@ class Field:
         self.animals = []
         self.x = x
         self.y = y
-        self.coords = x, y
         self.neighbours = check_neighbours(x, y)
-        self.owner = None
 
     def __repr__(self):
         return f"Field({self.x},{self.y})"
@@ -59,8 +57,6 @@ class Marketplace:  # Pamięta aktywnego gracza i listę graczy
     def __init__(self) -> None:
         self.buy_prices = {"Rabbit": 1, "Sheep": 6, "Pig": 12, "Cow": 24, "Horse": 48}
 
-        # Przyciski muszą być
-
     def exchange(self, first_type, second_type, player):
 
         price = self.buy_prices.get(second_type)
@@ -83,14 +79,6 @@ class Marketplace:  # Pamięta aktywnego gracza i listę graczy
                 player.clipboard[second_type] += first_val / price
 
     def buy_field(self, chosen_field, player):
-        # DO IMPLEMENTACJI W GUI!!!
-
-        # chosen_field = self.player.choose_field()
-
-        # while any(chosen_field in player.fields for player in players):    # Sprawdza czy pole już do kogoś należy
-        #     print("Field is already owned")
-        #     chosen_field = self.player.choose_field()
-
         price = chosen_field.value
         if player.clipboard["Rabbit"] < price:  # Sprawdza czy gracz dysponuje odpowiednią liczbą królików do zakupu
             print("Masz za malo krolikow w schowku")
@@ -99,15 +87,8 @@ class Marketplace:  # Pamięta aktywnego gracza i listę graczy
             player.clipboard["Rabbit"] -= price
             player.fields.append(chosen_field)
             return 1
-        #   ZMIANA KOLORU DO IMPLEMENTACJI W GUI!!!
 
     def upgrade_field(self, chosen_field, player):
-        # DO IMPLEMENTACJI W GUI!!!
-        #
-        # chosen_field = self.player.choose_field()
-        # while chosen_field not in self.player.fields:
-        #     print("It's not your field")
-        #     chosen_field = self.player.choose_field()
         if chosen_field.value == 1:
             price = 4
         elif chosen_field.value == 2:
@@ -125,12 +106,6 @@ class Marketplace:  # Pamięta aktywnego gracza i listę graczy
             chosen_field.upgrade()
             return 1
 
-
-def choose_field():
-    chosen_field = Field(1)  # WIP, domyślnie ma klikać
-    return chosen_field
-
-
 def check_neighbours(x, y):
     neighbours = []
     if x < 8:
@@ -143,6 +118,3 @@ def check_neighbours(x, y):
         neighbours.append((x, y - 1))
     return neighbours
 
-
-def choose_animal():  # Do GUI, wybiera zwierzę ze schowka
-    pass  # switch... case...

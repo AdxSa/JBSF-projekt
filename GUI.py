@@ -134,12 +134,7 @@ class GUI:
             player.fields.append(starting_fields[num_of_field])
             num_of_field += 1
 
-        # Tu zaczynam psuć
         self.selected_field_var = tk.StringVar()
-
-        # self.fields = [[tk.Button(self.root, text=f"({x},{y})", command=lambda x=x, y=y: self.set_selected_field(x, y)) for x in range(8)] for y in range(8)]
-
-        # Tu kończę psuć
 
         self.setup_neighbours()
         self.market = Marketplace()
@@ -153,8 +148,6 @@ class GUI:
                 self.farboard[row][col] = tk.Button(self.farmerboard, image=self.pixel, width=50, height=50,
                                                     text=f"{self.fields[row][col].value}",
                                                     compound='center', font=('Comic sans MS', 12),
-                                                    # command=lambda i=col, j=row:
-                                                    # self.select_field(j, i))
                                                     command=lambda x=col, y=row: self.set_selected_field(x, y))
                 self.farboard[row][col].grid(row=7 - row, column=col)
         self.farmerboard.place(x=700, y=200)
@@ -198,7 +191,6 @@ class GUI:
         self.clipboard.place(x=1200, y=200)
 
         # marketplace
-        # self.sheep = tk.PhotoImage(file='360.png')
         self.marketplace = tk.Frame(self.root)
         self.rabbit_label = tk.Label(self.marketplace, text='🐰', fg='grey', font=('Comic sans MS', 80))
         self.rabbit_label.grid(row=0, column=0)
@@ -333,10 +325,9 @@ class GUI:
                         continue
 
                     else:
-                        # print(animals)
                         if animals[animal] > 0:
                             new_animals[animal] = (animals[animal] + 1) // 2
-                # print(new_animals)
+
 
             tlist = [animal for animal in self.current_player.clipboard.keys() if self.current_player.clipboard[animal] == 0]
             self.current_player.clipboard = dict(Counter(self.current_player.clipboard) + Counter(new_animals))
@@ -366,7 +357,7 @@ class GUI:
                     pawns_on_spawn_tile += pawn.tag
                     if i == 2:
                         pawns_on_spawn_tile += '\n'
-            # zamieniamy współrzędne spawn_coords wybranego gracza na współrzędne kalsyczne szachownicy,
+            # zamieniamy współrzędne spawn_coords wybranego gracza na współrzędne klasyczne szachownicy,
             # aby pobrać dobry index od self.board
             (self.board[game_to_normal_coords_dict[self.current_player.pawn_spawn_coords][0]]
              [game_to_normal_coords_dict[self.current_player.pawn_spawn_coords][1]]
@@ -408,7 +399,6 @@ class GUI:
         if t_pawn is not None and not pawn_was_chosen:
             self.info.set(f'Wybrano pionek numer {t_pawn.id}')
             self.current_player.choose_pawn(t_pawn.id)
-        #  if player.current_roll is not None:
 
     def move_pawn(self):  # porusza wybranym pionkiem oraz zmienia grafikę na odpowiednich polach
         # dodać zbijanie pionków innych graczy (realnie, graficznie już jest)
@@ -600,7 +590,7 @@ class GUI:
         end_com.mainloop()
 
     # Farmer
-    def setup_neighbours(self):
+    def setup_neighbours(self): 
         for y in range(8):
             for x in range(8):
                 neighbours = []
@@ -730,8 +720,6 @@ class GUI:
             second_field = self.choose_field()
             if second_field == 'grzyb':
                 return 'grzyb'
-            # while (second_field.capacity < animal.space_needed) or (second_field not in self.current_player.fields) or (
-            #         second_field not in chosen_field.neighbours):
             while second_field not in good_fields or second_field not in chosen_field.neighbours:
                 second_field = self.choose_field()
                 if second_field == 'grzyb':
@@ -746,7 +734,7 @@ class GUI:
             self.current_player.clipboard[animal.type] -= 1
             self.cow_bt.configure(text=f'🐮 {int(self.current_player.clipboard['Cow'])}')
             self.horse_bt.configure(text=f'🐴 {int(self.current_player.clipboard['Horse'])}')
-            # do naprawy!!!
+
             if chosen_field.x < second_field.x:
                 self.farboard[chosen_field.y][chosen_field.x].config(text=f'{chosen_field.value}  '
                                                                           f'{self.animal_type_to_animal_tag[animal_type]}\n'
@@ -808,7 +796,6 @@ class GUI:
             for neighbour in field.neighbours:
                 set_of_neighbours.add(neighbour)
 
-        # while any(chosen_field in player.fields for player in self.players):
         if any(chosen_field in player.fields for player in self.players):
             self.err.set("To pole ma już właściciela")
             self.selected_field = None
@@ -833,7 +820,6 @@ class GUI:
         if chosen_field == 'grzyb':
             return 'grzyb'
 
-        # while chosen_field not in self.current_player.fields:
         if chosen_field not in self.current_player.fields:
             self.err.set("To pole nie należy do Ciebie")
             self.selected_field = None
@@ -889,8 +875,6 @@ class GUI:
                                                                               f'{self.animal_type_to_animal_tag[animal.type]}')
 
 
-
-    # Tu psuję dalej
     def set_selected_field(self, x, y):
         if self.current_player.to_clipboard:
             if self.fields[y][x] in self.current_player.fields:
@@ -933,8 +917,8 @@ class GUI:
     def choose_field(self):
         if self.on_off == False:
             self.on_off = True
-            self.selected_field_var.set("")  # Reset the variable
-            self.root.wait_variable(self.selected_field_var)  # Wait for the variable to be set
+            self.selected_field_var.set("")  
+            self.root.wait_variable(self.selected_field_var)  
             x, y = self.selected_field
             self.on_off = False
             return self.fields[y][x]

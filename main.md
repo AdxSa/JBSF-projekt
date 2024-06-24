@@ -59,6 +59,6 @@ Przyciski z prawej strony planszy do farmera (schowek)
 
 Znajduje się tam 5 przycisków wyświetlających wizerunki zwierząt i ilość zwierząt jakie posiadamy w schowku. Po naciśnięciu przycisku z wizerunkiem odpowiedniego zwierzęcia, możemy postawić zwierzę na polu wybierając je. 
 
-6. przycisk w schowku po naciśnięciu zmienia kolor z czerwonego na zielony i zielonego na czerwony odpowiednio. Jeśli jest zielony to naciśniecie na zwierzę znajdujące się na polu gracza zwraca je z pola do schowka. 
+Szósty przycisk w schowku po naciśnięciu zmienia kolor z czerwonego na zielony i zielonego na czerwony odpowiednio. Jeśli jest zielony to naciśniecie na zwierzę znajdujące się na polu gracza zwraca je z pola do schowka. 
 
 Ostatni przycisk "Koniec tury" kończy turę aktualnego gracza usuwając przy tym wszystkie zwierzęta gracza znajdujące się w schowku! Następnie rozpoczyna turę następnego gracza. 

@@ -591,6 +591,8 @@ class GUI:
 
     # Farmer
     def setup_neighbours(self): 
+        """Funkcja przy inicjalizacji gry przyporządkowuje polom sąsiadów
+        """
         for y in range(8):
             for x in range(8):
                 neighbours = []

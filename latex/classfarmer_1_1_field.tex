@@ -1,0 +1,119 @@
+\doxysection{farmer.\+Field Class Reference}
+\hypertarget{classfarmer_1_1_field}{}\label{classfarmer_1_1_field}\index{farmer.Field@{farmer.Field}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+None \mbox{\hyperlink{classfarmer_1_1_field_af502c9f7aa41ae3a873358edcc1e97df}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, \mbox{\hyperlink{classfarmer_1_1_field_aadf5db434861675cd24b136d6f576220}{value}}, \mbox{\hyperlink{classfarmer_1_1_field_ace88f4f94c1e0bdf5b0b6846b4168811}{x}}, \mbox{\hyperlink{classfarmer_1_1_field_a9e66dacc26c483c8a52454c473ae959c}{y}})
+\item 
+\mbox{\hyperlink{classfarmer_1_1_field_a29b9bdaae50e10cd2fa0378eeb5f2b09}{\+\_\+\+\_\+repr\+\_\+\+\_\+}} (self)
+\item 
+\mbox{\hyperlink{classfarmer_1_1_field_ae47d861578acbfcedbeeea244c3c1c5e}{upgrade}} (self)
+\item 
+\mbox{\hyperlink{classfarmer_1_1_field_aeedcec5691f8695827c16e54257b5107}{check\+\_\+capacity}} (self)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classfarmer_1_1_field_aadf5db434861675cd24b136d6f576220}{value}}
+\item 
+\mbox{\hyperlink{classfarmer_1_1_field_aa40c75d130458454d10d361094def64d}{capacity}}
+\item 
+\mbox{\hyperlink{classfarmer_1_1_field_a6aa0ee5f6eff1d7c7d880ccc052420b8}{animals}}
+\item 
+\mbox{\hyperlink{classfarmer_1_1_field_ace88f4f94c1e0bdf5b0b6846b4168811}{x}}
+\item 
+\mbox{\hyperlink{classfarmer_1_1_field_a9e66dacc26c483c8a52454c473ae959c}{y}}
+\item 
+\mbox{\hyperlink{classfarmer_1_1_field_a458af96bcc4bd3ada660a86bedf5ddda}{neighbours}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Klasa Field przechowuje zwierzęta, swoich sąsiadów, swoją wartość i koordynaty. Na polach
+znajdują się zwierzęta i tylko na nich mogą się rozmnażać.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classfarmer_1_1_field_af502c9f7aa41ae3a873358edcc1e97df}\index{farmer.Field@{farmer.Field}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!farmer.Field@{farmer.Field}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily \label{classfarmer_1_1_field_af502c9f7aa41ae3a873358edcc1e97df} 
+ None farmer.\+Field.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{}]{value}{, }\item[{}]{x}{, }\item[{}]{y}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Inicjalizacja klasy Field
+
+Args:
+    value (int): wartość pola
+    x (int): kolumna, w której znajduje się pole
+    y (int): wiersz, w którym znajduje się pole
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classfarmer_1_1_field_a29b9bdaae50e10cd2fa0378eeb5f2b09}\index{farmer.Field@{farmer.Field}!\_\_repr\_\_@{\_\_repr\_\_}}
+\index{\_\_repr\_\_@{\_\_repr\_\_}!farmer.Field@{farmer.Field}}
+\doxysubsubsection{\texorpdfstring{\_\_repr\_\_()}{\_\_repr\_\_()}}
+{\footnotesize\ttfamily \label{classfarmer_1_1_field_a29b9bdaae50e10cd2fa0378eeb5f2b09} 
+farmer.\+Field.\+\_\+\+\_\+repr\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+\Hypertarget{classfarmer_1_1_field_aeedcec5691f8695827c16e54257b5107}\index{farmer.Field@{farmer.Field}!check\_capacity@{check\_capacity}}
+\index{check\_capacity@{check\_capacity}!farmer.Field@{farmer.Field}}
+\doxysubsubsection{\texorpdfstring{check\_capacity()}{check\_capacity()}}
+{\footnotesize\ttfamily \label{classfarmer_1_1_field_aeedcec5691f8695827c16e54257b5107} 
+farmer.\+Field.\+check\+\_\+capacity (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Metoda sprawdza i aktualizuje wolne miejsca pola na zwierzęta 
+\end{DoxyVerb}
+ \Hypertarget{classfarmer_1_1_field_ae47d861578acbfcedbeeea244c3c1c5e}\index{farmer.Field@{farmer.Field}!upgrade@{upgrade}}
+\index{upgrade@{upgrade}!farmer.Field@{farmer.Field}}
+\doxysubsubsection{\texorpdfstring{upgrade()}{upgrade()}}
+{\footnotesize\ttfamily \label{classfarmer_1_1_field_ae47d861578acbfcedbeeea244c3c1c5e} 
+farmer.\+Field.\+upgrade (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Metoda upgrade podnosi poziom pola o jeden
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classfarmer_1_1_field_a6aa0ee5f6eff1d7c7d880ccc052420b8}\index{farmer.Field@{farmer.Field}!animals@{animals}}
+\index{animals@{animals}!farmer.Field@{farmer.Field}}
+\doxysubsubsection{\texorpdfstring{animals}{animals}}
+{\footnotesize\ttfamily \label{classfarmer_1_1_field_a6aa0ee5f6eff1d7c7d880ccc052420b8} 
+farmer.\+Field.\+animals}
+
+\Hypertarget{classfarmer_1_1_field_aa40c75d130458454d10d361094def64d}\index{farmer.Field@{farmer.Field}!capacity@{capacity}}
+\index{capacity@{capacity}!farmer.Field@{farmer.Field}}
+\doxysubsubsection{\texorpdfstring{capacity}{capacity}}
+{\footnotesize\ttfamily \label{classfarmer_1_1_field_aa40c75d130458454d10d361094def64d} 
+farmer.\+Field.\+capacity}
+
+\Hypertarget{classfarmer_1_1_field_a458af96bcc4bd3ada660a86bedf5ddda}\index{farmer.Field@{farmer.Field}!neighbours@{neighbours}}
+\index{neighbours@{neighbours}!farmer.Field@{farmer.Field}}
+\doxysubsubsection{\texorpdfstring{neighbours}{neighbours}}
+{\footnotesize\ttfamily \label{classfarmer_1_1_field_a458af96bcc4bd3ada660a86bedf5ddda} 
+farmer.\+Field.\+neighbours}
+
+\Hypertarget{classfarmer_1_1_field_aadf5db434861675cd24b136d6f576220}\index{farmer.Field@{farmer.Field}!value@{value}}
+\index{value@{value}!farmer.Field@{farmer.Field}}
+\doxysubsubsection{\texorpdfstring{value}{value}}
+{\footnotesize\ttfamily \label{classfarmer_1_1_field_aadf5db434861675cd24b136d6f576220} 
+farmer.\+Field.\+value}
+
+\Hypertarget{classfarmer_1_1_field_ace88f4f94c1e0bdf5b0b6846b4168811}\index{farmer.Field@{farmer.Field}!x@{x}}
+\index{x@{x}!farmer.Field@{farmer.Field}}
+\doxysubsubsection{\texorpdfstring{x}{x}}
+{\footnotesize\ttfamily \label{classfarmer_1_1_field_ace88f4f94c1e0bdf5b0b6846b4168811} 
+farmer.\+Field.\+x}
+
+\Hypertarget{classfarmer_1_1_field_a9e66dacc26c483c8a52454c473ae959c}\index{farmer.Field@{farmer.Field}!y@{y}}
+\index{y@{y}!farmer.Field@{farmer.Field}}
+\doxysubsubsection{\texorpdfstring{y}{y}}
+{\footnotesize\ttfamily \label{classfarmer_1_1_field_a9e66dacc26c483c8a52454c473ae959c} 
+farmer.\+Field.\+y}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{farmer_8py}{farmer.\+py}}\end{DoxyCompactItemize}

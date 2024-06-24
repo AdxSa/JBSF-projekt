@@ -1,0 +1,224 @@
+\doxysection{Player.\+Player Class Reference}
+\hypertarget{class_player_1_1_player}{}\label{class_player_1_1_player}\index{Player.Player@{Player.Player}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_player_1_1_player_ab4718bd18ea5f83362833ca544820226}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, \mbox{\hyperlink{class_player_1_1_player_a573fe9242bb15db14e149bf3de797d88}{colour}}, \mbox{\hyperlink{class_player_1_1_player_af3df377b40edc7765927a4dd50009a3f}{pawn\+\_\+spawn\+\_\+coords}}, \mbox{\hyperlink{class_player_1_1_player_a6cea7416f6b4ce563211f3194033f671}{name}})
+\item 
+\mbox{\hyperlink{class_player_1_1_player_a1e474f6e1ed1f74b3b8e1b4084f1ee4b}{roll\+\_\+dice}} (self)
+\item 
+\mbox{\hyperlink{class_player_1_1_player_a5552b95dd2cd59fe02a2abbc847903f6}{create\+\_\+pawn}} (self)
+\item 
+\mbox{\hyperlink{class_player_1_1_player_a775f376ded5e342a7fa5cc813a632820}{choose\+\_\+pawn}} (self, id)
+\item 
+\mbox{\hyperlink{class_player_1_1_player_a6318f1d29b76903958f5839358693086}{move\+\_\+chosen\+\_\+pawn}} (self)
+\item 
+\mbox{\hyperlink{class_player_1_1_player_af4dd0df7ad83ffa9a49895e7ae83a57d}{upgrade\+\_\+chosen\+\_\+pawn}} (self)
+\item 
+\mbox{\hyperlink{class_player_1_1_player_ae79058eaf4fcc027a2e64757ce824e9a}{degrade\+\_\+chosen\+\_\+pawn}} (self)
+\item 
+\mbox{\hyperlink{class_player_1_1_player_a1198a26a279a4adf41c5b82dd7deeae4}{get\+\_\+animals}} (self)
+\item 
+\mbox{\hyperlink{class_player_1_1_player_a7c247c0e3780c601b0bd86d7d948430f}{roll\+\_\+animal\+\_\+dice}} (self)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_player_1_1_player_a573fe9242bb15db14e149bf3de797d88}{colour}}
+\item 
+\mbox{\hyperlink{class_player_1_1_player_a448f24ae04ab81c1e3b965fe9a046931}{pawns}}
+\item 
+\mbox{\hyperlink{class_player_1_1_player_af3df377b40edc7765927a4dd50009a3f}{pawn\+\_\+spawn\+\_\+coords}}
+\item 
+\mbox{\hyperlink{class_player_1_1_player_acdbb02ee7e693b0e59af6a39816ae090}{current\+\_\+roll}}
+\item 
+\mbox{\hyperlink{class_player_1_1_player_ae98108239576e8f6eca797ea3bce40f0}{chosen\+\_\+pawn}}
+\item 
+\mbox{\hyperlink{class_player_1_1_player_ac1a1fddbc5f867d6de26944ec637dd41}{rolled}}
+\item 
+\mbox{\hyperlink{class_player_1_1_player_a6cea7416f6b4ce563211f3194033f671}{name}}
+\item 
+\mbox{\hyperlink{class_player_1_1_player_a3f2de512b48094ec2f394e90daec8ce7}{pawns\+\_\+id}}
+\item 
+\mbox{\hyperlink{class_player_1_1_player_a08f70341ba29df56cc00feca881b5918}{fields}}
+\item 
+\mbox{\hyperlink{class_player_1_1_player_a1a9e2e263c7b5a977c9af2082d788a99}{clipboard}}
+\item 
+\mbox{\hyperlink{class_player_1_1_player_af7968ff9917e9fe9ef8051c64f1615f0}{to\+\_\+clipboard}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Klasa reprezentująca gracza. Przechowuje jego kolor, nazwę, posiadane pola, pionki, posiadane zwierzęta i
+schowek (clipboard). Atrybuty self.rolled i self.to_clipboard obsługują rzut kostką i funkcje w GUI.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_player_1_1_player_ab4718bd18ea5f83362833ca544820226}\index{Player.Player@{Player.Player}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!Player.Player@{Player.Player}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily \label{class_player_1_1_player_ab4718bd18ea5f83362833ca544820226} 
+Player.\+Player.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{}]{colour}{, }\item[{}]{pawn\+\_\+spawn\+\_\+coords}{, }\item[{}]{name}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Inicjalizacja klasy Player określająca kolor gracza i położenie poczatkowe. 
+
+Args:
+    colour (string): kolor gracza
+    pawn_spawn_coords (tuple): koordynaty nowych pionków
+    name (string): nazwa gracza
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_player_1_1_player_a775f376ded5e342a7fa5cc813a632820}\index{Player.Player@{Player.Player}!choose\_pawn@{choose\_pawn}}
+\index{choose\_pawn@{choose\_pawn}!Player.Player@{Player.Player}}
+\doxysubsubsection{\texorpdfstring{choose\_pawn()}{choose\_pawn()}}
+{\footnotesize\ttfamily \label{class_player_1_1_player_a775f376ded5e342a7fa5cc813a632820} 
+Player.\+Player.\+choose\+\_\+pawn (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{}]{id}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}wybiera pionek gracza wyszukując go po id
+
+Args:
+    id (string): id pionka do wybrania
+\end{DoxyVerb}
+ \Hypertarget{class_player_1_1_player_a5552b95dd2cd59fe02a2abbc847903f6}\index{Player.Player@{Player.Player}!create\_pawn@{create\_pawn}}
+\index{create\_pawn@{create\_pawn}!Player.Player@{Player.Player}}
+\doxysubsubsection{\texorpdfstring{create\_pawn()}{create\_pawn()}}
+{\footnotesize\ttfamily \label{class_player_1_1_player_a5552b95dd2cd59fe02a2abbc847903f6} 
+Player.\+Player.\+create\+\_\+pawn (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Metoda tworząca pionek i pobierająca jego koszt
+
+Raises:
+    Exception: wyjątek gdy wystawiono wszystkie pionki
+    Exception: wyjątek gdy koszt pionka przewyższa zasoby gracza
+\end{DoxyVerb}
+ \Hypertarget{class_player_1_1_player_ae79058eaf4fcc027a2e64757ce824e9a}\index{Player.Player@{Player.Player}!degrade\_chosen\_pawn@{degrade\_chosen\_pawn}}
+\index{degrade\_chosen\_pawn@{degrade\_chosen\_pawn}!Player.Player@{Player.Player}}
+\doxysubsubsection{\texorpdfstring{degrade\_chosen\_pawn()}{degrade\_chosen\_pawn()}}
+{\footnotesize\ttfamily \label{class_player_1_1_player_ae79058eaf4fcc027a2e64757ce824e9a} 
+Player.\+Player.\+degrade\+\_\+chosen\+\_\+pawn (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Metoda obsługuje zejście pionka do niższego rzędu
+\end{DoxyVerb}
+ \Hypertarget{class_player_1_1_player_a1198a26a279a4adf41c5b82dd7deeae4}\index{Player.Player@{Player.Player}!get\_animals@{get\_animals}}
+\index{get\_animals@{get\_animals}!Player.Player@{Player.Player}}
+\doxysubsubsection{\texorpdfstring{get\_animals()}{get\_animals()}}
+{\footnotesize\ttfamily \label{class_player_1_1_player_a1198a26a279a4adf41c5b82dd7deeae4} 
+Player.\+Player.\+get\+\_\+animals (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Metoda zlicza zwierzęta znajdujące się na polach gracza.
+
+Returns:
+    dict: zwraca słownik zwierzę : liczba 
+\end{DoxyVerb}
+ \Hypertarget{class_player_1_1_player_a6318f1d29b76903958f5839358693086}\index{Player.Player@{Player.Player}!move\_chosen\_pawn@{move\_chosen\_pawn}}
+\index{move\_chosen\_pawn@{move\_chosen\_pawn}!Player.Player@{Player.Player}}
+\doxysubsubsection{\texorpdfstring{move\_chosen\_pawn()}{move\_chosen\_pawn()}}
+{\footnotesize\ttfamily \label{class_player_1_1_player_a6318f1d29b76903958f5839358693086} 
+Player.\+Player.\+move\+\_\+chosen\+\_\+pawn (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}porusza wybranym przez gracza pionkiem o current_roll, następnie zeruje current_roll
+\end{DoxyVerb}
+ \Hypertarget{class_player_1_1_player_a7c247c0e3780c601b0bd86d7d948430f}\index{Player.Player@{Player.Player}!roll\_animal\_dice@{roll\_animal\_dice}}
+\index{roll\_animal\_dice@{roll\_animal\_dice}!Player.Player@{Player.Player}}
+\doxysubsubsection{\texorpdfstring{roll\_animal\_dice()}{roll\_animal\_dice()}}
+{\footnotesize\ttfamily \label{class_player_1_1_player_a7c247c0e3780c601b0bd86d7d948430f} 
+Player.\+Player.\+roll\+\_\+animal\+\_\+dice (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Rzut kośćmi zwierząt (D12)
+
+Returns:
+    list: lista przechowująca wynik pierwszego i drugiego rzutu koścmi
+\end{DoxyVerb}
+ \Hypertarget{class_player_1_1_player_a1e474f6e1ed1f74b3b8e1b4084f1ee4b}\index{Player.Player@{Player.Player}!roll\_dice@{roll\_dice}}
+\index{roll\_dice@{roll\_dice}!Player.Player@{Player.Player}}
+\doxysubsubsection{\texorpdfstring{roll\_dice()}{roll\_dice()}}
+{\footnotesize\ttfamily \label{class_player_1_1_player_a1e474f6e1ed1f74b3b8e1b4084f1ee4b} 
+Player.\+Player.\+roll\+\_\+dice (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Metoda losuje wynik rzutu kością (1-4) i ustawia atrybut self.rolled = True
+\end{DoxyVerb}
+ \Hypertarget{class_player_1_1_player_af4dd0df7ad83ffa9a49895e7ae83a57d}\index{Player.Player@{Player.Player}!upgrade\_chosen\_pawn@{upgrade\_chosen\_pawn}}
+\index{upgrade\_chosen\_pawn@{upgrade\_chosen\_pawn}!Player.Player@{Player.Player}}
+\doxysubsubsection{\texorpdfstring{upgrade\_chosen\_pawn()}{upgrade\_chosen\_pawn()}}
+{\footnotesize\ttfamily \label{class_player_1_1_player_af4dd0df7ad83ffa9a49895e7ae83a57d} 
+Player.\+Player.\+upgrade\+\_\+chosen\+\_\+pawn (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Metoda obsługuje wejście pionka na wyższy poziom ("krąg" szachownicy)
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_player_1_1_player_ae98108239576e8f6eca797ea3bce40f0}\index{Player.Player@{Player.Player}!chosen\_pawn@{chosen\_pawn}}
+\index{chosen\_pawn@{chosen\_pawn}!Player.Player@{Player.Player}}
+\doxysubsubsection{\texorpdfstring{chosen\_pawn}{chosen\_pawn}}
+{\footnotesize\ttfamily \label{class_player_1_1_player_ae98108239576e8f6eca797ea3bce40f0} 
+Player.\+Player.\+chosen\+\_\+pawn}
+
+\Hypertarget{class_player_1_1_player_a1a9e2e263c7b5a977c9af2082d788a99}\index{Player.Player@{Player.Player}!clipboard@{clipboard}}
+\index{clipboard@{clipboard}!Player.Player@{Player.Player}}
+\doxysubsubsection{\texorpdfstring{clipboard}{clipboard}}
+{\footnotesize\ttfamily \label{class_player_1_1_player_a1a9e2e263c7b5a977c9af2082d788a99} 
+Player.\+Player.\+clipboard}
+
+\Hypertarget{class_player_1_1_player_a573fe9242bb15db14e149bf3de797d88}\index{Player.Player@{Player.Player}!colour@{colour}}
+\index{colour@{colour}!Player.Player@{Player.Player}}
+\doxysubsubsection{\texorpdfstring{colour}{colour}}
+{\footnotesize\ttfamily \label{class_player_1_1_player_a573fe9242bb15db14e149bf3de797d88} 
+Player.\+Player.\+colour}
+
+\Hypertarget{class_player_1_1_player_acdbb02ee7e693b0e59af6a39816ae090}\index{Player.Player@{Player.Player}!current\_roll@{current\_roll}}
+\index{current\_roll@{current\_roll}!Player.Player@{Player.Player}}
+\doxysubsubsection{\texorpdfstring{current\_roll}{current\_roll}}
+{\footnotesize\ttfamily \label{class_player_1_1_player_acdbb02ee7e693b0e59af6a39816ae090} 
+Player.\+Player.\+current\+\_\+roll}
+
+\Hypertarget{class_player_1_1_player_a08f70341ba29df56cc00feca881b5918}\index{Player.Player@{Player.Player}!fields@{fields}}
+\index{fields@{fields}!Player.Player@{Player.Player}}
+\doxysubsubsection{\texorpdfstring{fields}{fields}}
+{\footnotesize\ttfamily \label{class_player_1_1_player_a08f70341ba29df56cc00feca881b5918} 
+Player.\+Player.\+fields}
+
+\Hypertarget{class_player_1_1_player_a6cea7416f6b4ce563211f3194033f671}\index{Player.Player@{Player.Player}!name@{name}}
+\index{name@{name}!Player.Player@{Player.Player}}
+\doxysubsubsection{\texorpdfstring{name}{name}}
+{\footnotesize\ttfamily \label{class_player_1_1_player_a6cea7416f6b4ce563211f3194033f671} 
+Player.\+Player.\+name}
+
+\Hypertarget{class_player_1_1_player_af3df377b40edc7765927a4dd50009a3f}\index{Player.Player@{Player.Player}!pawn\_spawn\_coords@{pawn\_spawn\_coords}}
+\index{pawn\_spawn\_coords@{pawn\_spawn\_coords}!Player.Player@{Player.Player}}
+\doxysubsubsection{\texorpdfstring{pawn\_spawn\_coords}{pawn\_spawn\_coords}}
+{\footnotesize\ttfamily \label{class_player_1_1_player_af3df377b40edc7765927a4dd50009a3f} 
+Player.\+Player.\+pawn\+\_\+spawn\+\_\+coords}
+
+\Hypertarget{class_player_1_1_player_a448f24ae04ab81c1e3b965fe9a046931}\index{Player.Player@{Player.Player}!pawns@{pawns}}
+\index{pawns@{pawns}!Player.Player@{Player.Player}}
+\doxysubsubsection{\texorpdfstring{pawns}{pawns}}
+{\footnotesize\ttfamily \label{class_player_1_1_player_a448f24ae04ab81c1e3b965fe9a046931} 
+Player.\+Player.\+pawns}
+
+\Hypertarget{class_player_1_1_player_a3f2de512b48094ec2f394e90daec8ce7}\index{Player.Player@{Player.Player}!pawns\_id@{pawns\_id}}
+\index{pawns\_id@{pawns\_id}!Player.Player@{Player.Player}}
+\doxysubsubsection{\texorpdfstring{pawns\_id}{pawns\_id}}
+{\footnotesize\ttfamily \label{class_player_1_1_player_a3f2de512b48094ec2f394e90daec8ce7} 
+Player.\+Player.\+pawns\+\_\+id}
+
+\Hypertarget{class_player_1_1_player_ac1a1fddbc5f867d6de26944ec637dd41}\index{Player.Player@{Player.Player}!rolled@{rolled}}
+\index{rolled@{rolled}!Player.Player@{Player.Player}}
+\doxysubsubsection{\texorpdfstring{rolled}{rolled}}
+{\footnotesize\ttfamily \label{class_player_1_1_player_ac1a1fddbc5f867d6de26944ec637dd41} 
+Player.\+Player.\+rolled}
+
+\Hypertarget{class_player_1_1_player_af7968ff9917e9fe9ef8051c64f1615f0}\index{Player.Player@{Player.Player}!to\_clipboard@{to\_clipboard}}
+\index{to\_clipboard@{to\_clipboard}!Player.Player@{Player.Player}}
+\doxysubsubsection{\texorpdfstring{to\_clipboard}{to\_clipboard}}
+{\footnotesize\ttfamily \label{class_player_1_1_player_af7968ff9917e9fe9ef8051c64f1615f0} 
+Player.\+Player.\+to\+\_\+clipboard}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_player_8py}{Player.\+py}}\end{DoxyCompactItemize}

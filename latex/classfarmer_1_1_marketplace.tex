@@ -1,0 +1,98 @@
+\doxysection{farmer.\+Marketplace Class Reference}
+\hypertarget{classfarmer_1_1_marketplace}{}\label{classfarmer_1_1_marketplace}\index{farmer.Marketplace@{farmer.Marketplace}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+None \mbox{\hyperlink{classfarmer_1_1_marketplace_ae768f662d9d80206ff566036fe7ed3e9}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self)
+\item 
+\mbox{\hyperlink{classfarmer_1_1_marketplace_a07e02cc616d99e5bf981a1e74160fb7b}{exchange}} (self, first\+\_\+type, second\+\_\+type, player)
+\item 
+\mbox{\hyperlink{classfarmer_1_1_marketplace_a65dea674564d54ff1e0614bcdbd4d7ce}{buy\+\_\+field}} (self, chosen\+\_\+field, player)
+\item 
+\mbox{\hyperlink{classfarmer_1_1_marketplace_a96236816e54064e9db7c20e896ee6d2c}{upgrade\+\_\+field}} (self, chosen\+\_\+field, player)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classfarmer_1_1_marketplace_a2e984809ac443b0b109d6da5a49e7c56}{buy\+\_\+prices}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Klasa Marketplace znajduje się wewnątrz GUI jako "sklep", w którym gracze za króliki kupują pola,
+inne zwierzęta i ulepszają pola.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classfarmer_1_1_marketplace_ae768f662d9d80206ff566036fe7ed3e9}\index{farmer.Marketplace@{farmer.Marketplace}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!farmer.Marketplace@{farmer.Marketplace}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily \label{classfarmer_1_1_marketplace_ae768f662d9d80206ff566036fe7ed3e9} 
+ None farmer.\+Marketplace.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Słownik zwierzę : cena
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classfarmer_1_1_marketplace_a65dea674564d54ff1e0614bcdbd4d7ce}\index{farmer.Marketplace@{farmer.Marketplace}!buy\_field@{buy\_field}}
+\index{buy\_field@{buy\_field}!farmer.Marketplace@{farmer.Marketplace}}
+\doxysubsubsection{\texorpdfstring{buy\_field()}{buy\_field()}}
+{\footnotesize\ttfamily \label{classfarmer_1_1_marketplace_a65dea674564d54ff1e0614bcdbd4d7ce} 
+farmer.\+Marketplace.\+buy\+\_\+field (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{}]{chosen\+\_\+field}{, }\item[{}]{player}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Funkcja sprawdza czy gracz ma odpowiednie zasoby do zakupu pola
+i jeżeli tak, modyfikują liczbę królików w schowku
+Args:
+    chosen_field (Field): wybrane w GUI pole
+    player (Player): aktywny gracz (GUI)
+
+Returns:
+    bool: zwraca sukces/porażka
+\end{DoxyVerb}
+ \Hypertarget{classfarmer_1_1_marketplace_a07e02cc616d99e5bf981a1e74160fb7b}\index{farmer.Marketplace@{farmer.Marketplace}!exchange@{exchange}}
+\index{exchange@{exchange}!farmer.Marketplace@{farmer.Marketplace}}
+\doxysubsubsection{\texorpdfstring{exchange()}{exchange()}}
+{\footnotesize\ttfamily \label{classfarmer_1_1_marketplace_a07e02cc616d99e5bf981a1e74160fb7b} 
+farmer.\+Marketplace.\+exchange (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{}]{first\+\_\+type}{, }\item[{}]{second\+\_\+type}{, }\item[{}]{player}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Metoda zarządzająca wymianą zwierząt. 
+
+Args:
+    first_type (string): zwierzę, które gracz chce wymienić
+    second_type (string): zwierzę, które gracz chce otrzymać
+    player (Player): aktywny gracz (GUI)
+
+Returns:
+    bool: zwraca sukces/porażka
+\end{DoxyVerb}
+ \Hypertarget{classfarmer_1_1_marketplace_a96236816e54064e9db7c20e896ee6d2c}\index{farmer.Marketplace@{farmer.Marketplace}!upgrade\_field@{upgrade\_field}}
+\index{upgrade\_field@{upgrade\_field}!farmer.Marketplace@{farmer.Marketplace}}
+\doxysubsubsection{\texorpdfstring{upgrade\_field()}{upgrade\_field()}}
+{\footnotesize\ttfamily \label{classfarmer_1_1_marketplace_a96236816e54064e9db7c20e896ee6d2c} 
+farmer.\+Marketplace.\+upgrade\+\_\+field (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{}]{chosen\+\_\+field}{, }\item[{}]{player}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Funkcja podwyższa poziom pola o jeden
+
+Args:
+    chosen_field (Field): wybrane w GUI pole
+    player (Player): aktywny gracz (GUI)
+
+Returns:
+    bool: zwraca sukces/porażka
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classfarmer_1_1_marketplace_a2e984809ac443b0b109d6da5a49e7c56}\index{farmer.Marketplace@{farmer.Marketplace}!buy\_prices@{buy\_prices}}
+\index{buy\_prices@{buy\_prices}!farmer.Marketplace@{farmer.Marketplace}}
+\doxysubsubsection{\texorpdfstring{buy\_prices}{buy\_prices}}
+{\footnotesize\ttfamily \label{classfarmer_1_1_marketplace_a2e984809ac443b0b109d6da5a49e7c56} 
+farmer.\+Marketplace.\+buy\+\_\+prices}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{farmer_8py}{farmer.\+py}}\end{DoxyCompactItemize}

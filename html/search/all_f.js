@@ -1,0 +1,27 @@
+var searchData=
+[
+  ['pawn_0',['Pawn',['../classpawn_1_1_pawn.html',1,'pawn']]],
+  ['pawn_1',['pawn',['../namespacepawn.html',1,'pawn'],['../classunittest__pawn_1_1_test_pawn.html#acd693f250a53bac8ae4643a86e8db1c5',1,'unittest_pawn.TestPawn.pawn']]],
+  ['pawn_2epy_2',['pawn.py',['../pawn_8py.html',1,'']]],
+  ['pawn_5fspawn_5fcoords_3',['pawn_spawn_coords',['../class_player_1_1_player.html#af3df377b40edc7765927a4dd50009a3f',1,'Player::Player']]],
+  ['pawns_4',['pawns',['../class_player_1_1_player.html#a448f24ae04ab81c1e3b965fe9a046931',1,'Player::Player']]],
+  ['pawns_5fid_5',['pawns_id',['../class_player_1_1_player.html#a3f2de512b48094ec2f394e90daec8ce7',1,'Player::Player']]],
+  ['pig_5fbt_6',['pig_bt',['../class_g_u_i_1_1_g_u_i.html#a64e31158a521f93ffc6af3daa8244aba',1,'GUI::GUI']]],
+  ['pig_5fcow_5fbt_5fframe_7',['pig_cow_bt_frame',['../class_g_u_i_1_1_g_u_i.html#a0aa6dd7e68f9b31ec368897c63fd7366',1,'GUI::GUI']]],
+  ['pig_5flabel_8',['pig_label',['../class_g_u_i_1_1_g_u_i.html#a5ef25b2c0981c0ea75e570c21f96df81',1,'GUI::GUI']]],
+  ['pig_5fto_5fcow_5fbt_9',['pig_to_cow_bt',['../class_g_u_i_1_1_g_u_i.html#a70729daeb5591d9e0db7cff6b72da31e',1,'GUI::GUI']]],
+  ['pig_5fto_5fsheep_5fbt_10',['pig_to_sheep_bt',['../class_g_u_i_1_1_g_u_i.html#acf2a9fe35067262340b5689a65a5ddf9',1,'GUI::GUI']]],
+  ['pixel_11',['pixel',['../class_g_u_i_1_1_g_u_i.html#af50260d8b1f355cf9189d348dcca9905',1,'GUI::GUI']]],
+  ['place_12',['place',['../classfarmer_1_1_animal.html#a0e54e0962157a12cf5639010d813bd88',1,'farmer::Animal']]],
+  ['place_5fanimal_13',['place_animal',['../class_g_u_i_1_1_g_u_i.html#ab04b71e4b33bd9021915dd9901153bd7',1,'GUI::GUI']]],
+  ['play_14',['play',['../class_g_u_i_1_1_g_u_i.html#a5de14fc260c57b49af2c1ce0ae180f14',1,'GUI::GUI']]],
+  ['player_15',['Player',['../class_player_1_1_player.html',1,'Player.Player'],['../namespace_player.html',1,'Player']]],
+  ['player_16',['player',['../classunittest___player_1_1_test_player.html#acffa20cf3e30bdc34c54268d3aae2679',1,'unittest_Player::TestPlayer']]],
+  ['player_2epy_17',['Player.py',['../_player_8py.html',1,'']]],
+  ['player_5finfo_18',['player_info',['../class_g_u_i_1_1_g_u_i.html#a789d7b34f65d3117c202693fa2ad5c82',1,'GUI::GUI']]],
+  ['player_5finfo_5flabel_19',['player_info_label',['../class_g_u_i_1_1_g_u_i.html#a608ec71a4d5e3752147f6494ee1e1a1f',1,'GUI::GUI']]],
+  ['players_20',['players',['../class_g_u_i_1_1_g_u_i.html#afec4ca77f55d64fef21f8614b8d9e463',1,'GUI::GUI']]],
+  ['pola_5fbt_5fframe_21',['pola_bt_frame',['../class_g_u_i_1_1_g_u_i.html#a63584a3b5c0344e3fc53556f31dc52ab',1,'GUI::GUI']]],
+  ['predator_5fattack_22',['predator_attack',['../class_g_u_i_1_1_g_u_i.html#a68e7366dfc97483e1de56f11c6595447',1,'GUI::GUI']]],
+  ['projekt_23',['Co zrobić żeby uruchomić projekt?',['../index.html#autotoc_md4',1,'']]]
+];

@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['capacity_0',['capacity',['../classfarmer_1_1_field.html#aa40c75d130458454d10d361094def64d',1,'farmer::Field']]],
+  ['check_5fcapacity_1',['check_capacity',['../classfarmer_1_1_field.html#aeedcec5691f8695827c16e54257b5107',1,'farmer::Field']]],
+  ['chessboard_2',['chessboard',['../class_g_u_i_1_1_g_u_i.html#a96b298534ee2510395ab0adfdeacb1e6',1,'GUI::GUI']]],
+  ['chessboard_5fcolours_3',['chessboard_colours',['../class_g_u_i_1_1_g_u_i.html#a684bb17882fcc57c13dd6fde85b7b4ba',1,'GUI::GUI']]],
+  ['choose_5ffield_4',['choose_field',['../class_g_u_i_1_1_g_u_i.html#a768a59708da9cc033e750fa573dca963',1,'GUI::GUI']]],
+  ['choose_5fpawn_5',['choose_pawn',['../class_g_u_i_1_1_g_u_i.html#a645925b33d5c924839090f54b280653d',1,'GUI.GUI.choose_pawn()'],['../class_player_1_1_player.html#a775f376ded5e342a7fa5cc813a632820',1,'Player.Player.choose_pawn(self, id)']]],
+  ['chosen_5fpawn_6',['chosen_pawn',['../class_player_1_1_player.html#ae98108239576e8f6eca797ea3bce40f0',1,'Player::Player']]],
+  ['clipboard_7',['clipboard',['../class_g_u_i_1_1_g_u_i.html#a18e01c1abf44306febb8e20810cd648d',1,'GUI.GUI.clipboard'],['../class_player_1_1_player.html#a1a9e2e263c7b5a977c9af2082d788a99',1,'Player.Player.clipboard']]],
+  ['clipboard_5fmode_5fbt_8',['clipboard_mode_bt',['../class_g_u_i_1_1_g_u_i.html#ade495daa140418fedfb571eceaab9950',1,'GUI::GUI']]],
+  ['co_20zrobić_20żeby_20uruchomić_20projekt_9',['Co zrobić żeby uruchomić projekt?',['../index.html#autotoc_md4',1,'']]],
+  ['colour_10',['colour',['../classpawn_1_1_pawn.html#a05302ede0cf30a9b2ad90cc3e569e7d3',1,'pawn.Pawn.colour'],['../class_player_1_1_player.html#a573fe9242bb15db14e149bf3de797d88',1,'Player.Player.colour']]],
+  ['config_5fgui_5fand_5fplay_11',['Config_gui_and_play',['../namespace_config__gui__and__play.html',1,'']]],
+  ['config_5fgui_5fand_5fplay_2epy_12',['Config_gui_and_play.py',['../_config__gui__and__play_8py.html',1,'']]],
+  ['configgui_13',['ConfigGui',['../class_config__gui__and__play_1_1_config_gui.html',1,'Config_gui_and_play']]],
+  ['coords_14',['coords',['../classpawn_1_1_pawn.html#a21f9371dad0476f78b95e15b6610d13e',1,'pawn::Pawn']]],
+  ['cow_5fbt_15',['cow_bt',['../class_g_u_i_1_1_g_u_i.html#a3b6a299ec75051ff6af1a9d2fb8ce64b',1,'GUI::GUI']]],
+  ['cow_5fhorse_5fbt_5fframe_16',['cow_horse_bt_frame',['../class_g_u_i_1_1_g_u_i.html#a02cb3bf439c1effe93c8d56e386e2c9d',1,'GUI::GUI']]],
+  ['cow_5flabel_17',['cow_label',['../class_g_u_i_1_1_g_u_i.html#ac122173208e85327590714b1b8ad6b9e',1,'GUI::GUI']]],
+  ['cow_5fto_5fhorse_5fbt_18',['cow_to_horse_bt',['../class_g_u_i_1_1_g_u_i.html#a0da518d3828ce73f0e6dfb12281e4318',1,'GUI::GUI']]],
+  ['cow_5fto_5fpig_5fbt_19',['cow_to_pig_bt',['../class_g_u_i_1_1_g_u_i.html#a8406af80c0535bffea21173c456e3afb',1,'GUI::GUI']]],
+  ['create_5fpawn_20',['create_pawn',['../class_g_u_i_1_1_g_u_i.html#a031c24620792bcc52997821295b566e2',1,'GUI.GUI.create_pawn()'],['../class_player_1_1_player.html#a5552b95dd2cd59fe02a2abbc847903f6',1,'Player.Player.create_pawn()']]],
+  ['create_5fpawn_5fbt_21',['create_pawn_bt',['../class_g_u_i_1_1_g_u_i.html#a75c2eaf55b83f1b3070fcdf10c2deb8a',1,'GUI::GUI']]],
+  ['current_5fplayer_22',['current_player',['../class_g_u_i_1_1_g_u_i.html#a46967b69e036bfd57cd57bbaa42adc4a',1,'GUI::GUI']]],
+  ['current_5fplayer_5fnumber_23',['current_player_number',['../class_g_u_i_1_1_g_u_i.html#aa1db23ccf4639e787e5853bffcb512d1',1,'GUI::GUI']]],
+  ['current_5froll_24',['current_roll',['../class_player_1_1_player.html#acdbb02ee7e693b0e59af6a39816ae090',1,'Player.Player.current_roll'],['../namespace_player.html#ae73bfb0bb940357a94b6c4e3bcd1785e',1,'Player.current_roll']]]
+];

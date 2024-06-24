@@ -4,6 +4,8 @@ from Player import Player
 
 
 class ConfigGui:
+    """Swego rodzaju menu. Pozwala na dodanie graczy i przypisanie im nazw.
+    """
 
     #  all_config_colours = ['blue', 'green', 'red', 'cyan', 'magenta', 'yellow']
     def first_switch(self):
@@ -81,6 +83,8 @@ class ConfigGui:
             self.on_3_bt.grid_forget()
 
     def start_game(self):
+        """Uruchamia grę.
+        """
         a = self.is_1_on + self.is_2_on + self.is_3_on + self.is_4_on
         if a == 0:
             ehh = tk.Tk()

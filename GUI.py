@@ -12,10 +12,18 @@ TEMP_PLAYERS = [TEMP_PLAYER_1, TEMP_PLAYER_2]
 
 
 class GUI:
+    """Klasa GUI obsługuje całą warstwę graficzną gry. Oprócz tego ma w sobie metody sterujące całą rozgrywką, gdyż każda z nich korzysta 
+    z warstwy graficznej. Przechowuje graczy, więc zarazem ich pola i zwierzęta. Poza tym wszystkie przyciski i obsługuje ich działanie. 
+    """
     chessboard_colours = ['black', 'white']
     error_code = 0
 
     def __init__(self, players):
+        """Inicjalizacja klasy GUI. Tworzy całą warstwę graficzną gry. Dba o poprawne wyświetlanie przycisków i ilustracji.
+
+        Args:
+            players (list): lista obiektów typu Player - graczy
+        """
         self.players = players
         self.current_player = players[0]
         self.current_player_number = 0
@@ -270,9 +278,13 @@ class GUI:
         self.marketplace.place(x=100, y=800)
 
     def play(self):
+        """Funkcja uruchamiająca całą grę w głównej pętli.
+        """
         self.root.mainloop()
 
     def next_player(self):
+        """Funkcja obsługująca przejście do kolejnej tury. Czyści schowek i ustala atrybuty typu bool na właściwą wartość False.
+        """
         self.current_player.rolled = False
         self.current_player.rolled_animal = False  # Farmer
         self.current_player.chosen_pawn = None
@@ -294,6 +306,9 @@ class GUI:
         self.horse_bt.configure(text=f'🐴 {int(self.current_player.clipboard['Horse'])}')
 
     def roll_dice(self):
+        """Metoda obsługująca rzut kośćmi. Do chińczyka i do farmera. Wywołuje ataki drapieżników i obsługuje rozmnażanie zwierząt
+        na polach. Korzysta z metod klasy Player: roll_animal_dice() oraz get_animals().
+        """
         if self.current_player.rolled:
             self.dice_roll_done_inform.set("Już rzuciłeś kostką w tej turze")
         else:
@@ -338,7 +353,6 @@ class GUI:
                                       f'Farmer: {self.animal_type_to_animal_tag[roll[0]]} {self.animal_type_to_animal_tag[roll[1]]}')
             for animal in tlist:
                 self.current_player.clipboard[animal] = 0
-            # print(self.current_player.clipboard)
             self.rabbit_bt.configure(text=f'🐰 {int(self.current_player.clipboard['Rabbit'])}')
             self.sheep_bt.configure(text=f'🐑 {int(self.current_player.clipboard['Sheep'])}')
             self.pig_bt.configure(text=f'🐷 {int(self.current_player.clipboard['Pig'])}')
@@ -348,6 +362,8 @@ class GUI:
                 self.err.set('')
 
     def create_pawn(self):
+        """Metoda obsługująca powstawanie nowych pionków. Korzysta z metody create_pawn() klasy Player.
+        """
         try:
             self.current_player.create_pawn()
             pawns_on_spawn_tile = ''
@@ -384,6 +400,12 @@ class GUI:
             self.err.set('Nie możesz stworzyć kolejnego pionka')
 
     def choose_pawn(self, row, col):
+        """Metoda obsługująca wybór pionka
+
+        Args:
+            row (int): rząd, w którym znajduje się pionek
+            col (int): kolumna, w której znajduje się pionek
+        """
         tile_coords = normal_to_game_coords_dict[(row, col)]
         t_pawn = None
         pawn_was_chosen = False
@@ -402,7 +424,9 @@ class GUI:
             self.current_player.choose_pawn(t_pawn.id)
 
     def move_pawn(self):  # porusza wybranym pionkiem oraz zmienia grafikę na odpowiednich polach
-        # dodać zbijanie pionków innych graczy (realnie, graficznie już jest)
+        """Porusza wybranym pionkiem oraz zmienia grafikę na odpowiednich polach. Uwzględnia zbijanie, grafikę i 
+        sprawdza warunki zwycięstwa.
+        """
         if self.current_player.rolled and self.current_player.chosen_pawn is not None:
             current_coords = self.current_player.chosen_pawn.coords
             self.current_player.move_chosen_pawn()
@@ -430,9 +454,6 @@ class GUI:
              [game_to_normal_coords_dict[current_coords][1]]
              .config(text=f'{pawns_on_current_tile}', fg=self.current_player.colour))
 
-            # print(player.chosen_pawn.coords)
-            # print(self.board[game_to_normal_coords_dict[player.chosen_pawn.coords][0]]
-            # [game_to_normal_coords_dict[player.chosen_pawn.coords][1]])
             (self.board[game_to_normal_coords_dict[self.current_player.chosen_pawn.coords][0]]
              [game_to_normal_coords_dict[self.current_player.chosen_pawn.coords][1]]
              .config(text=f'{pawns_on_next_tile}', fg=self.current_player.colour))
@@ -473,6 +494,8 @@ class GUI:
 
 
     def upgrade_pawn(self):
+        """Metoda obsługuje graficznie zejście pionka do wyższego rzędu i sprawdza czy gracz wygrał.
+        """
         if self.current_player.chosen_pawn is None:
             self.err.set('Wybierz pionek')
             self.error_code = 2
@@ -536,6 +559,8 @@ class GUI:
                     self.end_game()
 
     def degrade_pawn(self):
+        """Metoda obsługuje graficznie zejście pionka do niższego rzędu i sprawdza czy gracz wygrał.
+        """
         if self.current_player.chosen_pawn is None:
             self.err.set('Wybierz pionek')
             self.error_code = 2
@@ -584,6 +609,8 @@ class GUI:
                     self.end_game()
 
     def end_game(self):
+        """Funkcja wyświetlająca okienko z komunikatem o zakończeniu gry i zwycięzcy.
+        """
         end_com = tk.Tk()
         end_com.title('Koniec gry')
         tk.Label(end_com, text=f"\n{self.current_player.name} wygrał\n", fg=self.current_player.colour,
@@ -592,6 +619,8 @@ class GUI:
 
     # Farmer
     def setup_neighbours(self):
+        """Funkcja przy inicjalizacji gry przyporządkowuje wszystkim polom ich sąsiadów
+        """
         for y in range(8):
             for x in range(8):
                 neighbours = []
@@ -606,15 +635,24 @@ class GUI:
                 self.fields[y][x].neighbours = neighbours
 
     def unlock_clipboard_mode(self):
+        """Metoda aktywująca tryb pozwalający na przenoszenie zwierząt z planszy do schowka jednym kliknięciem.
+        Swego rodzaju odwrotność place_animal().
+        """
         if self.current_player.to_clipboard == True:
             self.clipboard_mode_bt.configure(bg='red')
             self.current_player.to_clipboard = False
         else:
             self.current_player.to_clipboard = True
             self.clipboard_mode_bt.configure(bg='green')
-        # print(self.current_player.to_clipboard)
 
     def predator_attack(self, val, predator):
+        """Metoda obsługuje atak wilka/lisa. Lisy zjadają wszystkie króliki ze wszystkich pól na planszy o wartości val, wilki zaś
+        wszystkie pozostałe zwierzęta (nie jedzą królików). Konie są niewrażliwe na ataki drapieżników.
+
+        Args:
+            val (int): przekazywana z roll_dice() losowa wartość pola, na którym drapieżniki będą zjadać zwierzęta.
+            predator (string): przekazywany z roll_dice() rodzaj drapieżnika
+        """
         for field_row in self.fields:
             for field in field_row:
                 if field.value == val:
@@ -640,6 +678,12 @@ class GUI:
                                 break
 
     def relocate_to_board(self, animal_type):
+        """Metoda jest wywoływania przez kliknięcie jednego z pięciu głównych przycisków w schowku. Przenosi (o ile to możliwe) 
+        zwierzę ze schowka na wybrane przez gracza pole. Korzysta z metody place_animal(), gdzie schowane jest jej zasadnicze działanie.
+
+        Args:
+            animal_type (_type_): _description_
+        """
         self.current_player.to_clipboard = False
         self.clipboard_mode_bt.configure(bg='red')
 
@@ -657,6 +701,18 @@ class GUI:
 
 
     def place_animal(self, animal_type):
+        """Metoda czysto techniczna, wywoływana przez metodę relocate_to_board(). Funkcja sprawdza czy umiejscowienie zwierzęcia jest możliwe
+        sprawdzając pojemność pól należących do gracza. Następnie wymusza wybór pola, na które zwierzę zostanie przeniesione ze schowka. 
+        W razie braku miejsca wyświetla komunikat. 
+        Metoda dba o poprawne wyświetlanie się zwierząt w schowku i na polach. Uwzględnia rozmiar zwierząt,
+        W razie grzyba, chroni przed nim jak inne metody.
+
+        Args:
+            animal_type (string): typ zwierzęcia do umiejscowienia na planszy. Narzucony z góry przez relocate_to_board().
+
+        Returns:
+            bool: zwraca sukces/porażka (ew. grzyb)
+        """
         self.current_player.to_clipboard = False
         self.clipboard_mode_bt.configure(bg='red')
         animal = Animal(animal_type)
@@ -776,6 +832,13 @@ class GUI:
             return 1
 
     def exchange_animals(self, first_type, second_type):
+        """Metoda korzystająca z 'exchange' z klasy Marketplace. Obsługuje wymianę zwierząt na inne.
+        Wywoływana jest przez przyciski ze strzałeczkami pod planszami. 
+
+        Args:
+            first_type (string): zwierzę, które gracz chce wymienić
+            second_type (string): zwierzę, które gracz chce otrzymać
+        """
         self.market.exchange(first_type, second_type, self.current_player)
         self.rabbit_bt.configure(text=f'🐰 {int(self.current_player.clipboard['Rabbit'])}')
         self.sheep_bt.configure(text=f'🐑 {int(self.current_player.clipboard['Sheep'])}')
@@ -786,12 +849,16 @@ class GUI:
 
 
     def buy_field(self):
+        """Metoda korzystająca z 'buy_field' z klasy Marketplace. Metoda jest wywoływania przez kliknięcie przycisku 'kup pole' przez gracza.
+        Obsługuje kupowanie pól. W razie nieprawidłowego wyboru pola, wyświetlany jest komunikat i nic sie nie dzieje. 
+        Zwracany grzyb widmo chroni przed grzybem (kolejkowaniem się choose_field()).
+        """
         self.current_player.to_clipboard = False
         self.clipboard_mode_bt.configure(bg='red')
         self.selected_field = None
         chosen_field = self.choose_field()
         if chosen_field == 'grzyb':
-            return
+            return 
         set_of_neighbours = set()
         for field in self.current_player.fields:
             for neighbour in field.neighbours:
@@ -814,6 +881,11 @@ class GUI:
 
 
     def upgrade_field(self):
+        """Metoda korzystająca z 'upgrade' z klasy Marketplace. Metoda jest wywoływania przez kliknięcie przycisku 'ulepsz pole' przez gracza.
+        Obsługuje ulepszanie pól. Metoda dba o poprawne wyświetlanie się
+        zwierząt po ulepszeniu. W razie nieprawidłowego wyboru pola, wyświetlany jest komunikat i nic sie nie dzieje.
+        Zwracany grzyb chroni przed grzybem (kolejkowaniem się choose_field()).
+        """
         self.current_player.to_clipboard = False
         self.clipboard_mode_bt.configure(bg='red')
         self.selected_field = None
@@ -877,6 +949,14 @@ class GUI:
 
 
     def set_selected_field(self, x, y):
+        """Metoda wywoływania przez kliknięcie pola przez gracza. Jeżeli tryb 'to_clipboard' jest aktywny, kliknięcie
+        przenosi zwierzę z pola do schowka. W przeciwnym wypadku ustawia koordynaty klikniętego pola jako self.selected_field.
+        Wywoływane również przez choose_field()
+
+        Args:
+            x (int): współrzędna 'x' wybranego pola
+            y (int): współrzędna 'y' wybranego pola
+        """
         if self.current_player.to_clipboard:
             if self.fields[y][x] in self.current_player.fields:
                 if self.fields[y][x].animals != []:
@@ -916,6 +996,12 @@ class GUI:
             # print(f"Selected field: ({x},{y})")
 
     def choose_field(self):
+        """Funkcja zwracająca pole wywoływana przez metody potrzebujące wybrania pola.
+        on_off blokuje kolejkowanie się wybranych funkcji przy niewłaściwym wyborze kolejności przycisków.
+
+        Returns:
+            Field: zwraca pole potrzebne w innej funkcji. W razie niewłaściwego wyboru chroni przed błędami.
+        """
         if self.on_off == False:
             self.on_off = True
             self.selected_field_var.set("")

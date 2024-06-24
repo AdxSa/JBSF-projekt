@@ -89,7 +89,3 @@ for i in b:
         normal_to_game_coords_dict[i] = j
         a.remove(j)
         break
-
-
-print(normal_to_game_coords_dict)
-print(game_to_normal_coords_dict)

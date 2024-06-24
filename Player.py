@@ -5,8 +5,17 @@ from farmer import Animal
 
 
 class Player:
+    """Klasa reprezentująca gracza. Przechowuje jego kolor, nazwę, posiadane pola, pionki, posiadane zwierzęta i
+    schowek (clipboard). Atrybuty self.rolled i self.to_clipboard obsługują rzut kostką i funkcje w GUI.
+    """
     def __init__(self, colour, pawn_spawn_coords, name):
+        """Inicjalizacja klasy Player określająca kolor gracza i położenie poczatkowe. 
 
+        Args:
+            colour (string): kolor gracza
+            pawn_spawn_coords (tuple): koordynaty nowych pionków
+            name (string): nazwa gracza
+        """
         self.colour = colour
         self.pawns = []
         self.pawn_spawn_coords = pawn_spawn_coords
@@ -17,15 +26,22 @@ class Player:
         self.pawns_id = set()
         # Farmer
         self.fields = []
-        self.clipboard = {"Rabbit": 8, "Sheep": 12, "Pig": 4, "Cow": 10, "Horse": 2}
+        self.clipboard = {"Rabbit": 0, "Sheep": 0, "Pig": 0, "Cow": 0, "Horse": 0}
         self.to_clipboard = False
 
     def roll_dice(self):
+        """Metoda losuje wynik rzutu kością (1-4) i ustawia atrybut self.rolled = True
+        """
         self.current_roll = randrange(1, 5)
         self.rolled = True
-        print(self.current_roll)
 
     def create_pawn(self):
+        """Metoda tworząca pionek i pobierająca jego koszt
+
+        Raises:
+            Exception: wyjątek gdy wystawiono wszystkie pionki
+            Exception: wyjątek gdy koszt pionka przewyższa zasoby gracza
+        """
         if len(self.pawns) == 0:
             m = min({0, 1, 2, 3} - self.pawns_id)
             self.pawns += [Pawn(self.colour, m, self.pawn_spawn_coords)]
@@ -51,6 +67,11 @@ class Player:
             raise Exception("Nie stać Cię na stworzenie nowego pionka")
 
     def choose_pawn(self, id):  # wybiera pionek gracza wyszukując go po id
+        """wybiera pionek gracza wyszukując go po id
+
+        Args:
+            id (string): id pionka do wybrania
+        """
         for i in self.pawns:
             if i.id == id:
                 self.chosen_pawn = i
@@ -58,12 +79,16 @@ class Player:
                 break
 
     def move_chosen_pawn(self):  # porusza wybranym przez gracza pionkiem o current_roll, następnie zeruje current_roll
+        """porusza wybranym przez gracza pionkiem o current_roll, następnie zeruje current_roll
+        """
         if self.chosen_pawn.is_in_destination_square:
             return print("Can't move pawn from destination square")
         self.chosen_pawn.move(self.current_roll)
         self.current_roll = 0
 
     def upgrade_chosen_pawn(self):
+        """Metoda obsługuje wejście pionka na wyższy poziom ("krąg" szachownicy)
+        """
         if self.chosen_pawn.coords[1] == 0 and self.clipboard['Sheep'] != 0:
             self.chosen_pawn.upgrade()
             self.clipboard['Sheep'] -= 1
@@ -79,6 +104,8 @@ class Player:
             return print("Can't afford to upgrade a pawn")
 
     def degrade_chosen_pawn(self):
+        """Metoda obsługuje zejście pionka do niższego rzędu
+        """
         if self.chosen_pawn.coords[1] == 0:  # powininno wyskoczyć "Min level of pawn has been reached"
             self.chosen_pawn.degrade()
         elif self.chosen_pawn.coords[1] == 1:
@@ -92,6 +119,11 @@ class Player:
 
     # Farmer
     def get_animals(self):
+        """Metoda zlicza zwierzęta znajdujące się na polach gracza.
+
+        Returns:
+            dict: zwraca słownik zwierzę : liczba 
+        """
         animals = Counter({"Rabbit": 0, "Sheep": 0, "Pig": 0, "Cow": 0, "Horse": 0})
         for field in self.fields:
             if len(field.animals) != 0:
@@ -103,6 +135,11 @@ class Player:
         return dict(animals)
 
     def roll_animal_dice(self):
+        """Rzut kośćmi zwierząt (D12)
+
+        Returns:
+            list: lista przechowująca wynik pierwszego i drugiego rzutu koścmi
+        """
         first_dice = ["Wolf", "Fox", "Sheep", "Sheep", "Cow", "Horse"] + ["Rabbit"] * 6
         second_dice = ["Wolf", "Fox", "Sheep", "Sheep", "Sheep", "Cow"] + ["Rabbit"] * 6
         a = choice(first_dice)

@@ -1,5 +1,11 @@
 class Animal:
     def __init__(self, animal_type) -> None:
+        """Inicjalizacja klasy Animal. Na podstawie typu zwierzęcia określa jego
+        wartość (w królikach) i zajmowane miejsce(w królikach).
+
+        Args:
+            animal_type (string): Typ zwierzęcia
+        """
         self.type = animal_type
         if animal_type == 'Rabbit':
             self.space_needed = 1
@@ -19,10 +25,10 @@ class Animal:
         self.fields = []
 
     def place(self, field):
-        """_summary_
+        """Metoda umieszcza zwierzę na polu
 
         Args:
-            field (_type_): _description_
+            field (Field): wybrane w GUI pole
         """
         self.fields.append(field)
 
@@ -87,12 +93,12 @@ class Marketplace:
         """Metoda zarządzająca wymianą zwierząt. 
 
         Args:
-            first_type (String): zwierzę, które gracz chce wymienić
-            second_type (String): zwierzę, które gracz chce otrzymać
+            first_type (string): zwierzę, które gracz chce wymienić
+            second_type (string): zwierzę, które gracz chce otrzymać
             player (Player): aktywny gracz (GUI)
 
         Returns:
-            bool: Zwraca sukces/porażka
+            bool: zwraca sukces/porażka
         """
 
         price = self.buy_prices.get(second_type)
@@ -122,7 +128,7 @@ class Marketplace:
             player (Player): aktywny gracz (GUI)
 
         Returns:
-            bool: Zwraca sukces/porażka
+            bool: zwraca sukces/porażka
         """
         price = chosen_field.value
         if player.clipboard["Rabbit"] < price:  # Sprawdza czy gracz dysponuje odpowiednią liczbą królików do zakupu
@@ -141,7 +147,7 @@ class Marketplace:
             player (Player): aktywny gracz (GUI)
 
         Returns:
-            bool: Zwraca sukces/porażka
+            bool: zwraca sukces/porażka
         """
         if chosen_field.value == 1:
             price = 4

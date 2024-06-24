@@ -3,6 +3,8 @@ from itertools import count
 from PIL import Image, ImageTk
 
 class AnimatedGif:
+    """Klasa do obsługi grzyba
+    """
     def __init__(self, root, gif_path, x=0, y=0):
         self.root = root
         self.gif_path = gif_path
